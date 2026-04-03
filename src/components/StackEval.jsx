@@ -295,7 +295,7 @@ function Sidebar({ step, nav, taskType, selModels }) {
                     border:`1px solid ${active?T.blue:complete?T.blue:lock?T.dis:T.border}`,
                     fontSize:10,fontWeight:700,color:active?"#fff":complete?T.blueTxt:lock?T.dis:T.lo,
                   }}>
-                    {complete&&!active ? <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5L4 7.5L8.5 2" stroke={T.blueTxt} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg> : s.id}
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1.5 5L4 7.5L8.5 2" stroke={active?"#fff":complete?T.blueTxt:lock?T.dis:T.lo} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                   </div>
                   <span style={{ fontSize:13,fontFamily:UI,fontWeight:active?600:400 }}>{s.label}</span>
                   {active && <div style={{ marginLeft:"auto",width:4,height:4,borderRadius:"50%",background:T.blue }} />}
