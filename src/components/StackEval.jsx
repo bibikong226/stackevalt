@@ -1444,9 +1444,15 @@ function Step5({ selModels, challenger, metrics, taskType, onBack }) {
   const parseCSV = (text) => {
     const lines = text.trim().split(/\r?\n/);
     if (lines.length < 2) return;
-    const cols = lines[0].split(",").map(c => c.trim().replace(/^"|"$/g, ""));
+    const rawCols = lines[0].split(",").map(c => c.trim().replace(/^"|"$/g, ""));
+    const colMap = rawCols.reduce((acc, col) => {
+      const key = col.toLowerCase();
+      if (key === "input") acc.input = col;
+      if (key === "golden_output" || key === "output") acc.output = col;
+      return acc;
+    }, {});
+    const previewCols = ["input", "golden_output"];
     const rows = lines.slice(1, 6).map(line => {
-      // handle quoted fields
       const vals = [];
       let cur = "", inQ = false;
       for (let i = 0; i < line.length; i++) {
@@ -1456,11 +1462,14 @@ function Step5({ selModels, challenger, metrics, taskType, onBack }) {
         else { cur += ch; }
       }
       vals.push(cur.trim());
-      const obj = {};
-      cols.forEach((c, i) => { obj[c] = vals[i] ?? ""; });
-      return obj;
+      const source = {};
+      rawCols.forEach((c, i) => { source[c] = vals[i] ?? ""; });
+      return {
+        input: source[colMap.input] ?? "",
+        golden_output: source[colMap.output] ?? "",
+      };
     });
-    setCsvColumns(cols);
+    setCsvColumns(previewCols);
     setCsvRows(rows);
   };
 
