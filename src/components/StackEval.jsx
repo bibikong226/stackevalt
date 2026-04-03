@@ -1695,19 +1695,7 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
     </div>
   );
 
-  // ══════════════ LAYOUT A — SYNCHRONIZED GRID ═══════════════
-  const LayoutA = () => (
-    <div style={{ border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden" }}>
-      <div style={{ overflowX:"auto" }}>
-      <table style={{ width:"100%",borderCollapse:"collapse",minWidth:visModels.length*350+280 }}>
-        <thead>
-          <tr style={{ background:T.elev }}>
-            <th style={{ width:28,padding:"10px 12px",textAlign:"left",fontSize:10,fontWeight:500,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,borderBottom:`1px solid ${T.border}`,fontFamily:MONO }}>#</th>
-            <th style={{ minWidth:220,padding:"10px 12px",textAlign:"left",fontSize:10,fontWeight:500,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,borderBottom:`1px solid ${T.border}`,fontFamily:MONO }}>Input + Reference</th>
-            {visModels.map((m,ci) => (
-              <th key={m.id} style={{ padding:"10px 12px",textAlign:"left",fontSize:10,fontWeight:500,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,borderBottom:`1px solid ${T.border}`,borderLeft:`1px solid ${T.border}`,fontFamily:MONO,minWidth:300 }}>
-                <div style={{ display:"flex",alignItems:"center",gap:6 }}>
-                  <div style={{ width:7,height:7,borderRadius:2,background:m.color,flexShrink:0 }} />
+  // (Layout A and C removed — only Row Focus view)
                   {m.name}
                 </div>
               </th>
