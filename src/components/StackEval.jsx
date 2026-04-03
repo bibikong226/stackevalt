@@ -1546,10 +1546,8 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
         <tbody>
           {rows.map(row => {
             const modelIdxMap = visModels.map(m => modelOrder.findIndex(x=>x.id===m.id));
-            const rW = getWinner(row,"rouge"), cW = getWinner(row,"cost"), lW = getWinner(row,"lat");
-            const maxR = Math.max(...modelOrder.map((_,i)=>getRow(row,i).rougeL));
-            const maxC = Math.max(...modelOrder.map((_,i)=>getRow(row,i).cost));
-            const maxL = Math.max(...modelOrder.map((_,i)=>getRow(row,i).lat));
+            const winners = {}; const maxes = {};
+            ["rouge","f1","bleu","cost","lat"].forEach(k => { winners[k]=getWinner(row,k); maxes[k]=Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(row,i),k))); });
             return (
               <tr key={row.id} style={{ borderBottom:`1px solid ${T.borderS}` }}>
                 <td style={{ padding:"14px 12px",verticalAlign:"top" }}>
@@ -1562,27 +1560,24 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
                 {visModels.map((m, ci) => {
                   const mIdx = modelIdxMap[ci];
                   const v = getRow(row, mIdx);
-                  const isRW = mIdx===rW, isCW = mIdx===cW, isLW = mIdx===lW;
-                  const rPct = maxR>0 ? v.rougeL/maxR*100 : 0;
-                  const cPct = maxC>0 ? v.cost/maxC*100 : 0;
-                  const lPct = maxL>0 ? v.lat/maxL*100 : 0;
                   return (
                     <td key={m.id} style={{ padding:"14px 12px",verticalAlign:"top",borderLeft:`1px solid ${T.borderS}` }}>
                       <div style={{ display:"flex",flexWrap:"wrap",gap:4,marginBottom:8,minHeight:20 }}>
-                        {isRW&&maxR>0 && <SmBadge color={T.mBlue} text="Best ROUGE-L" />}
-                        {isCW&&visMetrics.find(x=>x.key==="cost") && <SmBadge color={T.mGreen} text="Cheapest" />}
-                        {isLW&&visMetrics.find(x=>x.key==="lat") && <SmBadge color={T.mTeal} text="Fastest" />}
+                        {mIdx===winners.rouge&&maxes.rouge>0 && <SmBadge color={T.mBlue} text="Best ROUGE-L" />}
+                        {mIdx===winners.cost&&visMetrics.find(x=>x.key==="cost") && <SmBadge color={T.mGreen} text="Cheapest" />}
+                        {mIdx===winners.lat&&visMetrics.find(x=>x.key==="lat") && <SmBadge color={T.mTeal} text="Fastest" />}
                       </div>
                       <div style={{ fontSize:13,color:T.mid,lineHeight:1.6,marginBottom:10,display:"-webkit-box",WebkitLineClamp:5,WebkitBoxOrient:"vertical",overflow:"hidden" }}>{v.text}</div>
                       <div style={{ display:"flex",flexDirection:"column",gap:5 }}>
                         {visMetrics.map(met => {
-                          const isW = met.key==="rouge"?isRW:met.key==="cost"?isCW:isLW;
-                          const val = met.key==="rouge"?v.rougeL:met.key==="cost"?v.cost:v.lat;
-                          const pct = met.key==="rouge"?rPct:met.key==="cost"?cPct:lPct;
+                          const isW = mIdx===winners[met.key];
+                          const val = getMetricVal(v, met.key);
+                          const mx = maxes[met.key];
+                          const pct = mx>0 ? val/mx*100 : 0;
                           return (
                             <div key={met.key} style={{ display:"flex",alignItems:"center",gap:6 }}>
-                              <span style={{ fontFamily:MONO,fontSize:9,color:T.lo,textTransform:"uppercase",letterSpacing:"0.06em",width:44,flexShrink:0 }}>{met.label}</span>
-                              <MiniBar pct={pct} color={m.color} dim={!isW&&met.key==="rouge"} />
+                              <span style={{ fontFamily:MONO,fontSize:9,color:T.lo,textTransform:"uppercase",letterSpacing:"0.06em",width:52,flexShrink:0 }}>{met.label}</span>
+                              <MiniBar pct={pct} color={m.color} dim={!isW&&(met.key==="rouge"||met.key==="f1"||met.key==="bleu")} />
                               <span style={{ fontFamily:MONO,fontSize:11,color:isW?T.hi:T.mid,minWidth:50,fontWeight:isW?500:400 }}>{fmtMetric(val,met.key)}</span>
                             </div>
                           );
