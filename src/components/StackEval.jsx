@@ -1432,45 +1432,85 @@ function Step5({ selModels, challenger, metrics, taskType, onBack }) {
   const [csvRows, setCsvRows]       = useState([]);
 
   // Mock preview rows from airline dataset (PDF)
-  const MOCK_CSV_COLUMNS = ["input", "golden_output"];
+  const MOCK_CSV_COLUMNS = ["input", "output"];
   const MOCK_CSV_ROWS = [
-    { input: "What is your baggage allowance for economy class?", golden_output: "Economy passengers can bring one carry-on bag (up to 22x14x9 inches, 15 lbs) and one personal item. For checked bags, domestic flights allow one bag up to 50 lbs for a fee; many international routes include one free checked bag." },
-    { input: "How do I check in for my flight online?", golden_output: "Online check-in opens 24 hours before departure. Head to our website or app, select 'Check-In,' and enter your confirmation number and last name." },
-    { input: "Can I change my flight after booking?", golden_output: "Yes, flight changes can be made online, through our app, or by calling us. Flexible and business fares usually allow free changes, while basic economy tickets may be more limited." },
-    { input: "What happens if my flight is cancelled?", golden_output: "If your flight is cancelled, we'll automatically rebook you on the next available flight and notify you by email or SMS. You can also opt for a full refund to your original payment method." },
-    { input: "How early should I arrive at the airport?", golden_output: "We recommend arriving at least 2 hours before domestic flights and 3 hours before international flights." },
+    { input: "What is your baggage allowance for economy class?", output: "Economy passengers can bring one carry-on bag (up to 22x14x9 inches, 15 lbs) and one personal item. For checked bags, domestic flights allow one bag up to 50 lbs for a fee; many international routes include one free checked bag." },
+    { input: "How do I check in for my flight online?", output: "Online check-in opens 24 hours before departure. Head to our website or app, select 'Check-In,' and enter your confirmation number and last name." },
+    { input: "Can I change my flight after booking?", output: "Yes, flight changes can be made online, through our app, or by calling us. Flexible and business fares usually allow free changes, while basic economy tickets may be more limited." },
+    { input: "What happens if my flight is cancelled?", output: "If your flight is cancelled, we'll automatically rebook you on the next available flight and notify you by email or SMS. You can also opt for a full refund to your original payment method." },
+    { input: "How early should I arrive at the airport?", output: "We recommend arriving at least 2 hours before domestic flights and 3 hours before international flights." },
   ];
 
   const parseCSV = (text) => {
-    const lines = text.trim().split(/\r?\n/);
-    if (lines.length < 2) return;
-    const rawCols = lines[0].split(",").map(c => c.trim().replace(/^"|"$/g, ""));
-    const colMap = rawCols.reduce((acc, col) => {
-      const key = col.toLowerCase();
-      if (key === "input") acc.input = col;
-      if (key === "golden_output" || key === "output") acc.output = col;
-      return acc;
-    }, {});
-    const previewCols = ["input", "golden_output"];
-    const rows = lines.slice(1, 6).map(line => {
-      const vals = [];
-      let cur = "", inQ = false;
-      for (let i = 0; i < line.length; i++) {
-        const ch = line[i];
-        if (ch === '"') { inQ = !inQ; }
-        else if (ch === "," && !inQ) { vals.push(cur.trim()); cur = ""; }
-        else { cur += ch; }
+    const parsedRows = [];
+    let row = [];
+    let cell = "";
+    let inQuotes = false;
+
+    for (let i = 0; i < text.length; i += 1) {
+      const ch = text[i];
+      const next = text[i + 1];
+
+      if (ch === '"') {
+        if (inQuotes && next === '"') {
+          cell += '"';
+          i += 1;
+        } else {
+          inQuotes = !inQuotes;
+        }
+        continue;
       }
-      vals.push(cur.trim());
-      const source = {};
-      rawCols.forEach((c, i) => { source[c] = vals[i] ?? ""; });
-      return {
-        input: source[colMap.input] ?? "",
-        golden_output: source[colMap.output] ?? "",
-      };
-    });
-    setCsvColumns(previewCols);
-    setCsvRows(rows);
+
+      if (ch === "," && !inQuotes) {
+        row.push(cell);
+        cell = "";
+        continue;
+      }
+
+      if ((ch === "\n" || ch === "\r") && !inQuotes) {
+        if (ch === "\r" && next === "\n") i += 1;
+        row.push(cell);
+        if (row.some((value) => value.trim() !== "")) parsedRows.push(row);
+        row = [];
+        cell = "";
+        continue;
+      }
+
+      cell += ch;
+    }
+
+    if (cell.length > 0 || row.length > 0) {
+      row.push(cell);
+      if (row.some((value) => value.trim() !== "")) parsedRows.push(row);
+    }
+
+    if (parsedRows.length < 2) return;
+
+    const normalizeHeader = (value = "") => value
+      .toLowerCase()
+      .replace(/^\ufeff/, "")
+      .trim()
+      .replace(/[^a-z0-9]+/g, "_")
+      .replace(/^_+|_+$/g, "");
+
+    const headers = parsedRows[0].map(normalizeHeader);
+    const inputAliases = ["input", "prompt", "question", "query", "article", "text", "source"];
+    const outputAliases = ["output", "golden_output", "golden", "expected_output", "expected", "answer", "response", "target", "summary"];
+
+    const inputIdx = headers.findIndex((header) => inputAliases.includes(header));
+    const outputIdx = headers.findIndex((header) => outputAliases.includes(header));
+
+    const previewRows = parsedRows
+      .slice(1)
+      .map((values) => ({
+        input: (inputIdx >= 0 ? values[inputIdx] : values[0] ?? "").trim(),
+        output: (outputIdx >= 0 ? values[outputIdx] : values[1] ?? "").trim(),
+      }))
+      .filter((previewRow) => previewRow.input || previewRow.output)
+      .slice(0, 5);
+
+    setCsvColumns(["input", "output"]);
+    setCsvRows(previewRows);
   };
 
   const handleFileChange = (e) => {
@@ -1573,7 +1613,7 @@ function Step5({ selModels, challenger, metrics, taskType, onBack }) {
           <div>
             <div style={{ display:"grid",gridTemplateColumns:"1fr auto",gap:12,alignItems:"end",marginBottom: (fileName || true) ? 16 : 0 }}>
               <div>
-                <SubLabel>CSV File (requires: input, golden_output)</SubLabel>
+                <SubLabel>CSV File (requires: input, output)</SubLabel>
                 <div onClick={()=>document.getElementById("csv-up").click()} style={{ border:`1px dashed ${fileName ? T.blue : T.border}`,borderRadius:8,padding:"16px 18px",cursor:"pointer",display:"flex",alignItems:"center",gap:12 }}
                   onMouseEnter={e=>e.currentTarget.style.borderColor=T.blue} onMouseLeave={e=>e.currentTarget.style.borderColor=fileName?T.blue:T.border}>
                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 12V4M5 8l4-4 4 4M2 14h14" stroke={T.blue} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
