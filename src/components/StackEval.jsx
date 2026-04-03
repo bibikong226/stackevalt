@@ -2181,9 +2181,7 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
 
       {/* Content area */}
       <div style={{ padding:"16px 24px 32px", flex:embedded?undefined:1 }}>
-        {layout==="a" && <LayoutA />}
-        {layout==="b" && <LayoutB />}
-        {layout==="c" && <LayoutC />}
+        <LayoutB />
       </div>
     </div>
   );
