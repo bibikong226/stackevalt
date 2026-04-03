@@ -152,10 +152,10 @@ const TASK_OPTIONS = [
 ];
 
 const TASK_EXAMPLES = {
-  qa:           { input:"What is the capital of France?", output:"The capital of France is Paris." },
-  summarization:{ input:"The quarterly earnings report shows significant growth across all major product lines. Revenue increased 23% YoY, driven by strong cloud services performance. Operating expenses grew only 12%.", output:"Quarterly earnings showed 23% revenue growth driven by cloud services. Operating expenses grew 12%." },
-  "rag-qa":     { input:"How long do I have to take parental leave after my child is born?", output:"You have 12 months from the date of your child's birth or adoption." },
-  locomo:       { input:"Who is Alice Chen's manager's boss and what is their title?", output:"Emma Thompson, VP Engineering." },
+  qa:           { input:"What is your baggage allowance for economy class?", output:"Economy passengers can bring one carry-on bag (up to 22x14x9 inches, 15 lbs) and one personal item. For checked bags, domestic flights allow one bag up to 50 lbs for a fee; many international routes include one free checked bag." },
+  summarization:{ input:"If your flight is cancelled, we'll automatically rebook you on the next available flight and notify you by email or SMS. You can also opt for a full refund to your original payment method. If an overnight stay is needed due to a cancellation on our end, hotel and meal vouchers may be provided.", output:"Cancelled flights are automatically rebooked. Full refunds or hotel/meal vouchers available depending on circumstances." },
+  "rag-qa":     { input:"How do I check in for my flight online?", output:"Online check-in opens 24 hours before departure. Head to our website or app, select 'Check-In,' and enter your confirmation number and last name." },
+  locomo:       { input:"Can I bring my pet on the flight?", output:"Small dogs and cats can travel in the cabin in an approved carrier that fits under the seat, subject to availability and a pet fee." },
 };
 
 const INIT_METRICS = [
@@ -191,22 +191,22 @@ const CHALLENGERS = [
 ];
 
 const MOCK_RESULTS = [
-  { input:"Classify: 'This product exceeded expectations!'", golden:"Positive",
-    out:{ "gpt-4-turbo":{text:"Positive",f1:1.0,bleu:1.0,rouge:1.0,ms:245,cost:0.03},
-          "claude-3-opus":{text:"Positive",f1:1.0,bleu:1.0,rouge:1.0,ms:312,cost:0.05},
-          "claude-3-sonnet":{text:"Positive",f1:1.0,bleu:1.0,rouge:1.0,ms:198,cost:0.02} }},
-  { input:"Summarize: 'The quick brown fox jumps over the lazy dog.'", golden:"Pangram sentence",
-    out:{ "gpt-4-turbo":{text:"A pangram using every letter",f1:0.85,bleu:0.72,rouge:0.81,ms:298,cost:0.04},
-          "claude-3-opus":{text:"Contains all alphabet letters",f1:0.90,bleu:0.68,rouge:0.78,ms:356,cost:0.06},
-          "claude-3-sonnet":{text:"Sentence with every letter",f1:0.92,bleu:0.88,rouge:0.91,ms:223,cost:0.03} }},
-  { input:"What is the capital of France?", golden:"Paris",
-    out:{ "gpt-4-turbo":{text:"Paris",f1:1.0,bleu:1.0,rouge:1.0,ms:156,cost:0.02},
-          "claude-3-opus":{text:"Paris",f1:1.0,bleu:1.0,rouge:1.0,ms:198,cost:0.04},
-          "claude-3-sonnet":{text:"Paris",f1:1.0,bleu:1.0,rouge:1.0,ms:134,cost:0.01} }},
-  { input:"Translate to French: 'Good morning'", golden:"Bonjour",
-    out:{ "gpt-4-turbo":{text:"Bonjour",f1:1.0,bleu:1.0,rouge:1.0,ms:180,cost:0.02},
-          "claude-3-opus":{text:"Bonjour",f1:1.0,bleu:1.0,rouge:1.0,ms:220,cost:0.03},
-          "claude-3-sonnet":{text:"Bonjour",f1:1.0,bleu:1.0,rouge:1.0,ms:155,cost:0.01} }},
+  { input:"What is your baggage allowance for economy class?", golden:"Economy passengers can bring one carry-on bag (up to 22x14x9 inches, 15 lbs) and one personal item.",
+    out:{ "gpt-4-turbo":{text:"Economy passengers can bring one carry-on bag and one personal item.",f1:0.92,bleu:0.85,rouge:0.88,ms:245,cost:0.03},
+          "claude-3-opus":{text:"One carry-on bag and one personal item for economy class.",f1:0.88,bleu:0.80,rouge:0.82,ms:312,cost:0.05},
+          "claude-3-sonnet":{text:"Economy class allows one carry-on and one personal item.",f1:0.90,bleu:0.82,rouge:0.85,ms:198,cost:0.02} }},
+  { input:"How do I check in for my flight online?", golden:"Online check-in opens 24 hours before departure.",
+    out:{ "gpt-4-turbo":{text:"Online check-in opens 24 hours before departure via our website or app.",f1:0.95,bleu:0.90,rouge:0.92,ms:180,cost:0.02},
+          "claude-3-opus":{text:"Check in online 24 hours before your flight through our website.",f1:0.90,bleu:0.85,rouge:0.88,ms:220,cost:0.03},
+          "claude-3-sonnet":{text:"Online check-in is available 24 hours before departure.",f1:0.93,bleu:0.88,rouge:0.90,ms:155,cost:0.01} }},
+  { input:"Can I change my flight after booking?", golden:"Yes, flight changes can be made online, through our app, or by calling us.",
+    out:{ "gpt-4-turbo":{text:"Yes, changes can be made online or by calling us.",f1:0.92,bleu:0.88,rouge:0.90,ms:156,cost:0.02},
+          "claude-3-opus":{text:"Flight changes are possible through multiple channels.",f1:0.85,bleu:0.78,rouge:0.80,ms:198,cost:0.04},
+          "claude-3-sonnet":{text:"Yes, you can change your flight online, via app, or by phone.",f1:0.94,bleu:0.90,rouge:0.92,ms:134,cost:0.01} }},
+  { input:"What happens if my flight is cancelled?", golden:"If your flight is cancelled, we'll automatically rebook you on the next available flight.",
+    out:{ "gpt-4-turbo":{text:"We'll rebook you on the next available flight automatically.",f1:0.93,bleu:0.88,rouge:0.90,ms:180,cost:0.02},
+          "claude-3-opus":{text:"Automatic rebooking on the next available flight is provided.",f1:0.90,bleu:0.85,rouge:0.87,ms:220,cost:0.03},
+          "claude-3-sonnet":{text:"You'll be automatically rebooked if your flight is cancelled.",f1:0.91,bleu:0.86,rouge:0.88,ms:155,cost:0.01} }},
 ];
 
 const PRESETS = {
@@ -1335,704 +1335,82 @@ const MODEL_COLORS = ["#3B82F6","#C4B5FD","#6EE7B7","#FCD34D","#F87171"];
 
 // Rich mock evaluation data (5 rows with per-model rougeL/cost/lat)
 const EVAL_DATA = [
-  { id:1,
-    input:"What is your baggage allowance for economy class?",
-    golden:"Economy passengers can bring one carry-on bag (up to 22x14x9 inches, 15 lbs) and one personal item. For checked bags, domestic flights allow one bag up to 50 lbs for a fee; many international routes include one free checked bag. Overweight or extra bags will incur additional charges.",
-    outputs:{
-      0:{ text:"I'm not sure about specific baggage policies without knowing which airline you're flying with, as these vary significantly. Typically, most airlines allow one carry-on item and a personal item for free in economy class. For checked baggage, many airlines include one free checked bag with economy tickets, though some budget carriers charge for this.", rougeL:9.4, cost:0.0031, lat:4.21 },
-      1:{ text:"Welcome! In economy class, you're typically allowed one carry-on and one personal item. For checked bags, limits vary by route, so please check your specific booking details!", rougeL:16.8, cost:0.0012, lat:2.05 },
-      2:{ text:"Economy class passengers may bring one carry-on bag and one personal item on board. Checked baggage allowance varies by fare type and route, but most economy fares include one checked bag up to 23 kg (50 lb). Please check your ticket details for the exact allowance.", rougeL:41.2, cost:0.0008, lat:1.87 },
-      3:{ text:"Economy passengers are entitled to one carry-on and one personal item. Checked bag allowances differ by route and fare class — one bag is typically included on international flights.", rougeL:28.5, cost:0.0006, lat:1.64 },
-    }
-  },
-  { id:2,
-    input:"How do I check in for my flight online?",
-    golden:"Online check-in opens 24 hours before departure. Head to our website or app, select 'Check-In,' and enter your confirmation number and last name. From there you can pick your seat, add baggage, and grab your boarding pass — all from your phone!",
-    outputs:{
-      0:{ text:"Most airlines allow online check-in starting 24 hours before departure through their website or mobile app. You'll need your booking reference and passport information. You can usually download a mobile boarding pass or print one at the airport. The exact process depends on your specific airline.", rougeL:21.3, cost:0.0028, lat:3.94 },
-      1:{ text:"It's easy! Just visit our website or mobile app 24 hours before your flight, enter your confirmation code, and you'll have your boarding pass in no time.", rougeL:38.7, cost:0.0011, lat:1.88 },
-      2:{ text:"You can check in online by visiting our website or mobile app and selecting \"Check In.\" Enter your booking reference and last name to access your reservation. Online check-in usually opens 24 hours before departure.", rougeL:44.1, cost:0.0009, lat:1.72 },
-      3:{ text:"Online check-in is available 24 hours before departure via our website or app. Enter your booking reference and last name, then select your seat and download your boarding pass.", rougeL:36.2, cost:0.0007, lat:1.58 },
-    }
-  },
-  { id:3,
-    input:"Can I change my flight after booking?",
-    golden:"Yes, flight changes can be made online, through our app, or by calling us. Flexible and business fares usually allow free changes, while basic economy tickets may be more limited. Any fare difference will apply at the time of the change.",
-    outputs:{
-      0:{ text:"This depends entirely on your airline and the type of fare you purchased. Some airlines allow free changes, while others charge fees that can range from $50–$200+ depending on the route. Non-refundable fares typically have stricter change policies.", rougeL:12.1, cost:0.0034, lat:4.55 },
-      1:{ text:"Yes, you can! Changes depend on your ticket type. Visit \"Manage Booking\" to see your options; please note that fare differences or change fees may apply.", rougeL:29.4, cost:0.0014, lat:2.11 },
-      2:{ text:"Yes, most tickets allow changes, though change fees or fare differences may apply depending on your ticket type. You can modify your booking through \"Manage Booking\" on our website or contact customer support.", rougeL:37.8, cost:0.0009, lat:1.93 },
-      3:{ text:"Flight changes are possible for most fare types. Flexible fares are free to change; basic economy may have restrictions. Any price difference will be collected at the time of modification.", rougeL:31.5, cost:0.0007, lat:1.71 },
-    }
-  },
-  { id:4,
-    input:"What happens if my flight is cancelled?",
-    golden:"If your flight is cancelled, we'll automatically rebook you on the next available flight and notify you by email or SMS. You can also opt for a full refund to your original payment method. If an overnight stay is needed due to a cancellation on our end, hotel and meal vouchers may be provided.",
-    outputs:{
-      0:{ text:"Airline cancellation policies are determined by each carrier, but generally they're required to offer you either a rebooking on another flight, a full refund, or a travel credit. In some regions, you may be entitled to compensation. Check your airline's policy or contact them directly.", rougeL:11.7, cost:0.0029, lat:4.12 },
-      1:{ text:"We've got you covered! If a flight is cancelled, we'll do our best to rebook you on the next available flight or provide a full refund if you prefer not to travel.", rougeL:31.6, cost:0.0013, lat:2.22 },
-      2:{ text:"If your flight is cancelled, we will automatically rebook you on the next available flight when possible. You may also choose to request a refund or select an alternative flight through our website or customer support.", rougeL:39.2, cost:0.0009, lat:1.89 },
-      3:{ text:"Cancelled flights are automatically rebooked on the next available departure. Alternatively, request a full refund through our website. Vouchers for meals or hotels may apply for disruptions caused by the airline.", rougeL:33.4, cost:0.0007, lat:1.66 },
-    }
-  },
-  { id:5,
-    input:"How early should I arrive at the airport?",
-    golden:"We recommend arriving at least 2 hours before domestic flights and 3 hours before international flights. This gives you comfortable time for check-in, bag drop, and security. During busy travel periods, a little extra buffer is always a good idea.",
-    outputs:{
-      0:{ text:"General travel advice suggests arriving 2–3 hours before domestic flights and 3–4 hours before international flights. This can vary based on the airport's congestion, time of day, and how familiar you are with the airport. During peak travel times, arriving earlier is a good idea.", rougeL:29.8, cost:0.0026, lat:3.77 },
-      1:{ text:"To keep things stress-free, we recommend arriving 2 hours early for domestic flights and 3 hours for international journeys. Safe travels!", rougeL:52.3, cost:0.0010, lat:1.74 },
-      2:{ text:"We recommend arriving 2 hours before departure for domestic flights and 3 hours before departure for international flights. This allows time for check-in, security screening, and boarding.", rougeL:58.1, cost:0.0008, lat:1.61 },
-      3:{ text:"Plan to arrive at least 2 hours early for domestic and 3 hours for international travel. Factor in extra time during peak seasons or at busy hub airports.", rougeL:44.7, cost:0.0006, lat:1.49 },
-    }
-  },
+  { id:1, input:"What is your baggage allowance for economy class?", golden:"Economy passengers can bring one carry-on bag (up to 22x14x9 inches, 15 lbs) and one personal item. For checked bags, domestic flights allow one bag up to 50 lbs for a fee; many international routes include one free checked bag. Overweight or extra bags will incur additional charges." },
+  { id:2, input:"How do I check in for my flight online?", golden:"Online check-in opens 24 hours before departure. Head to our website or app, select 'Check-In,' and enter your confirmation number and last name. From there you can pick your seat, add baggage, and grab your boarding pass — all from your phone!" },
+  { id:3, input:"Can I change my flight after booking?", golden:"Yes, flight changes can be made online, through our app, or by calling us. Flexible and business fares usually allow free changes, while basic economy tickets may be more limited. Any fare difference will apply at the time of the change." },
+  { id:4, input:"What happens if my flight is cancelled?", golden:"If your flight is cancelled, we'll automatically rebook you on the next available flight and notify you by email or SMS. You can also opt for a full refund to your original payment method. If an overnight stay is needed due to a cancellation on our end, hotel and meal vouchers may be provided." },
+  { id:5, input:"How early should I arrive at the airport?", golden:"We recommend arriving at least 2 hours before domestic flights and 3 hours before international flights. This gives you comfortable time for check-in, bag drop, and security. During busy travel periods, a little extra buffer is always a good idea." },
+  { id:6, input:"Do you offer special meals on flights?", golden:"Absolutely! We offer vegetarian, vegan, gluten-free, kosher, halal, diabetic-friendly, and child meal options. Just make your request at least 48 hours before departure — you can do this at booking or through 'Manage My Booking' online." },
+  { id:7, input:"How do I earn frequent flyer miles?", golden:"You earn miles by flying with us or our partner airlines, using our co-branded credit card, or shopping with partner retailers. Miles post to your account within 72 hours of your flight. The amount earned depends on distance, fare class, and your membership tier." },
+  { id:8, input:"Can I bring my pet on the flight?", golden:"Small dogs and cats can travel in the cabin in an approved carrier that fits under the seat, subject to availability and a pet fee. Larger pets travel as checked baggage or cargo. Some breeds may be restricted, so we recommend contacting us at least 48 hours before your flight to confirm arrangements." },
+  { id:9, input:"What is your refund policy?", golden:"Fully refundable tickets can be cancelled anytime for a complete refund. Non-refundable tickets may be eligible for travel credit. If we cancel your flight, a full refund is always available regardless of fare type. Refunds are returned to your original payment method within 7–10 business days." },
+  { id:10, input:"Is there Wi-Fi available on my flight?", golden:"Wi-Fi is available on most of our domestic and international flights. You can purchase a pass before your trip through our app or website, or onboard. We offer hourly and full-flight plans to suit your needs. Speeds may vary by route and altitude." },
+  { id:11, input:"How do I upgrade my seat to business class?", golden:"Upgrades can be requested through our website, app, or at the check-in counter on the day of travel, subject to availability. You can pay with cash, use frequent flyer miles, or place a bid through our upgrade auction. Elite members may also receive complimentary upgrades based on status." },
+  { id:12, input:"What ID do I need to board a domestic flight?", golden:"A valid government-issued photo ID is required — such as a REAL ID-compliant driver's license, state ID, or passport. As of May 7, 2025, REAL ID compliance is required for all domestic U.S. flights. Make sure your ID is current before you travel!" },
+  { id:13, input:"Can I travel while pregnant?", golden:"Passengers up to 28 weeks pregnant can fly without documentation. From 28 to 36 weeks, a doctor's letter confirming your due date and fitness to fly is required. Travel is generally not advised after 36 weeks (or 32 weeks for multiples). We always recommend checking with your physician before booking." },
+  { id:14, input:"How do I request wheelchair assistance?", golden:"Wheelchair assistance is available at no charge and can be requested at booking, through 'Manage My Booking,' or by calling our accessibility support line. Please let us know at least 48 hours in advance so we can have everything ready for you from check-in to deplaning." },
+  { id:15, input:"What carry-on items are not allowed on the plane?", golden:"Liquids over 3.4 oz not in a clear quart-sized bag, sharp objects with blades over 4 inches, firearms, flammable liquids, and lithium batteries above 100Wh are not permitted in carry-ons. We recommend checking the TSA prohibited items list before you pack to avoid any surprises at security." },
+  { id:16, input:"How do I file a lost baggage claim?", golden:"We're sorry to hear your bag didn't arrive! Please report it at our baggage service desk before leaving the airport. You'll receive a Property Irregularity Report (PIR) and a tracking reference. We'll do our best to locate and deliver your bag within 24–72 hours. Compensation is available per our policy and applicable regulations." },
+  { id:17, input:"Can I select my seat in advance?", golden:"Yes! Seat selection is available at booking or anytime through 'Manage My Booking.' Standard seats are free for most fare classes; seats with extra legroom or preferred locations carry a small fee. Basic economy passengers are assigned a seat at check-in at no charge." },
+  { id:18, input:"What is the minimum connection time between flights?", golden:"We generally recommend at least 60 minutes for domestic connections and 90–120 minutes for international ones. At larger hub airports, more time is advisable. If your flights are on a single itinerary with us, your connection time is already guaranteed to meet our minimum requirements." },
+  { id:19, input:"Do you offer discounts for children or infants?", golden:"Infants under 2 traveling on a lap fly free domestically and at a reduced fare internationally. Children 2 and older need their own seat and ticket. Discounts vary by route and fare type. We also offer an Unaccompanied Minor service for children ages 5–14 traveling solo." },
 ];
 
 function EvalResults({ models, taskType, onNewEval, embedded }) {
-  const [layout, setLayout]     = useState("a");
-  const [search, setSearch]     = useState("");
-  const [sortVal, setSortVal]   = useState("default");
-  const [filterVal, setFilterVal] = useState("all");
-  const [expandedRows, setExpandedRows] = useState(new Set());
+  const [search, setSearch] = useState("");
 
-  // Model/metric order with visibility (draggable)
-  const [modelOrder, setModelOrder] = useState(
-    models.slice(0,4).map((m, i) => ({ id:m.id, name:m.name, provider:m.provider, color:MODEL_COLORS[i], visible:true }))
-  );
-  const [metricOrder, setMetricOrder] = useState([
-    { key:"rouge", label:"ROUGE-L", visible:true  },
-    { key:"cost",  label:"Cost",    visible:true  },
-    { key:"lat",   label:"Latency", visible:true  },
-  ]);
-
-  // Drag state
-  const dragRef = useRef({ type:null, key:null });
-  const [dragOver, setDragOver] = useState(null);
-
-  const visModels  = modelOrder.filter(m => m.visible);
-  const visMetrics = metricOrder.filter(m => m.visible);
-
-  // ── Helpers ──────────────────────────────────────────────────
-  const getRow = (row, modelIdx) => row.outputs[modelIdx] || row.outputs[0];
-
-  const getWinner = (row, metric) => {
-    const vals = modelOrder.map((m, i) => ({ i, val: metric === "rouge" ? getRow(row,i).rougeL : metric === "cost" ? getRow(row,i).cost : getRow(row,i).lat }));
-    const valid = vals.filter(v => v.val > 0);
-    if (!valid.length) return null;
-    if (metric === "rouge") return valid.reduce((a,b) => b.val > a.val ? b : a).i;
-    return valid.reduce((a,b) => b.val < a.val ? b : a).i;
-  };
-
-  const fmtMetric = (val, key) =>
-    key === "rouge" ? val.toFixed(1) : key === "cost" ? `$${val.toFixed(4)}` : `${val.toFixed(2)}s`;
-
-  // ── Filtering ────────────────────────────────────────────────
-  const getRows = () => {
-    let rows = [...EVAL_DATA];
+  const rows = (() => {
+    let r = [...EVAL_DATA];
     const s = search.toLowerCase().trim();
-    if (s) rows = rows.filter(r =>
-      r.input.toLowerCase().includes(s) ||
-      r.golden.toLowerCase().includes(s) ||
-      modelOrder.some((m,i) => getRow(r,i).text.toLowerCase().includes(s))
+    if (s) r = r.filter(row =>
+      row.input.toLowerCase().includes(s) || row.golden.toLowerCase().includes(s)
     );
-    if (filterVal === "zero")       rows = rows.filter(r => modelOrder.every((_,i) => getRow(r,i).rougeL === 0));
-    else if (filterVal.startsWith("best-")) {
-      const idx = parseInt(filterVal.replace("best-",""));
-      rows = rows.filter(r => getWinner(r,"rouge") === idx);
-    }
-    if (sortVal === "rouge-desc")   rows.sort((a,b) => Math.max(...modelOrder.map((_,i)=>getRow(b,i).rougeL)) - Math.max(...modelOrder.map((_,i)=>getRow(a,i).rougeL)));
-    else if (sortVal === "rouge-asc")  rows.sort((a,b) => Math.max(...modelOrder.map((_,i)=>getRow(a,i).rougeL)) - Math.max(...modelOrder.map((_,i)=>getRow(b,i).rougeL)));
-    else if (sortVal === "cost-asc")   rows.sort((a,b) => Math.min(...modelOrder.map((_,i)=>getRow(a,i).cost)) - Math.min(...modelOrder.map((_,i)=>getRow(b,i).cost)));
-    else if (sortVal === "lat-asc")    rows.sort((a,b) => Math.min(...modelOrder.map((_,i)=>getRow(a,i).lat)) - Math.min(...modelOrder.map((_,i)=>getRow(b,i).lat)));
-    return rows;
-  };
-
-  const rows = getRows();
-
-  // ── Drag helpers ────────────────────────────────────────────
-  const handleDragStart = (type, key) => { dragRef.current = { type, key }; };
-  const handleDrop = (type, targetKey) => {
-    const { type:dt, key:dk } = dragRef.current;
-    if (dt !== type || dk === targetKey) { setDragOver(null); return; }
-    const arr = type === "model" ? modelOrder : metricOrder;
-    const setArr = type === "model" ? setModelOrder : setMetricOrder;
-    const fromI = arr.findIndex(x => x[type==="model"?"id":"key"] === dk);
-    const toI   = arr.findIndex(x => x[type==="model"?"id":"key"] === targetKey);
-    if (fromI < 0 || toI < 0) return;
-    const next = [...arr];
-    const [item] = next.splice(fromI, 1);
-    next.splice(toI, 0, item);
-    setArr(next);
-    setDragOver(null);
-  };
-
-  const toggleModelVis = (id) => {
-    const vis = modelOrder.filter(m=>m.visible);
-    if (vis.length <= 1 && modelOrder.find(m=>m.id===id)?.visible) return;
-    setModelOrder(p => p.map(m => m.id===id ? {...m,visible:!m.visible} : m));
-  };
-  const toggleMetricVis = (key) => {
-    const vis = metricOrder.filter(m=>m.visible);
-    if (vis.length <= 1 && metricOrder.find(m=>m.key===key)?.visible) return;
-    setMetricOrder(p => p.map(m => m.key===key ? {...m,visible:!m.visible} : m));
-  };
-
-  // ── Leaders ────────────────────────────────────────────────
-  const LEADER_CFGS = [
-    { label:"Accuracy", badgeTx:"Most Accurate", badgeColor:T.rBlue,
-      getVal:(r,i)=>getRow(r,i).rougeL, fmt:v=>v.toFixed(1)+" avg", higher:true,
-      note:(wN,wV,rN,rV)=>`Runner-up ${rN} scores ${rV.replace(" avg","")} — ${wV.replace(" avg","")} pts behind` },
-    { label:"Cost", badgeTx:"Cheapest", badgeColor:T.rGreen,
-      getVal:(r,i)=>getRow(r,i).cost, fmt:v=>"$"+v.toFixed(4)+" avg", higher:false,
-      note:(wN,wV,rN,rV)=>`Runner-up ${rN} at ${rV.replace(" avg","")} — compare impact at scale` },
-    { label:"Speed", badgeTx:"Fastest", badgeColor:T.rTeal,
-      getVal:(r,i)=>getRow(r,i).lat, fmt:v=>v.toFixed(2)+"s avg", higher:false,
-      note:(wN,wV,rN,rV)=>`Runner-up ${rN} at ${rV.replace(" avg","")}` },
-  ];
-
-  // ── Win detection ─────────────────────────────────────────
-  const globalWinner = (cfg) => {
-    const avgs = modelOrder.map((m,i) => ({ m, i, avg: EVAL_DATA.reduce((s,r)=>s+cfg.getVal(r,i),0)/EVAL_DATA.length }));
-    return cfg.higher ? avgs.reduce((a,b)=>b.avg>a.avg?b:a) : avgs.reduce((a,b)=>b.avg<a.avg?b:a);
-  };
-
-  // ── Golden block ─────────────────────────────────────────
-  const GoldenBlock = ({ text }) => (
-    <div style={{ background:"rgba(252,211,77,0.05)",border:"1px solid rgba(252,211,77,0.18)",borderRadius:6,padding:"10px 14px",marginTop:12 }}>
-      <span style={{ fontFamily:MONO,fontSize:10,textTransform:"uppercase",letterSpacing:"0.07em",color:"#FCD34D",background:"rgba(252,211,77,0.1)",border:"1px solid rgba(252,211,77,0.25)",borderRadius:3,padding:"2px 6px",display:"inline-block",marginBottom:6 }}>Reference Output</span>
-      <div style={{ fontSize:13,color:T.mid,lineHeight:1.6 }}>{text}</div>
-    </div>
-  );
-
-  // ── Small badge ─────────────────────────────────────────
-  const SmBadge = ({ color, text }) => (
-    <span style={{ height:16,padding:"0 6px",borderRadius:4,border:`1px solid ${color.bd}`,background:color.bg,fontSize:9,fontFamily:MONO,fontWeight:500,letterSpacing:"0.04em",textTransform:"uppercase",display:"inline-flex",alignItems:"center",color:color.tx,whiteSpace:"nowrap",flexShrink:0 }}>{text}</span>
-  );
-
-  // ── Mini bar track ────────────────────────────────────────
-  const MiniBar = ({ pct, color, dim }) => (
-    <div style={{ flex:1,height:4,background:T.borderS,borderRadius:2,overflow:"hidden" }}>
-      <div style={{ height:"100%",borderRadius:2,background:color,opacity:dim?0.28:1,width:`${Math.max(pct,2)}%`,transition:"width .4s" }} />
-    </div>
-  );
-
-  // ══════════════ LAYOUT A — SYNCHRONIZED GRID ═══════════════
-  const LayoutA = () => (
-    <div style={{ border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden" }}>
-      <table style={{ width:"100%",borderCollapse:"collapse" }}>
-        <thead>
-          <tr style={{ background:T.elev }}>
-            <th style={{ width:28,padding:"10px 12px",textAlign:"left",fontSize:10,fontWeight:500,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,borderBottom:`1px solid ${T.border}`,fontFamily:MONO }}>#</th>
-            <th style={{ width:200,padding:"10px 12px",textAlign:"left",fontSize:10,fontWeight:500,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,borderBottom:`1px solid ${T.border}`,fontFamily:MONO }}>Input + Reference</th>
-            {visModels.map((m,ci) => (
-              <th key={m.id} style={{ padding:"10px 12px",textAlign:"left",fontSize:10,fontWeight:500,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,borderBottom:`1px solid ${T.border}`,borderLeft:`1px solid ${T.border}`,fontFamily:MONO,width:`${Math.floor(60/visModels.length)}%` }}>
-                <div style={{ display:"flex",alignItems:"center",gap:6 }}>
-                  <div style={{ width:7,height:7,borderRadius:2,background:m.color,flexShrink:0 }} />
-                  {m.name}
-                </div>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map(row => {
-            const modelIdxMap = visModels.map(m => modelOrder.findIndex(x=>x.id===m.id));
-            const rW = getWinner(row,"rouge"), cW = getWinner(row,"cost"), lW = getWinner(row,"lat");
-            const maxR = Math.max(...modelOrder.map((_,i)=>getRow(row,i).rougeL));
-            const maxC = Math.max(...modelOrder.map((_,i)=>getRow(row,i).cost));
-            const maxL = Math.max(...modelOrder.map((_,i)=>getRow(row,i).lat));
-            return (
-              <tr key={row.id} style={{ borderBottom:`1px solid ${T.borderS}` }}>
-                <td style={{ padding:"14px 12px",verticalAlign:"top" }}>
-                  <span style={{ fontFamily:MONO,fontSize:11,color:T.lo }}>{row.id}</span>
-                </td>
-                <td style={{ padding:"14px 12px",verticalAlign:"top" }}>
-                  <div style={{ fontSize:14,color:T.hi,lineHeight:1.5,marginBottom:4 }}>{row.input}</div>
-                  <GoldenBlock text={row.golden} />
-                </td>
-                {visModels.map((m, ci) => {
-                  const mIdx = modelIdxMap[ci];
-                  const v = getRow(row, mIdx);
-                  const isRW = mIdx===rW, isCW = mIdx===cW, isLW = mIdx===lW;
-                  const rPct = maxR>0 ? v.rougeL/maxR*100 : 0;
-                  const cPct = maxC>0 ? v.cost/maxC*100 : 0;
-                  const lPct = maxL>0 ? v.lat/maxL*100 : 0;
-                  return (
-                    <td key={m.id} style={{ padding:"14px 12px",verticalAlign:"top",borderLeft:`1px solid ${T.borderS}` }}>
-                      <div style={{ display:"flex",flexWrap:"wrap",gap:4,marginBottom:8,minHeight:20 }}>
-                        {isRW&&maxR>0 && <SmBadge color={T.mBlue} text="Best ROUGE-L" />}
-                        {isCW&&visMetrics.find(x=>x.key==="cost") && <SmBadge color={T.mGreen} text="Cheapest" />}
-                        {isLW&&visMetrics.find(x=>x.key==="lat") && <SmBadge color={T.mTeal} text="Fastest" />}
-                      </div>
-                      <div style={{ fontSize:13,color:T.mid,lineHeight:1.6,marginBottom:10,display:"-webkit-box",WebkitLineClamp:5,WebkitBoxOrient:"vertical",overflow:"hidden" }}>{v.text}</div>
-                      <div style={{ display:"flex",flexDirection:"column",gap:5 }}>
-                        {visMetrics.map(met => {
-                          const isW = met.key==="rouge"?isRW:met.key==="cost"?isCW:isLW;
-                          const val = met.key==="rouge"?v.rougeL:met.key==="cost"?v.cost:v.lat;
-                          const pct = met.key==="rouge"?rPct:met.key==="cost"?cPct:lPct;
-                          return (
-                            <div key={met.key} style={{ display:"flex",alignItems:"center",gap:6 }}>
-                              <span style={{ fontFamily:MONO,fontSize:9,color:T.lo,textTransform:"uppercase",letterSpacing:"0.06em",width:44,flexShrink:0 }}>{met.label}</span>
-                              <MiniBar pct={pct} color={m.color} dim={!isW&&met.key==="rouge"} />
-                              <span style={{ fontFamily:MONO,fontSize:11,color:isW?T.hi:T.mid,minWidth:50,fontWeight:isW?500:400 }}>{fmtMetric(val,met.key)}</span>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-          {/* Avg row */}
-          <tr style={{ background:T.elev,borderTop:`1px solid ${T.border}` }}>
-            <td style={{ padding:"10px 12px" }} />
-            <td style={{ padding:"10px 12px" }}>
-              <span style={{ fontFamily:MONO,fontSize:10,textTransform:"uppercase",letterSpacing:"0.07em",color:T.lo }}>Averages — {EVAL_DATA.length} rows</span>
-            </td>
-            {visModels.map((m, ci) => {
-              const mIdx = modelOrder.findIndex(x=>x.id===m.id);
-              const gW = (cfg) => { const avgs = modelOrder.map((_,i)=>({i,avg:EVAL_DATA.reduce((s,r)=>s+cfg.getVal(r,i),0)/EVAL_DATA.length})); return cfg.higher?avgs.reduce((a,b)=>b.avg>a.avg?b:a).i:avgs.reduce((a,b)=>b.avg<a.avg?b:a).i; };
-              return (
-                <td key={m.id} style={{ padding:"10px 12px",verticalAlign:"top",borderLeft:`1px solid ${T.border}` }}>
-                  {visMetrics.map(met => {
-                    const cfg = LEADER_CFGS.find(c=>c.label.toLowerCase()===({rouge:"accuracy",cost:"cost",lat:"speed"}[met.key]));
-                    if (!cfg) return null;
-                    const avg = EVAL_DATA.reduce((s,r)=>s+cfg.getVal(r,mIdx),0)/EVAL_DATA.length;
-                    const isW = gW(cfg)===mIdx;
-                    return (
-                      <div key={met.key} style={{ display:"flex",alignItems:"center",gap:6,marginBottom:4,fontFamily:MONO,fontSize:11 }}>
-                        <span style={{ color:T.lo,width:52 }}>{met.label}</span>
-                        <span style={{ color:isW?T.hi:T.mid,fontWeight:isW?500:400 }}>{fmtMetric(avg,met.key)}</span>
-                        {isW && <SmBadge color={cfg.badgeColor} text="avg best" />}
-                      </div>
-                    );
-                  })}
-                </td>
-              );
-            })}
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  );
-
-  // ══════════════ LAYOUT B — ROW FOCUS ACCORDION ════════════════
-  const LayoutB = () => (
-    <div style={{ display:"flex",flexDirection:"column",gap:6 }}>
-      {rows.map(row => {
-        const rW = getWinner(row,"rouge"), cW = getWinner(row,"cost"), lW = getWinner(row,"lat");
-        const maxR = Math.max(...modelOrder.map((_,i)=>getRow(row,i).rougeL));
-        const maxC = Math.max(...modelOrder.map((_,i)=>getRow(row,i).cost));
-        const maxL = Math.max(...modelOrder.map((_,i)=>getRow(row,i).lat));
-        const exp = expandedRows.has(row.id);
-        const toggleRow = () => setExpandedRows(p => { const n=new Set(p); n.has(row.id)?n.delete(row.id):n.add(row.id); return n; });
-        return (
-          <div key={row.id} style={{ background:T.surface,border:`1px solid ${exp?T.blue:T.border}`,borderRadius:8,overflow:"hidden",transition:"border-color .15s" }}>
-            {/* Header */}
-            <div onClick={toggleRow} style={{ padding:"13px 16px",display:"flex",alignItems:"center",gap:12,cursor:"pointer" }}>
-              <span style={{ fontFamily:MONO,fontSize:11,color:T.lo,width:24,flexShrink:0 }}>{String(row.id).padStart(2,"0")}</span>
-              <span style={{ fontSize:14,color:T.hi,flex:1,lineHeight:1.4 }}>{row.input}</span>
-              <div style={{ display:"flex",alignItems:"center",gap:5,flexShrink:0 }}>
-                {visModels.map(m => {
-                  const mi = modelOrder.findIndex(x=>x.id===m.id);
-                  const v = getRow(row,mi).rougeL;
-                  const isW = mi===rW && maxR>0;
-                  return (
-                    <span key={m.id} style={{ display:"inline-flex",alignItems:"center",gap:4,height:22,padding:"0 8px",borderRadius:4,fontFamily:MONO,fontSize:10,
-                      border:`1px solid ${isW?T.mBlue.bd:T.border}`,background:isW?T.mBlue.bg:T.elev,color:isW?T.mBlue.tx:T.lo }}>
-                      <div style={{ width:6,height:6,borderRadius:1.5,background:m.color }} />{v.toFixed(1)}
-                    </span>
-                  );
-                })}
-              </div>
-              <span style={{ color:T.lo,fontSize:16,transition:"transform .2s",transform:exp?"rotate(90deg)":"none" }}>›</span>
-            </div>
-            {/* Expanded body */}
-            {exp && (
-              <div style={{ borderTop:`1px solid ${T.border}` }}>
-                <div style={{ display:"grid",gridTemplateColumns:`repeat(${visModels.length},1fr)` }}>
-                  {visModels.map(m => {
-                    const mi = modelOrder.findIndex(x=>x.id===m.id);
-                    const v = getRow(row,mi);
-                    const isRW=mi===rW, isCW=mi===cW, isLW=mi===lW;
-                    const rPct=maxR>0?v.rougeL/maxR*100:0, cPct=maxC>0?v.cost/maxC*100:0, lPct=maxL>0?v.lat/maxL*100:0;
-                    return (
-                      <div key={m.id} style={{ padding:"16px 16px",borderRight:`1px solid ${T.borderS}`,background:isRW&&maxR>0?"rgba(59,130,246,0.03)":"transparent" }}>
-                        <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10 }}>
-                          <div style={{ display:"flex",alignItems:"center",gap:6 }}>
-                            <div style={{ width:2,height:"100%",minHeight:14,borderRadius:2,background:m.color,alignSelf:"stretch" }} />
-                            <span style={{ fontSize:12,color:m.color,fontFamily:UI,fontWeight:500,opacity:0.85 }}>{m.name}</span>
-                          </div>
-                          <div style={{ display:"flex",gap:4,flexWrap:"wrap",justifyContent:"flex-end" }}>
-                            {isRW&&maxR>0 && <SmBadge color={T.mBlue} text="Best" />}
-                            {isCW&&visMetrics.find(x=>x.key==="cost") && <SmBadge color={T.mGreen} text="Cheap" />}
-                            {isLW&&visMetrics.find(x=>x.key==="lat") && <SmBadge color={T.mTeal} text="Fast" />}
-                          </div>
-                        </div>
-                        <div style={{ fontSize:13,color:T.mid,lineHeight:1.6,marginBottom:12 }}>{v.text}</div>
-                        <div style={{ borderTop:`1px solid ${T.borderS}`,paddingTop:10,display:"flex",flexDirection:"column",gap:6 }}>
-                          {visMetrics.map(met => {
-                            const isW=met.key==="rouge"?isRW:met.key==="cost"?isCW:isLW;
-                            const val=met.key==="rouge"?v.rougeL:met.key==="cost"?v.cost:v.lat;
-                            const pct=met.key==="rouge"?rPct:met.key==="cost"?cPct:lPct;
-                            return (
-                              <div key={met.key} style={{ display:"flex",alignItems:"center",gap:6 }}>
-                                <span style={{ fontFamily:MONO,fontSize:10,color:T.lo,textTransform:"uppercase",letterSpacing:"0.06em",width:52,flexShrink:0 }}>{met.label}</span>
-                                <MiniBar pct={pct} color={m.color} dim={met.key==="rouge"&&!isW} />
-                                <span style={{ fontFamily:MONO,fontSize:11,color:isW?T.hi:T.mid,minWidth:52,textAlign:"right",fontWeight:isW?500:400 }}>{fmtMetric(val,met.key)}</span>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-                <div style={{ padding:"12px 16px",borderTop:`1px solid ${T.border}`,background:T.base }}>
-                  <GoldenBlock text={row.golden} />
-                </div>
-              </div>
-            )}
-          </div>
-        );
-      })}
-    </div>
-  );
-
-  // ══════════════ LAYOUT C — OUTPUT FOCUS TABLE ════════════════
-  const [cSort, setCSort] = useState("rouge-desc");
-
-  const LayoutC = () => (
-    <div style={{ border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden" }}>
-      <table style={{ width:"100%",borderCollapse:"collapse" }}>
-        <thead>
-          <tr style={{ background:T.elev }}>
-            {[
-              { w:28, label:"#", key:null },
-              { w:200, label:"Input + Reference", key:null },
-              { w:"44%", label:"Outputs", key:null },
-              ...visMetrics.map(m => ({ w:110, label:m.label, key:m.key==="rouge"?"rouge-desc":m.key==="cost"?"cost-asc":"lat-asc" }))
-            ].map(col => (
-              <th key={col.label} onClick={col.key?()=>setCSort(col.key):undefined} style={{
-                width:col.w,padding:"10px 12px",textAlign:"left",
-                fontSize:10,fontWeight:500,textTransform:"uppercase",letterSpacing:"0.08em",
-                color:cSort===col.key?T.blueTxt:T.lo,
-                borderBottom:`1px solid ${T.border}`,
-                fontFamily:MONO,cursor:col.key?"pointer":"default",
-              }}>{col.label}{cSort===col.key?" ↓":""}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map(row => {
-            const rW=getWinner(row,"rouge"),cW=getWinner(row,"cost"),lW=getWinner(row,"lat");
-            const maxR=Math.max(...modelOrder.map((_,i)=>getRow(row,i).rougeL));
-            const maxC=Math.max(...modelOrder.map((_,i)=>getRow(row,i).cost));
-            const maxL=Math.max(...modelOrder.map((_,i)=>getRow(row,i).lat));
-            return (
-              <tr key={row.id} style={{ borderBottom:`1px solid ${T.borderS}` }}>
-                <td style={{ padding:"14px 12px",verticalAlign:"top" }}>
-                  <span style={{ fontFamily:MONO,fontSize:11,color:T.lo }}>{row.id}</span>
-                </td>
-                <td style={{ padding:"14px 12px",verticalAlign:"top" }}>
-                  <div style={{ fontSize:14,color:T.hi,lineHeight:1.5 }}>{row.input}</div>
-                  <GoldenBlock text={row.golden} />
-                </td>
-                {/* Stacked outputs */}
-                <td style={{ padding:"0",verticalAlign:"top" }}>
-                  {visModels.map(m => {
-                    const mi=modelOrder.findIndex(x=>x.id===m.id);
-                    const v=getRow(row,mi);
-                    const isRW=mi===rW, isCW=mi===cW, isLW=mi===lW;
-                    return (
-                      <div key={m.id} style={{ display:"flex",gap:10,padding:"12px 12px",borderBottom:`1px solid ${T.borderS}` }}>
-                        <div style={{ width:2,borderRadius:2,flexShrink:0,alignSelf:"stretch",minHeight:14,background:m.color }} />
-                        <div style={{ flex:1,minWidth:0 }}>
-                          <div style={{ display:"flex",alignItems:"center",gap:6,marginBottom:7,flexWrap:"wrap" }}>
-                            <span style={{ fontFamily:MONO,fontSize:10,color:m.color,textTransform:"uppercase",letterSpacing:"0.06em" }}>{m.name}</span>
-                            {isRW&&maxR>0 && <SmBadge color={T.mBlue} text="Best ROUGE-L" />}
-                            {isCW&&visMetrics.find(x=>x.key==="cost") && <SmBadge color={T.mGreen} text="Cheapest" />}
-                            {isLW&&visMetrics.find(x=>x.key==="lat") && <SmBadge color={T.mTeal} text="Fastest" />}
-                          </div>
-                          <div style={{ fontSize:13,color:T.mid,lineHeight:1.6 }}>{v.text}</div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </td>
-                {/* Stacked metric values per metric column */}
-                {visMetrics.map(met => {
-                  const maxVal = met.key==="rouge"?maxR:met.key==="cost"?maxC:maxL;
-                  const isWIdx = met.key==="rouge"?rW:met.key==="cost"?cW:lW;
-                  return (
-                    <td key={met.key} style={{ padding:"0",verticalAlign:"top" }}>
-                      {visModels.map(m => {
-                        const mi=modelOrder.findIndex(x=>x.id===m.id);
-                        const v=getRow(row,mi);
-                        const val=met.key==="rouge"?v.rougeL:met.key==="cost"?v.cost:v.lat;
-                        const pct=maxVal>0?val/maxVal*100:0;
-                        const isW=mi===isWIdx;
-                        const winBadge = isW&&(met.key==="rouge"?maxR>0:true)
-                          ? <SmBadge color={met.key==="rouge"?T.mBlue:met.key==="cost"?T.mGreen:T.mTeal} text="best" />
-                          : null;
-                        return (
-                          <div key={m.id} style={{ padding:"12px 12px",borderBottom:`1px solid ${T.borderS}`,display:"flex",flexDirection:"column",gap:3 }}>
-                            <div style={{ display:"flex",alignItems:"center",gap:5 }}>
-                              <div style={{ width:7,height:7,borderRadius:2,flexShrink:0,background:m.color }} />
-                              <span style={{ fontFamily:MONO,fontSize:13,color:isW?T.hi:T.mid,fontWeight:isW?600:400 }}>{fmtMetric(val,met.key)}</span>
-                              {winBadge}
-                            </div>
-                            <div style={{ height:4,background:T.borderS,borderRadius:2,overflow:"hidden" }}>
-                              <div style={{ height:"100%",borderRadius:2,background:m.color,opacity:isW||(met.key!=="rouge")?1:0.25,width:`${Math.max(pct,met.key==="rouge"?0:4)}%`,transition:"width .4s" }} />
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-          {/* Avg row */}
-          <tr style={{ background:T.elev,borderTop:`1px solid ${T.border}` }}>
-            <td style={{ padding:"10px 12px" }} />
-            <td style={{ padding:"10px 12px" }}>
-              <span style={{ fontFamily:MONO,fontSize:10,textTransform:"uppercase",letterSpacing:"0.07em",color:T.lo }}>Averages — {EVAL_DATA.length} rows</span>
-            </td>
-            <td style={{ padding:"10px 12px" }} />
-            {visMetrics.map(met => {
-              const cfg = LEADER_CFGS.find(c=>c.label.toLowerCase()===({rouge:"accuracy",cost:"cost",lat:"speed"}[met.key]));
-              return (
-                <td key={met.key} style={{ padding:"10px 12px" }}>
-                  {visModels.map(m => {
-                    const mi=modelOrder.findIndex(x=>x.id===m.id);
-                    const avg=EVAL_DATA.reduce((s,r)=>s+cfg.getVal(r,mi),0)/EVAL_DATA.length;
-                    const isW=globalWinner(cfg).i===mi;
-                    return (
-                      <div key={m.id} style={{ display:"flex",alignItems:"center",gap:5,marginBottom:4 }}>
-                        <div style={{ width:6,height:6,borderRadius:1.5,background:m.color }} />
-                        <span style={{ fontFamily:MONO,fontSize:11,color:isW?T.hi:T.mid,fontWeight:isW?500:400 }}>{fmtMetric(avg,met.key)}</span>
-                        {isW && <SmBadge color={cfg.badgeColor} text="avg" />}
-                      </div>
-                    );
-                  })}
-                </td>
-              );
-            })}
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  );
-
-  // ── Leaders panel ─────────────────────────────────────────
-  const LeadersPanel = () => (
-    <div style={{ background:T.surface,borderBottom:`1px solid ${T.border}`,padding:"18px 24px" }}>
-      <div style={{ display:"flex",alignItems:"center",marginBottom:14 }}>
-        <span style={{ fontSize:12,textTransform:"uppercase",letterSpacing:"0.08em",color:T.mid,fontFamily:MONO,fontWeight:500 }}>Model Leaders</span>
-        <span style={{ fontSize:11,color:T.lo,marginLeft:"auto",fontFamily:UI }}>Ordered by priority</span>
-      </div>
-      <div style={{ display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:14 }}>
-        {LEADER_CFGS.map(cfg => {
-          const avgs = modelOrder.map((m,i) => ({ m, i, avg: EVAL_DATA.reduce((s,r)=>s+cfg.getVal(r,i),0)/EVAL_DATA.length }));
-          const sorted = [...avgs].sort((a,b) => cfg.higher?b.avg-a.avg:a.avg-b.avg);
-          const winner = sorted[0], runner = sorted[1];
-          const maxVal = Math.max(...avgs.map(x=>x.avg));
-          const minVal = Math.min(...avgs.map(x=>x.avg));
-          const range = (maxVal-minVal) || 1;
-          return (
-            <div key={cfg.label} style={{ background:T.elev,border:`1px solid ${T.border}`,borderRadius:8,padding:"16px 18px" }}>
-              <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14 }}>
-                <span style={{ fontSize:11,fontFamily:MONO,color:T.lo,textTransform:"uppercase",letterSpacing:"0.08em" }}>{cfg.label}</span>
-                <Badge label={cfg.badgeTx} color={cfg.badgeColor} />
-              </div>
-              <div style={{ display:"flex",flexDirection:"column",gap:10,marginBottom:12 }}>
-                {avgs.map(({m,i,avg}) => {
-                  const isW = i===winner.i;
-                  const pct = cfg.higher ? (avg/maxVal*100) : ((maxVal-avg)/range*100+12);
-                  return (
-                    <div key={m.id}>
-                      <div style={{ display:"flex",alignItems:"baseline",justifyContent:"space-between",marginBottom:4 }}>
-                        <span style={{ fontSize:13,fontWeight:500,color:m.color,opacity:isW?1:0.4,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",maxWidth:"65%" }}>{m.name}</span>
-                        <span style={{ fontFamily:MONO,fontSize:12,color:isW?T.mid:T.lo,fontWeight:isW?600:400 }}>{cfg.fmt(avg).replace(" avg","")}</span>
-                      </div>
-                      <div style={{ width:"100%",height:6,background:T.borderS,borderRadius:3,overflow:"hidden" }}>
-                        <div style={{ height:"100%",borderRadius:3,background:m.color,opacity:isW?1:0.2,width:`${Math.min(pct,100)}%`,transition:"width .5s" }} />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-              <div style={{ display:"flex",gap:8,alignItems:"flex-start",padding:"9px 11px",background:"rgba(255,255,255,0.04)",border:`1px solid ${T.border}`,borderRadius:6,fontSize:12,color:T.mid,lineHeight:1.5 }}>
-                <span style={{ fontFamily:MONO,fontSize:11,fontWeight:600,color:T.lo,flexShrink:0,paddingTop:1,letterSpacing:"0.04em",textTransform:"uppercase" }}>Note</span>
-                <span dangerouslySetInnerHTML={{ __html: cfg.note(winner.m.name, cfg.fmt(winner.avg), runner.m.name, cfg.fmt(runner.avg)).replace(/Runner-up ([^:]+)/,'Runner-up <strong>$1</strong>').replace(/\$([^\s]+) avg/,'$$1 avg') }} />
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-
-  // ── Insight bar ─────────────────────────────────────────
-  const InsightBar = () => {
-    const rougeAvgs = modelOrder.map((m,i) => ({ m, avg: EVAL_DATA.reduce((s,r)=>s+getRow(r,i).rougeL,0)/EVAL_DATA.length })).sort((a,b)=>b.avg-a.avg);
-    const costAvgs  = modelOrder.map((m,i) => ({ m, avg: EVAL_DATA.reduce((s,r)=>s+getRow(r,i).cost,0)/EVAL_DATA.length })).sort((a,b)=>a.avg-b.avg);
-    const top = rougeAvgs[0], cheap = costAvgs[0];
-    const ratio = top.avg > 0 && cheap.avg > 0 ? (EVAL_DATA.reduce((s,r)=>s+getRow(r,modelOrder.findIndex(x=>x.id===top.m.id)).cost,0)/EVAL_DATA.length) / (EVAL_DATA.reduce((s,r)=>s+getRow(r,modelOrder.findIndex(x=>x.id===cheap.m.id)).cost,0)/EVAL_DATA.length) : 1;
-    return (
-      <div style={{ background:T.surface,borderBottom:`1px solid ${T.border}`,padding:"0 24px 14px" }}>
-        <div style={{ padding:"12px 16px",background:"rgba(252,211,77,0.05)",border:"1px solid rgba(252,211,77,0.25)",borderRadius:6,fontSize:14,color:T.mid,lineHeight:1.65 }}>
-          <strong style={{ color:T.hi }}>{top.m.name}</strong> leads on ROUGE-L ({top.avg.toFixed(1)} avg){cheap.m.id!==top.m.id?<> — but <strong style={{ color:T.hi }}>{cheap.m.name}</strong> is roughly <strong style={{ color:T.hi }}>{ratio.toFixed(1)}x lower cost</strong>. Consider the accuracy-vs-cost trade-off for this task.</>:<> at the lowest cost. Strong choice for this task.</>}
-        </div>
-      </div>
-    );
-  };
-
-  // ── Customize chip ─────────────────────────────────────────
-  const CtrlChip = ({ label, color, onToggle, visible, dragKey, dragType }) => {
-    const [isDragOver, setIsDragOver] = useState(false);
-    return (
-      <div
-        draggable
-        onDragStart={() => handleDragStart(dragType, dragKey)}
-        onDragOver={e => { e.preventDefault(); setIsDragOver(true); }}
-        onDragLeave={() => setIsDragOver(false)}
-        onDrop={() => { handleDrop(dragType, dragKey); setIsDragOver(false); }}
-        style={{ display:"inline-flex",alignItems:"center",gap:6,height:28,padding:"0 10px 0 7px",borderRadius:5,border:`1px solid ${isDragOver?T.blueTxt:T.border}`,background:isDragOver?"rgba(147,197,253,0.08)":visible?T.surface:T.elev,fontFamily:MONO,fontSize:12,color:visible?T.mid:T.lo,cursor:"grab",userSelect:"none",whiteSpace:"nowrap",opacity:visible?1:0.55 }}
-      >
-        <div style={{ display:"flex",flexDirection:"column",gap:2,opacity:0.35 }}>{[0,1,2].map(i=><div key={i} style={{ width:10,height:1.5,background:"currentColor",borderRadius:1 }} />)}</div>
-        {color && <div style={{ width:7,height:7,borderRadius:2,flexShrink:0,background:color }} />}
-        <span style={{ fontSize:11,textDecoration:visible?"none":"line-through" }}>{label}</span>
-        <button onClick={onToggle} style={{ width:16,height:16,borderRadius:3,border:`1px solid ${T.border}`,background:"transparent",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:9,color:T.lo,padding:0 }}>
-          {visible?"✓":"×"}
-        </button>
-      </div>
-    );
-  };
-
-  const embeddedWrap = embedded
-    ? { background:T.surface, borderTop:`1px solid ${T.border}` }
-    : { display:"flex", flexDirection:"column", minHeight:"100%" };
+    return r;
+  })();
 
   return (
-    <div style={embeddedWrap}>
-      {/* Topbar — only in standalone (non-embedded) mode */}
-      {!embedded && (
-        <div style={{ background:T.surface,borderBottom:`1px solid ${T.border}`,padding:"0 24px",height:48,display:"flex",alignItems:"center",gap:10,flexShrink:0 }}>
-          <span style={{ fontFamily:MONO,fontSize:13,fontWeight:500,color:T.hi,letterSpacing:"0.04em" }}>stack<span style={{ color:T.blueTxt }}>eval</span></span>
-          <div style={{ width:1,height:16,background:T.border }} />
-          <span style={{ fontSize:13,color:T.lo }}>Experiment Results</span>
-          {taskType && <Chip name={taskType.toUpperCase().replace("-","/")} />}
-          {models.slice(0,4).map((m,i) => <Chip key={m.id} name={m.provider.toUpperCase()} />)}
-          <div style={{ display:"flex",alignItems:"center",gap:6,marginLeft:"auto",fontFamily:MONO,fontSize:11,color:T.mTeal.tx,letterSpacing:"0.05em" }}>
-            <div style={{ width:6,height:6,borderRadius:"50%",background:T.mTeal.tx,animation:"blink 1.8s infinite" }} />
-            LIVE
-          </div>
-          <button onClick={onNewEval} style={{ background:"none",border:`1px solid ${T.border}`,cursor:"pointer",color:T.mid,fontSize:12,fontFamily:UI,padding:"5px 12px",borderRadius:6,marginLeft:12 }}>
-            ← New Evaluation
-          </button>
+    <div style={{ display:"flex",flexDirection:"column",fontFamily:UI }}>
+      {/* Toolbar */}
+      <div style={{ background:T.surface,borderBottom:`1px solid ${T.border}`,padding:"12px 24px",display:"flex",alignItems:"center",gap:12 }}>
+        <div style={{ position:"relative",flex:1,maxWidth:320 }}>
+          <svg width="13" height="13" viewBox="0 0 13 13" style={{ position:"absolute",left:10,top:"50%",transform:"translateY(-50%)",color:T.lo,pointerEvents:"none" }} fill="none">
+            <circle cx="5.5" cy="5.5" r="4" stroke="currentColor" strokeWidth="1.3"/>
+            <path d="M9 9L12 12" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+          </svg>
+          <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search inputs or outputs..."
+            style={{ width:"100%",paddingLeft:30,paddingRight:10,paddingTop:8,paddingBottom:8,background:T.elev,border:`1px solid ${T.border}`,borderRadius:8,fontSize:13,color:T.hi,outline:"none",boxSizing:"border-box",fontFamily:UI }} />
         </div>
-      )}
-
-      {/* Layout switcher — styled to match Define Metrics tab style when embedded */}
-      <div style={{ background:embedded?T.elev:T.surface, borderBottom:`${embedded?"1px":"2px"} solid ${T.border}`,padding:"0 24px",display:"flex",alignItems:"center",gap:0,height:46,flexShrink:0 }}>
-        {embedded && (
-          <>
-            <span style={{ fontSize:11,fontWeight:600,color:T.lo,fontFamily:MONO,textTransform:"uppercase",letterSpacing:"0.08em",marginRight:16,whiteSpace:"nowrap" }}>View</span>
-          </>
-        )}
-        {!embedded && (
-          <span style={{ fontSize:10,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,fontFamily:MONO,marginRight:16,whiteSpace:"nowrap" }}>Layout</span>
-        )}
-        {[
-          { id:"a", label:"Synchronized Grid", desc:"all models side by side" },
-          { id:"b", label:"Row Focus",          desc:"expand to compare" },
-          { id:"c", label:"Output Focus",       desc:"outputs + metric columns" },
-        ].map(tab => (
-          <div key={tab.id} onClick={()=>setLayout(tab.id)} style={{
-            padding:"0 16px", height:"100%", display:"flex", alignItems:"center", gap:6, cursor:"pointer",
-            borderBottom:`2px solid ${layout===tab.id?T.blue:"transparent"}`, marginBottom:-1,
-            color:layout===tab.id?T.blueTxt:T.lo, transition:"all .15s", whiteSpace:"nowrap",
-          }}>
-            <span style={{ fontSize:13, fontWeight:layout===tab.id?500:400 }}>{tab.label}</span>
-            {!embedded && <span style={{ fontSize:11,color:T.lo,fontFamily:MONO }}>{tab.desc}</span>}
-          </div>
-        ))}
-
-        {/* Context chips inline in embedded topbar */}
-        {embedded && (
-          <div style={{ marginLeft:"auto",display:"flex",alignItems:"center",gap:6 }}>
-            {taskType && <Chip name={taskType.toUpperCase().replace("-","/")} />}
-            {models.slice(0,4).map((m,i) => (
-              <div key={m.id} style={{ display:"inline-flex",alignItems:"center",gap:5,height:20,padding:"0 7px",borderRadius:4,background:T.elev,border:`1px solid ${T.border}` }}>
-                <div style={{ width:6,height:6,borderRadius:2,background:MODEL_COLORS[i] }} />
-                <span style={{ fontSize:11,fontFamily:MONO,color:T.mid }}>{m.name.split(" ").slice(-2).join(" ")}</span>
-              </div>
-            ))}
-            <div style={{ display:"flex",alignItems:"center",gap:5,fontFamily:MONO,fontSize:11,color:T.mTeal.tx,letterSpacing:"0.05em" }}>
-              <div style={{ width:6,height:6,borderRadius:"50%",background:T.mTeal.tx,animation:"blink 1.8s infinite" }} />
-              LIVE
-            </div>
-          </div>
-        )}
+        <span style={{ fontSize:12,color:T.mid,fontFamily:UI }}>{rows.length} of {EVAL_DATA.length} rows</span>
       </div>
 
-      {/* Leaders */}
-      <LeadersPanel />
-
-      {/* Insight */}
-      <InsightBar />
-
-      {/* Filter bar */}
-      <div style={{ padding:"10px 24px",display:"flex",alignItems:"center",gap:8,flexWrap:"wrap",borderBottom:`1px solid ${T.border}`,background:T.surface,flexShrink:0 }}>
-        <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search inputs or outputs..." style={{ background:T.elev,border:`1px solid ${T.border}`,borderRadius:6,padding:"7px 12px",fontSize:13,color:T.hi,fontFamily:UI,width:220,outline:"none" }} />
-        <select value={sortVal} onChange={e=>setSortVal(e.target.value)} style={{ background:T.elev,border:`1px solid ${T.border}`,borderRadius:6,padding:"7px 12px",fontSize:12,color:T.mid,fontFamily:UI,outline:"none",cursor:"pointer" }}>
-          <option value="default">Sort: Default order</option>
-          <option value="rouge-desc">ROUGE-L — highest first</option>
-          <option value="rouge-asc">ROUGE-L — lowest first</option>
-          <option value="cost-asc">Cost — cheapest first</option>
-          <option value="lat-asc">Latency — fastest first</option>
-        </select>
-        <select value={filterVal} onChange={e=>setFilterVal(e.target.value)} style={{ background:T.elev,border:`1px solid ${T.border}`,borderRadius:6,padding:"7px 12px",fontSize:12,color:T.mid,fontFamily:UI,outline:"none",cursor:"pointer" }}>
-          <option value="all">Show all rows</option>
-          <option value="zero">Zero-score rows only</option>
-          {modelOrder.map((m,i)=><option key={m.id} value={`best-${i}`}>Rows where {m.name.split(" ").slice(-1)[0]} wins</option>)}
-        </select>
-        <div style={{ marginLeft:"auto",fontFamily:MONO,fontSize:12,color:T.lo }}>
-          <strong style={{ color:T.mid }}>{rows.length}</strong> of {EVAL_DATA.length} rows
+      {/* Table */}
+      <div style={{ padding:"16px 24px 32px" }}>
+        <div style={{ border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden" }}>
+          <table style={{ width:"100%",borderCollapse:"collapse" }}>
+            <thead>
+              <tr style={{ background:T.elev }}>
+                <th style={{ width:40,padding:"10px 12px",textAlign:"left",fontSize:10,fontWeight:500,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,borderBottom:`1px solid ${T.border}`,fontFamily:MONO }}>#</th>
+                <th style={{ width:"40%",padding:"10px 12px",textAlign:"left",fontSize:10,fontWeight:500,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,borderBottom:`1px solid ${T.border}`,fontFamily:MONO }}>Input</th>
+                <th style={{ padding:"10px 12px",textAlign:"left",fontSize:10,fontWeight:500,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,borderBottom:`1px solid ${T.border}`,fontFamily:MONO }}>Expected Output</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row, ri) => (
+                <tr key={row.id} style={{ borderBottom:ri<rows.length-1?`1px solid ${T.borderS}`:"none" }}>
+                  <td style={{ padding:"14px 12px",verticalAlign:"top" }}>
+                    <span style={{ fontFamily:MONO,fontSize:11,color:T.lo }}>{String(row.id).padStart(2,"0")}</span>
+                  </td>
+                  <td style={{ padding:"14px 12px",verticalAlign:"top" }}>
+                    <div style={{ fontSize:14,color:T.hi,lineHeight:1.6 }}>{row.input}</div>
+                  </td>
+                  <td style={{ padding:"14px 12px",verticalAlign:"top",borderLeft:`1px solid ${T.borderS}` }}>
+                    <div style={{ fontSize:13,color:T.mid,lineHeight:1.6 }}>{row.golden}</div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      </div>
-
-      {/* Customize bar */}
-      <div style={{ padding:"9px 24px",display:"flex",alignItems:"center",gap:18,borderBottom:`1px solid ${T.border}`,background:T.elev,flexWrap:"wrap",flexShrink:0 }}>
-        <div style={{ display:"flex",alignItems:"center",gap:8 }}>
-          <span style={{ fontSize:10,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,fontFamily:MONO,whiteSpace:"nowrap",flexShrink:0 }}>Models</span>
-          <div style={{ display:"flex",alignItems:"center",gap:5,flexWrap:"wrap" }}>
-            {modelOrder.map(m=>(
-              <CtrlChip key={m.id} label={m.name.split(" ").slice(-2).join(" ")} color={m.color} visible={m.visible} dragKey={m.id} dragType="model" onToggle={()=>toggleModelVis(m.id)} />
-            ))}
-          </div>
-        </div>
-        <div style={{ width:1,height:20,background:T.border,flexShrink:0 }} />
-        <div style={{ display:"flex",alignItems:"center",gap:8 }}>
-          <span style={{ fontSize:10,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,fontFamily:MONO,whiteSpace:"nowrap",flexShrink:0 }}>Metrics</span>
-          <div style={{ display:"flex",alignItems:"center",gap:5,flexWrap:"wrap" }}>
-            {metricOrder.map(m=>{
-              const mc={rouge:T.mBlue.tx,cost:T.mGreen.tx,lat:T.mTeal.tx}[m.key];
-              return <CtrlChip key={m.key} label={m.label} color={mc} visible={m.visible} dragKey={m.key} dragType="metric" onToggle={()=>toggleMetricVis(m.key)} />;
-            })}
-          </div>
-        </div>
-      </div>
-
-      {/* Content area */}
-      <div style={{ padding:"16px 24px 32px", flex:embedded?undefined:1 }}>
-        {layout==="a" && <LayoutA />}
-        {layout==="b" && <LayoutB />}
-        {layout==="c" && <LayoutC />}
       </div>
     </div>
   );
@@ -2057,10 +1435,10 @@ function Step5({ selModels, challenger, metrics, taskType, onBack }) {
   const MOCK_CSV_COLUMNS = ["input", "golden_output"];
   const MOCK_CSV_ROWS = [
     { input: "What is your baggage allowance for economy class?", golden_output: "Economy passengers can bring one carry-on bag (up to 22x14x9 inches, 15 lbs) and one personal item. For checked bags, domestic flights allow one bag up to 50 lbs for a fee; many international routes include one free checked bag." },
-    { input: "How do I check in for my flight online?", golden_output: "Online check-in opens 24 hours before departure. Head to our website or app, select 'Check-In,' and enter your confirmation number and last name. From there you can pick your seat, add baggage, and grab your boarding pass." },
-    { input: "Can I change my flight after booking?", golden_output: "Yes, flight changes can be made online, through our app, or by calling us. Flexible and business fares usually allow free changes, while basic economy tickets may be more limited. Any fare difference will apply at the time of the change." },
+    { input: "How do I check in for my flight online?", golden_output: "Online check-in opens 24 hours before departure. Head to our website or app, select 'Check-In,' and enter your confirmation number and last name." },
+    { input: "Can I change my flight after booking?", golden_output: "Yes, flight changes can be made online, through our app, or by calling us. Flexible and business fares usually allow free changes, while basic economy tickets may be more limited." },
     { input: "What happens if my flight is cancelled?", golden_output: "If your flight is cancelled, we'll automatically rebook you on the next available flight and notify you by email or SMS. You can also opt for a full refund to your original payment method." },
-    { input: "How early should I arrive at the airport?", golden_output: "We recommend arriving at least 2 hours before domestic flights and 3 hours before international flights. This gives you comfortable time for check-in, bag drop, and security." },
+    { input: "How early should I arrive at the airport?", golden_output: "We recommend arriving at least 2 hours before domestic flights and 3 hours before international flights." },
   ];
 
   const parseCSV = (text) => {
@@ -2264,7 +1642,7 @@ function Step5({ selModels, challenger, metrics, taskType, onBack }) {
         {running && (
           <div style={{ marginTop:16 }}>
             <div style={{ display:"flex",justifyContent:"space-between",fontSize:11,color:T.mid,fontFamily:UI,marginBottom:5 }}>
-              <span>Evaluating {testModels.length} models across {EVAL_DATA.length} rows…</span>
+              <span>Processing {EVAL_DATA.length} rows…</span>
               <span style={{ fontFamily:MONO }}>{Math.min(100,Math.round(progress))}%</span>
             </div>
             <div style={{ height:4,background:T.elev,borderRadius:2 }}>
@@ -2279,13 +1657,13 @@ function Step5({ selModels, challenger, metrics, taskType, onBack }) {
       </div>
     </div>
 
-      {/* Output Comparison — full-width below the run section */}
+      {/* Dataset Preview — full-width below the run section */}
       {ran && (
         <div style={{ borderTop:`1px solid ${T.border}`, marginTop:8 }}>
           <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between",padding:"20px 28px 0" }}>
             <div>
-              <h2 style={{ fontSize:20,fontWeight:700,color:T.hi,letterSpacing:"-0.2px",margin:"0 0 4px",fontFamily:UI }}>Output Comparison</h2>
-              <p style={{ fontSize:13,color:T.mid,margin:0,fontFamily:UI }}>Results across {testModels.length} models · {EVAL_DATA.length} evaluation rows</p>
+              <h2 style={{ fontSize:20,fontWeight:700,color:T.hi,letterSpacing:"-0.2px",margin:"0 0 4px",fontFamily:UI }}>Dataset Preview</h2>
+              <p style={{ fontSize:13,color:T.mid,margin:0,fontFamily:UI }}>{EVAL_DATA.length} input–output pairs</p>
             </div>
             <Btn onClick={()=>setRan(false)} variant="ghost" small>Run Again</Btn>
           </div>
