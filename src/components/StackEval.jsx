@@ -1745,16 +1745,15 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
                   {visModels.map(m => {
                     const mi=modelOrder.findIndex(x=>x.id===m.id);
                     const v=getRow(row,mi);
-                    const isRW=mi===rW, isCW=mi===cW, isLW=mi===lW;
                     return (
                       <div key={m.id} style={{ display:"flex",gap:10,padding:"12px 12px",borderBottom:`1px solid ${T.borderS}` }}>
                         <div style={{ width:2,borderRadius:2,flexShrink:0,alignSelf:"stretch",minHeight:14,background:m.color }} />
                         <div style={{ flex:1,minWidth:0 }}>
                           <div style={{ display:"flex",alignItems:"center",gap:6,marginBottom:7,flexWrap:"wrap" }}>
                             <span style={{ fontFamily:MONO,fontSize:10,color:m.color,textTransform:"uppercase",letterSpacing:"0.06em" }}>{m.name}</span>
-                            {isRW&&maxR>0 && <SmBadge color={T.mBlue} text="Best ROUGE-L" />}
-                            {isCW&&visMetrics.find(x=>x.key==="cost") && <SmBadge color={T.mGreen} text="Cheapest" />}
-                            {isLW&&visMetrics.find(x=>x.key==="lat") && <SmBadge color={T.mTeal} text="Fastest" />}
+                            {mi===winners.rouge&&maxes.rouge>0 && <SmBadge color={T.mBlue} text="Best ROUGE-L" />}
+                            {mi===winners.cost&&visMetrics.find(x=>x.key==="cost") && <SmBadge color={T.mGreen} text="Cheapest" />}
+                            {mi===winners.lat&&visMetrics.find(x=>x.key==="lat") && <SmBadge color={T.mTeal} text="Fastest" />}
                           </div>
                           <div style={{ fontSize:13,color:T.mid,lineHeight:1.6 }}>{v.text}</div>
                         </div>
