@@ -1416,16 +1416,18 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
   // ── Helpers ──────────────────────────────────────────────────
   const getRow = (row, modelIdx) => row.outputs[modelIdx] || row.outputs[0];
 
+  const getMetricVal = (v, key) => key==="rouge"?v.rougeL:key==="f1"?v.f1:key==="bleu"?v.bleu:key==="cost"?v.cost:v.lat;
+
   const getWinner = (row, metric) => {
-    const vals = modelOrder.map((m, i) => ({ i, val: metric === "rouge" ? getRow(row,i).rougeL : metric === "cost" ? getRow(row,i).cost : getRow(row,i).lat }));
+    const vals = modelOrder.map((m, i) => ({ i, val: getMetricVal(getRow(row,i), metric) }));
     const valid = vals.filter(v => v.val > 0);
     if (!valid.length) return null;
-    if (metric === "rouge") return valid.reduce((a,b) => b.val > a.val ? b : a).i;
+    if (metric === "rouge" || metric === "f1" || metric === "bleu") return valid.reduce((a,b) => b.val > a.val ? b : a).i;
     return valid.reduce((a,b) => b.val < a.val ? b : a).i;
   };
 
   const fmtMetric = (val, key) =>
-    key === "rouge" ? val.toFixed(1) : key === "cost" ? `$${val.toFixed(4)}` : `${val.toFixed(2)}s`;
+    key === "rouge" || key === "f1" || key === "bleu" ? val.toFixed(1) : key === "cost" ? `$${val.toFixed(4)}` : `${val.toFixed(2)}s`;
 
   // ── Filtering ────────────────────────────────────────────────
   const getRows = () => {
