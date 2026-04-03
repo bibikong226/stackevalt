@@ -1715,7 +1715,7 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
               { w:28, label:"#", key:null },
               { w:200, label:"Input + Reference", key:null },
               { w:"44%", label:"Outputs", key:null },
-              ...visMetrics.map(m => ({ w:110, label:m.label, key:m.key==="rouge"?"rouge-desc":m.key==="cost"?"cost-asc":"lat-asc" }))
+              ...visMetrics.map(m => ({ w:90, label:m.label, key:(m.key==="rouge"||m.key==="f1"||m.key==="bleu")?m.key+"-desc":m.key==="cost"?"cost-asc":"lat-asc" }))
             ].map(col => (
               <th key={col.label} onClick={col.key?()=>setCSort(col.key):undefined} style={{
                 width:col.w,padding:"10px 12px",textAlign:"left",
