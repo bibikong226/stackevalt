@@ -1827,7 +1827,8 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
             {/* Expanded body */}
             {exp && (
               <div style={{ borderTop:`1px solid ${T.border}` }}>
-                <div style={{ display:"grid",gridTemplateColumns:`repeat(${visModels.length},1fr)` }}>
+                <div style={{ overflowX:"auto" }}>
+                <div style={{ display:"grid",gridTemplateColumns:`repeat(${visModels.length},minmax(300px,1fr))` }}>
                   {visModels.map(m => {
                     const mi = modelOrder.findIndex(x=>x.id===m.id);
                     const v = getRow(row,mi);
@@ -1863,6 +1864,7 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
                       </div>
                     );
                   })}
+                </div>
                 </div>
                 <div style={{ padding:"12px 16px",borderTop:`1px solid ${T.border}`,background:T.base }}>
                   <GoldenBlock text={row.golden} />
