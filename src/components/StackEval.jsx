@@ -1493,12 +1493,12 @@ function Step5({ selModels, challenger, metrics, taskType, onBack }) {
     <div style={{ padding:"28px 28px" }}>
       <div style={{ marginBottom:24 }}>
         <h1 style={{ fontSize:24,fontWeight:700,color:T.hi,letterSpacing:"-0.24px",margin:"0 0 6px",fontFamily:UI }}>Run Evaluation</h1>
-        <p style={{ fontSize:14,color:T.mid,margin:0,fontFamily:UI }}>Upload your test data and run the evaluation across selected models</p>
+        <p style={{ fontSize:14,color:T.mid,margin:0,fontFamily:UI }}>Upload your test data and run the evaluation</p>
       </div>
 
       {/* Evaluation Configuration */}
       <Card style={{ marginBottom:20 }}>
-        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:24 }}>
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:24 }}>
           <div>
             <div style={{ fontSize:11,fontWeight:700,color:T.lo,letterSpacing:"0.07em",textTransform:"uppercase",fontFamily:UI,marginBottom:10 }}>Task Type</div>
             <div style={{ position:"relative" }}>
@@ -1520,42 +1520,6 @@ function Step5({ selModels, challenger, metrics, taskType, onBack }) {
             </div>
             <button onClick={()=>{}} style={{ background:"none",border:"none",cursor:"pointer",color:T.blueTxt,fontSize:13,fontFamily:UI,padding:0 }}>Edit metrics →</button>
           </div>
-          <div>
-            <div style={{ fontSize:11,fontWeight:700,color:T.lo,letterSpacing:"0.07em",textTransform:"uppercase",fontFamily:UI,marginBottom:10 }}>Model Criteria</div>
-            <div style={{ display:"flex",alignItems:"flex-start",gap:6,marginBottom:8 }}>
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ marginTop:1,flexShrink:0 }}><circle cx="7" cy="7" r="6" stroke={T.blue} strokeWidth="1.3"/><path d="M4.5 7L6.5 9L9.5 5" stroke={T.blue} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              <span style={{ fontSize:13,color:T.mid,fontFamily:UI,lineHeight:1.4 }}>Medium priority: Cost, Speed, Context</span>
-            </div>
-            <button onClick={()=>{}} style={{ background:"none",border:"none",cursor:"pointer",color:T.blueTxt,fontSize:13,fontFamily:UI,padding:0 }}>Edit criteria →</button>
-          </div>
-        </div>
-      </Card>
-
-      {/* Selected Models */}
-      <Card style={{ marginBottom:20 }}>
-        <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14 }}>
-          <div style={{ fontSize:11,fontWeight:700,color:T.lo,letterSpacing:"0.07em",textTransform:"uppercase",fontFamily:UI }}>
-            Selected Models ({testModels.length}{challenger?" + 1 Challenger":""})
-          </div>
-          <button onClick={()=>{}} style={{ background:"none",border:"none",cursor:"pointer",color:T.blueTxt,fontSize:13,fontFamily:UI,padding:0 }}>+ Add models</button>
-        </div>
-        <div style={{ display:"flex",flexWrap:"wrap",gap:8 }}>
-          {testModels.map((m, i) => (
-            <div key={m.id} style={{ display:"inline-flex",alignItems:"center",gap:8,padding:"7px 12px",background:T.elev,border:`1px solid ${T.border}`,borderRadius:8 }}>
-              <div style={{ width:7,height:7,borderRadius:2,background:MODEL_COLORS[i],flexShrink:0 }} />
-              <span style={{ fontSize:13,fontWeight:500,color:T.hi,fontFamily:UI }}>{m.name}</span>
-              <span style={{ color:T.border }}>|</span>
-              <Chip name={m.provider} />
-            </div>
-          ))}
-          {challenger && (
-            <div style={{ display:"inline-flex",alignItems:"center",gap:8,padding:"7px 12px",background:"rgba(245,158,11,0.08)",border:"1px solid rgba(245,158,11,0.3)",borderRadius:8 }}>
-              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><polygon points="6.5,1 8,4.5 11.5,4.5 8.75,6.5 9.75,10 6.5,8 3.25,10 4.25,6.5 1.5,4.5 5,4.5" fill="#F59E0B"/></svg>
-              <span style={{ fontSize:13,fontWeight:600,color:"#F59E0B",fontFamily:UI }}>{challenger.name}</span>
-              <span style={{ color:"rgba(245,158,11,0.4)" }}>|</span>
-              <span style={{ fontSize:11,fontWeight:500,color:"#F59E0B",letterSpacing:"0.04em",textTransform:"uppercase",fontFamily:UI }}>Challenger</span>
-            </div>
-          )}
         </div>
       </Card>
 
