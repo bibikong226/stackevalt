@@ -1882,7 +1882,8 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
 
   const LayoutC = () => (
     <div style={{ border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden" }}>
-      <table style={{ width:"100%",borderCollapse:"collapse" }}>
+      <div style={{ overflowX:"auto" }}>
+      <table style={{ width:"100%",borderCollapse:"collapse",minWidth:visModels.length*120+500 }}>
         <thead>
           <tr style={{ background:T.elev }}>
             {[
@@ -1915,7 +1916,7 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
                   <GoldenBlock text={row.golden} />
                 </td>
                 {/* Stacked outputs */}
-                <td style={{ padding:"0",verticalAlign:"top" }}>
+                <td style={{ padding:"0",verticalAlign:"top",minWidth:300 }}>
                   {visModels.map(m => {
                     const mi=modelOrder.findIndex(x=>x.id===m.id);
                     const v=getRow(row,mi);
@@ -1942,7 +1943,7 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
                   const isHigher = met.key==="rouge"||met.key==="f1"||met.key==="bleu";
                   const badgeColor = isHigher?T.mBlue:met.key==="cost"?T.mGreen:T.mTeal;
                   return (
-                    <td key={met.key} style={{ padding:"0",verticalAlign:"top" }}>
+                    <td key={met.key} style={{ padding:"0",verticalAlign:"top",minWidth:100 }}>
                       {visModels.map(m => {
                         const mi=modelOrder.findIndex(x=>x.id===m.id);
                         const v=getRow(row,mi);
@@ -2001,6 +2002,7 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
           </tr>
         </tbody>
       </table>
+      </div>
     </div>
   );
 
