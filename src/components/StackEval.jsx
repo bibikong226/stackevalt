@@ -2024,7 +2024,7 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
           <span style={{ fontSize:10,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,fontFamily:MONO,whiteSpace:"nowrap",flexShrink:0 }}>Metrics</span>
           <div style={{ display:"flex",alignItems:"center",gap:5,flexWrap:"wrap" }}>
             {metricOrder.map(m=>{
-              const mc={rouge:T.mBlue.tx,cost:T.mGreen.tx,lat:T.mTeal.tx}[m.key];
+              const mc={rouge:T.mBlue.tx,f1:T.mBlue.tx,bleu:T.mBlue.tx,cost:T.mGreen.tx,lat:T.mTeal.tx}[m.key];
               return <CtrlChip key={m.key} label={m.label} color={mc} visible={m.visible} dragKey={m.key} dragType="metric" onToggle={()=>toggleMetricVis(m.key)} />;
             })}
           </div>
