@@ -191,22 +191,22 @@ const CHALLENGERS = [
 ];
 
 const MOCK_RESULTS = [
-  { input:"Classify: 'This product exceeded expectations!'", golden:"Positive",
-    out:{ "gpt-4-turbo":{text:"Positive",f1:1.0,bleu:1.0,rouge:1.0,ms:245,cost:0.03},
-          "claude-3-opus":{text:"Positive",f1:1.0,bleu:1.0,rouge:1.0,ms:312,cost:0.05},
-          "claude-3-sonnet":{text:"Positive",f1:1.0,bleu:1.0,rouge:1.0,ms:198,cost:0.02} }},
-  { input:"Summarize: 'The quick brown fox jumps over the lazy dog.'", golden:"Pangram sentence",
-    out:{ "gpt-4-turbo":{text:"A pangram using every letter",f1:0.85,bleu:0.72,rouge:0.81,ms:298,cost:0.04},
-          "claude-3-opus":{text:"Contains all alphabet letters",f1:0.90,bleu:0.68,rouge:0.78,ms:356,cost:0.06},
-          "claude-3-sonnet":{text:"Sentence with every letter",f1:0.92,bleu:0.88,rouge:0.91,ms:223,cost:0.03} }},
-  { input:"What is the capital of France?", golden:"Paris",
-    out:{ "gpt-4-turbo":{text:"Paris",f1:1.0,bleu:1.0,rouge:1.0,ms:156,cost:0.02},
-          "claude-3-opus":{text:"Paris",f1:1.0,bleu:1.0,rouge:1.0,ms:198,cost:0.04},
-          "claude-3-sonnet":{text:"Paris",f1:1.0,bleu:1.0,rouge:1.0,ms:134,cost:0.01} }},
-  { input:"Translate to French: 'Good morning'", golden:"Bonjour",
-    out:{ "gpt-4-turbo":{text:"Bonjour",f1:1.0,bleu:1.0,rouge:1.0,ms:180,cost:0.02},
-          "claude-3-opus":{text:"Bonjour",f1:1.0,bleu:1.0,rouge:1.0,ms:220,cost:0.03},
-          "claude-3-sonnet":{text:"Bonjour",f1:1.0,bleu:1.0,rouge:1.0,ms:155,cost:0.01} }},
+  { input:"What is your baggage allowance for economy class?", golden:"Economy passengers can bring one carry-on bag (up to 22x14x9 inches, 15 lbs) and one personal item.",
+    out:{ "gpt-4-turbo":{text:"Economy passengers can bring one carry-on bag and one personal item.",f1:0.92,bleu:0.85,rouge:0.88,ms:245,cost:0.03},
+          "claude-3-opus":{text:"One carry-on bag and one personal item for economy class.",f1:0.88,bleu:0.80,rouge:0.82,ms:312,cost:0.05},
+          "claude-3-sonnet":{text:"Economy class allows one carry-on and one personal item.",f1:0.90,bleu:0.82,rouge:0.85,ms:198,cost:0.02} }},
+  { input:"How do I check in for my flight online?", golden:"Online check-in opens 24 hours before departure.",
+    out:{ "gpt-4-turbo":{text:"Online check-in opens 24 hours before departure via our website or app.",f1:0.95,bleu:0.90,rouge:0.92,ms:180,cost:0.02},
+          "claude-3-opus":{text:"Check in online 24 hours before your flight through our website.",f1:0.90,bleu:0.85,rouge:0.88,ms:220,cost:0.03},
+          "claude-3-sonnet":{text:"Online check-in is available 24 hours before departure.",f1:0.93,bleu:0.88,rouge:0.90,ms:155,cost:0.01} }},
+  { input:"Can I change my flight after booking?", golden:"Yes, flight changes can be made online, through our app, or by calling us.",
+    out:{ "gpt-4-turbo":{text:"Yes, changes can be made online or by calling us.",f1:0.92,bleu:0.88,rouge:0.90,ms:156,cost:0.02},
+          "claude-3-opus":{text:"Flight changes are possible through multiple channels.",f1:0.85,bleu:0.78,rouge:0.80,ms:198,cost:0.04},
+          "claude-3-sonnet":{text:"Yes, you can change your flight online, via app, or by phone.",f1:0.94,bleu:0.90,rouge:0.92,ms:134,cost:0.01} }},
+  { input:"What happens if my flight is cancelled?", golden:"If your flight is cancelled, we'll automatically rebook you on the next available flight.",
+    out:{ "gpt-4-turbo":{text:"We'll rebook you on the next available flight automatically.",f1:0.93,bleu:0.88,rouge:0.90,ms:180,cost:0.02},
+          "claude-3-opus":{text:"Automatic rebooking on the next available flight is provided.",f1:0.90,bleu:0.85,rouge:0.87,ms:220,cost:0.03},
+          "claude-3-sonnet":{text:"You'll be automatically rebooked if your flight is cancelled.",f1:0.91,bleu:0.86,rouge:0.88,ms:155,cost:0.01} }},
 ];
 
 const PRESETS = {
