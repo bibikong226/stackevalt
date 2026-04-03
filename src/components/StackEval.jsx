@@ -1698,13 +1698,14 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
   // ══════════════ LAYOUT A — SYNCHRONIZED GRID ═══════════════
   const LayoutA = () => (
     <div style={{ border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden" }}>
-      <table style={{ width:"100%",borderCollapse:"collapse" }}>
+      <div style={{ overflowX:"auto" }}>
+      <table style={{ width:"100%",borderCollapse:"collapse",minWidth:visModels.length*350+280 }}>
         <thead>
           <tr style={{ background:T.elev }}>
             <th style={{ width:28,padding:"10px 12px",textAlign:"left",fontSize:10,fontWeight:500,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,borderBottom:`1px solid ${T.border}`,fontFamily:MONO }}>#</th>
-            <th style={{ width:200,padding:"10px 12px",textAlign:"left",fontSize:10,fontWeight:500,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,borderBottom:`1px solid ${T.border}`,fontFamily:MONO }}>Input + Reference</th>
+            <th style={{ minWidth:220,padding:"10px 12px",textAlign:"left",fontSize:10,fontWeight:500,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,borderBottom:`1px solid ${T.border}`,fontFamily:MONO }}>Input + Reference</th>
             {visModels.map((m,ci) => (
-              <th key={m.id} style={{ padding:"10px 12px",textAlign:"left",fontSize:10,fontWeight:500,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,borderBottom:`1px solid ${T.border}`,borderLeft:`1px solid ${T.border}`,fontFamily:MONO,width:`${Math.floor(60/visModels.length)}%` }}>
+              <th key={m.id} style={{ padding:"10px 12px",textAlign:"left",fontSize:10,fontWeight:500,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,borderBottom:`1px solid ${T.border}`,borderLeft:`1px solid ${T.border}`,fontFamily:MONO,minWidth:300 }}>
                 <div style={{ display:"flex",alignItems:"center",gap:6 }}>
                   <div style={{ width:7,height:7,borderRadius:2,background:m.color,flexShrink:0 }} />
                   {m.name}
@@ -1723,7 +1724,7 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
                 <td style={{ padding:"14px 12px",verticalAlign:"top" }}>
                   <span style={{ fontFamily:MONO,fontSize:11,color:T.lo }}>{row.id}</span>
                 </td>
-                <td style={{ padding:"14px 12px",verticalAlign:"top" }}>
+                <td style={{ padding:"14px 12px",verticalAlign:"top",minWidth:220 }}>
                   <div style={{ fontSize:14,color:T.hi,lineHeight:1.5,marginBottom:4 }}>{row.input}</div>
                   <GoldenBlock text={row.golden} />
                 </td>
@@ -1731,13 +1732,13 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
                   const mIdx = modelIdxMap[ci];
                   const v = getRow(row, mIdx);
                   return (
-                    <td key={m.id} style={{ padding:"14px 12px",verticalAlign:"top",borderLeft:`1px solid ${T.borderS}` }}>
+                    <td key={m.id} style={{ padding:"14px 12px",verticalAlign:"top",borderLeft:`1px solid ${T.borderS}`,minWidth:300 }}>
                       <div style={{ display:"flex",flexWrap:"wrap",gap:4,marginBottom:8,minHeight:20 }}>
                         {mIdx===winners.rouge&&maxes.rouge>0 && <SmBadge color={T.mBlue} text="Best ROUGE-L" />}
                         {mIdx===winners.cost&&visMetrics.find(x=>x.key==="cost") && <SmBadge color={T.mGreen} text="Cheapest" />}
                         {mIdx===winners.lat&&visMetrics.find(x=>x.key==="lat") && <SmBadge color={T.mTeal} text="Fastest" />}
                       </div>
-                      <div style={{ fontSize:13,color:T.mid,lineHeight:1.6,marginBottom:10,display:"-webkit-box",WebkitLineClamp:5,WebkitBoxOrient:"vertical",overflow:"hidden" }}>{v.text}</div>
+                      <div style={{ fontSize:13,color:T.mid,lineHeight:1.6,marginBottom:10 }}>{v.text}</div>
                       <div style={{ display:"flex",flexDirection:"column",gap:5 }}>
                         {visMetrics.map(met => {
                           const isW = mIdx===winners[met.key];
@@ -1790,6 +1791,7 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
           </tr>
         </tbody>
       </table>
+      </div>
     </div>
   );
 
