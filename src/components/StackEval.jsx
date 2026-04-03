@@ -1331,58 +1331,228 @@ function Step4({ criteria, selModels, setSelModels, challenger, setChallenger, o
 ───────────────────────────────────────────────────────────── */
 
 // Model accent colors for the comparison view
-const MODEL_COLORS = ["#3B82F6","#C4B5FD","#6EE7B7","#FCD34D","#F87171"];
+const MODEL_COLORS = ["#3B82F6","#C4B5FD","#6EE7B7","#FCD34D","#F59E0B"];
 
-// Rich mock evaluation data (5 rows with per-model rougeL/cost/lat)
+// Rich mock evaluation data (20 rows with per-model rougeL/cost/lat + Opus challenger)
 const EVAL_DATA = [
   { id:1,
     input:"What is your baggage allowance for economy class?",
     golden:"Economy passengers can bring one carry-on bag (up to 22x14x9 inches, 15 lbs) and one personal item. For checked bags, domestic flights allow one bag up to 50 lbs for a fee; many international routes include one free checked bag. Overweight or extra bags will incur additional charges.",
     outputs:{
-      0:{ text:"I'm not sure about specific baggage policies without knowing which airline you're flying with, as these vary significantly. Typically, most airlines allow one carry-on item and a personal item for free in economy class. For checked baggage, many airlines include one free checked bag with economy tickets, though some budget carriers charge for this.", rougeL:9.4, f1:12.1, bleu:6.8, cost:0.0031, lat:4.21 },
-      1:{ text:"Welcome! In economy class, you're typically allowed one carry-on and one personal item. For checked bags, limits vary by route, so please check your specific booking details!", rougeL:16.8, f1:21.3, bleu:11.5, cost:0.0012, lat:2.05 },
-      2:{ text:"Economy class passengers may bring one carry-on bag and one personal item on board. Checked baggage allowance varies by fare type and route, but most economy fares include one checked bag up to 23 kg (50 lb). Please check your ticket details for the exact allowance.", rougeL:41.2, f1:45.6, bleu:28.3, cost:0.0008, lat:1.87 },
-      3:{ text:"Economy passengers are entitled to one carry-on and one personal item. Checked bag allowances differ by route and fare class — one bag is typically included on international flights.", rougeL:28.5, f1:33.2, bleu:19.7, cost:0.0006, lat:1.64 },
+      0:{ text:"I'm not sure about specific baggage policies without knowing which airline you're flying with, as these vary significantly. Typically, most airlines allow one carry-on item and a personal item for free in economy class. For checked baggage, many airlines include one free checked bag with economy tickets, though some budget carriers charge for this.", rougeL:14.4, f1:21.1, bleu:9.3, cost:0.0025, lat:3.79 },
+      1:{ text:"Welcome! In economy class, you're typically allowed one carry-on and one personal item. For checked bags, limits vary by route, so please check your specific booking details!", rougeL:25.4, f1:31.8, bleu:22.2, cost:0.0011, lat:2.11 },
+      2:{ text:"Economy class passengers may bring one carry-on bag and one personal item on board. Checked baggage allowance varies by fare type and route, but most economy fares include one checked bag up to 23 kg (50 lb). Please check your ticket details for the exact allowance.", rougeL:39.1, f1:46.6, bleu:35.0, cost:0.001, lat:1.9 },
+      3:{ text:"For Main Cabin, you are allowed one carry-on bag and one personal item for free. Checked bag fees vary depending on your destination and your Medallion Status. If you are flying Basic Economy, please check your specific fare rules as some restrictions may apply.", rougeL:27.9, f1:31.3, bleu:22.4, cost:0.0007, lat:1.3 },
+      4:{ text:"Economy class passengers are allowed one checked bag up to 23 kg (50 lbs) and one carry-on bag plus a personal item. Additional or overweight bags are subject to fees, which vary by route. You can check our full baggage fee schedule on our website or app.", rougeL:49.4, f1:54.5, bleu:39.1, cost:0.0003, lat:1.68 },
     }
   },
   { id:2,
     input:"How do I check in for my flight online?",
-    golden:"Online check-in opens 24 hours before departure. Head to our website or app, select 'Check-In,' and enter your confirmation number and last name. From there you can pick your seat, add baggage, and grab your boarding pass — all from your phone!",
+    golden:"Online check-in opens 24 hours before departure. Head to our website or app, select 'Check-In,' and enter your confirmation number and last name. From there you can pick your seat, add baggage, and grab your boarding pass \u2014 all from your phone!",
     outputs:{
-      0:{ text:"Most airlines allow online check-in starting 24 hours before departure through their website or mobile app. You'll need your booking reference and passport information. You can usually download a mobile boarding pass or print one at the airport. The exact process depends on your specific airline.", rougeL:21.3, f1:25.7, bleu:14.2, cost:0.0028, lat:3.94 },
-      1:{ text:"It's easy! Just visit our website or mobile app 24 hours before your flight, enter your confirmation code, and you'll have your boarding pass in no time.", rougeL:38.7, f1:42.1, bleu:26.8, cost:0.0011, lat:1.88 },
-      2:{ text:"You can check in online by visiting our website or mobile app and selecting \"Check In.\" Enter your booking reference and last name to access your reservation. Online check-in usually opens 24 hours before departure.", rougeL:44.1, f1:48.9, bleu:31.4, cost:0.0009, lat:1.72 },
-      3:{ text:"Online check-in is available 24 hours before departure via our website or app. Enter your booking reference and last name, then select your seat and download your boarding pass.", rougeL:36.2, f1:40.5, bleu:24.1, cost:0.0007, lat:1.58 },
+      0:{ text:"Most airlines allow online check-in starting 24 hours before departure through their website or mobile app. You'll need your booking reference and passport information. You can usually download a mobile boarding pass or print one at the airport. The exact process depends on your specific airline.", rougeL:11.4, f1:17.4, bleu:3.5, cost:0.0033, lat:3.56 },
+      1:{ text:"It's easy! Just visit our website or mobile app 24 hours before your flight, enter your confirmation code, and you'll have your boarding pass in no time.", rougeL:26.4, f1:33.4, bleu:21.5, cost:0.0015, lat:1.86 },
+      2:{ text:"You can check in online by visiting our website or mobile app and selecting \"Check In.\" Enter your booking reference and last name to access your reservation. Online check-in usually opens 24 hours before departure.", rougeL:36.5, f1:43.1, bleu:30.7, cost:0.0009, lat:1.64 },
+      3:{ text:"Online Check-in: You can check in via the Fly Airlines app or our website starting 24 hours before departure. This is the fastest way to get your boarding pass!", rougeL:36.0, f1:41.7, bleu:28.9, cost:0.0007, lat:1.34 },
+      4:{ text:"You can check in online through our website or the SkyWay app starting 24 hours before your scheduled departure. Simply enter your booking reference and last name, select your seat if you haven't already, and download or print your boarding pass.", rougeL:41.5, f1:46.8, bleu:34.4, cost:0.0004, lat:1.38 },
     }
   },
   { id:3,
     input:"Can I change my flight after booking?",
     golden:"Yes, flight changes can be made online, through our app, or by calling us. Flexible and business fares usually allow free changes, while basic economy tickets may be more limited. Any fare difference will apply at the time of the change.",
     outputs:{
-      0:{ text:"This depends entirely on your airline and the type of fare you purchased. Some airlines allow free changes, while others charge fees that can range from $50–$200+ depending on the route. Non-refundable fares typically have stricter change policies.", rougeL:12.1, f1:15.8, bleu:8.3, cost:0.0034, lat:4.55 },
-      1:{ text:"Yes, you can! Changes depend on your ticket type. Visit \"Manage Booking\" to see your options; please note that fare differences or change fees may apply.", rougeL:29.4, f1:34.2, bleu:20.1, cost:0.0014, lat:2.11 },
-      2:{ text:"Yes, most tickets allow changes, though change fees or fare differences may apply depending on your ticket type. You can modify your booking through \"Manage Booking\" on our website or contact customer support.", rougeL:37.8, f1:41.5, bleu:25.9, cost:0.0009, lat:1.93 },
-      3:{ text:"Flight changes are possible for most fare types. Flexible fares are free to change; basic economy may have restrictions. Any price difference will be collected at the time of modification.", rougeL:31.5, f1:36.8, bleu:22.4, cost:0.0007, lat:1.71 },
+      0:{ text:"This depends entirely on your airline and the type of fare you purchased. Some airlines allow free changes, while others charge fees that can range from $50\u2013$200+ depending on the route. Non-refundable fares typically have stricter change policies.", rougeL:11.7, f1:17.9, bleu:7.9, cost:0.0032, lat:3.8 },
+      1:{ text:"Yes, you can! Changes depend on your ticket type. Visit \"Manage Booking\" to see your options; please note that fare differences or change fees may apply.", rougeL:28.1, f1:34.2, bleu:23.2, cost:0.0014, lat:1.72 },
+      2:{ text:"Yes, most tickets allow changes, though change fees or fare differences may apply depending on your ticket type. You can modify your booking through \"Manage Booking\" on our website or contact customer support.", rougeL:39.0, f1:42.9, bleu:31.1, cost:0.001, lat:1.66 },
+      3:{ text:"Yes. For most Main Cabin tickets, Airlines.com has eliminated change fees. However, you will still be responsible for any difference in fare between your original flight and the new flight.", rougeL:37.2, f1:43.8, bleu:31.0, cost:0.0007, lat:1.43 },
+      4:{ text:"Yes! Flight changes are available through our website, app, or by contacting customer support. Change fees and fare differences may apply depending on your ticket type. Flex and Business fare holders can make changes free of charge.", rougeL:32.5, f1:39.3, bleu:24.1, cost:0.0004, lat:1.53 },
     }
   },
   { id:4,
     input:"What happens if my flight is cancelled?",
     golden:"If your flight is cancelled, we'll automatically rebook you on the next available flight and notify you by email or SMS. You can also opt for a full refund to your original payment method. If an overnight stay is needed due to a cancellation on our end, hotel and meal vouchers may be provided.",
     outputs:{
-      0:{ text:"Airline cancellation policies are determined by each carrier, but generally they're required to offer you either a rebooking on another flight, a full refund, or a travel credit. In some regions, you may be entitled to compensation. Check your airline's policy or contact them directly.", rougeL:11.7, f1:14.3, bleu:7.9, cost:0.0029, lat:4.12 },
-      1:{ text:"We've got you covered! If a flight is cancelled, we'll do our best to rebook you on the next available flight or provide a full refund if you prefer not to travel.", rougeL:31.6, f1:36.9, bleu:21.7, cost:0.0013, lat:2.22 },
-      2:{ text:"If your flight is cancelled, we will automatically rebook you on the next available flight when possible. You may also choose to request a refund or select an alternative flight through our website or customer support.", rougeL:39.2, f1:43.8, bleu:27.5, cost:0.0009, lat:1.89 },
-      3:{ text:"Cancelled flights are automatically rebooked on the next available departure. Alternatively, request a full refund through our website. Vouchers for meals or hotels may apply for disruptions caused by the airline.", rougeL:33.4, f1:38.1, bleu:23.6, cost:0.0007, lat:1.66 },
+      0:{ text:"Airline cancellation policies are determined by each carrier, but generally they're required to offer you either a rebooking on another flight, a full refund, or a travel credit. In some regions, you may be entitled to compensation. Check your airline's policy or contact them directly.", rougeL:12.0, f1:16.2, bleu:4.5, cost:0.0032, lat:4.32 },
+      1:{ text:"We've got you covered! If a flight is cancelled, we'll do our best to rebook you on the next available flight or provide a full refund if you prefer not to travel.", rougeL:38.7, f1:44.5, bleu:33.7, cost:0.0011, lat:2.25 },
+      2:{ text:"If your flight is cancelled, we will automatically rebook you on the next available flight when possible. You may also choose to request a refund or select an alternative flight through our website or customer support.", rougeL:41.9, f1:46.2, bleu:37.8, cost:0.0007, lat:1.71 },
+      3:{ text:"If Airlines.com cancels your flight, we will prioritize rebooking you on the next available Delta flight at no extra cost. You may also choose to receive a travel credit or a refund depending on the reason for the cancellation.", rougeL:28.4, f1:34.4, bleu:20.5, cost:0.0005, lat:1.33 },
+      4:{ text:"If SkyWay cancels your flight, we'll automatically rebook you on the next available flight at no extra cost. You may also choose a full refund or travel credit. If the cancellation causes an overnight delay, we'll provide hotel and meal vouchers for eligible passengers.", rougeL:48.3, f1:56.2, bleu:43.0, cost:0.0005, lat:1.63 },
     }
   },
   { id:5,
     input:"How early should I arrive at the airport?",
     golden:"We recommend arriving at least 2 hours before domestic flights and 3 hours before international flights. This gives you comfortable time for check-in, bag drop, and security. During busy travel periods, a little extra buffer is always a good idea.",
     outputs:{
-      0:{ text:"General travel advice suggests arriving 2–3 hours before domestic flights and 3–4 hours before international flights. This can vary based on the airport's congestion, time of day, and how familiar you are with the airport. During peak travel times, arriving earlier is a good idea.", rougeL:29.8, f1:34.5, bleu:18.9, cost:0.0026, lat:3.77 },
-      1:{ text:"To keep things stress-free, we recommend arriving 2 hours early for domestic flights and 3 hours for international journeys. Safe travels!", rougeL:52.3, f1:57.8, bleu:38.2, cost:0.0010, lat:1.74 },
-      2:{ text:"We recommend arriving 2 hours before departure for domestic flights and 3 hours before departure for international flights. This allows time for check-in, security screening, and boarding.", rougeL:58.1, f1:63.4, bleu:42.7, cost:0.0008, lat:1.61 },
-      3:{ text:"Plan to arrive at least 2 hours early for domestic and 3 hours for international travel. Factor in extra time during peak seasons or at busy hub airports.", rougeL:44.7, f1:49.3, bleu:31.5, cost:0.0006, lat:1.49 },
+      0:{ text:"General travel advice suggests arriving 2\u20133 hours before domestic flights and 3\u20134 hours before international flights. This can vary based on the airport's congestion, time of day, and how familiar you are with the airport. During peak travel times, arriving earlier is a good idea.", rougeL:8.1, f1:12.4, bleu:2.8, cost:0.0032, lat:3.89 },
+      1:{ text:"To keep things stress-free, we recommend arriving 2 hours early for domestic flights and 3 hours for international journeys. Safe travels!", rougeL:35.8, f1:42.0, bleu:28.0, cost:0.0011, lat:2.15 },
+      2:{ text:"We recommend arriving 2 hours before departure for domestic flights and 3 hours before departure for international flights. This allows time for check-in, security screening, and boarding.", rougeL:45.2, f1:48.8, bleu:37.8, cost:0.0011, lat:1.8 },
+      3:{ text:"We recommend arriving at least 2 hours before a domestic departure and 3 hours before an international departure to allow time for security and check-in.", rougeL:32.0, f1:37.2, bleu:27.7, cost:0.0008, lat:1.38 },
+      4:{ text:"We recommend arriving at least 2 hours before domestic flights and 3 hours before international flights. During peak travel periods or at busy airports, consider adding extra time. Check-in and bag drop counters close 45 minutes before departure.", rougeL:55.1, f1:55.6, bleu:44.5, cost:0.0004, lat:1.2 },
+    }
+  },
+  { id:6,
+    input:"Do you offer special meals on flights?",
+    golden:"Absolutely! We offer vegetarian, vegan, gluten-free, kosher, halal, diabetic-friendly, and child meal options. Just make your request at least 48 hours before departure \u2014 you can do this at booking or through 'Manage My Booking' online.",
+    outputs:{
+      0:{ text:"That would depend on which airline you're flying with\u2014different airlines have different meal offerings. Many airlines offer special meal requests (vegetarian, vegan, kosher, halal, gluten-free, etc.), but you usually need to request these ahead of time, sometimes 24-48 hours in advance.", rougeL:11.2, f1:18.4, bleu:3.5, cost:0.0035, lat:4.21 },
+      1:{ text:"We certainly do! Whether it's dietary, religious, or nutritional needs, you can request a special meal through \"Manage Booking\" at least 24 hours before departure.", rougeL:25.3, f1:29.8, bleu:21.9, cost:0.0015, lat:1.89 },
+      2:{ text:"Yes, we offer a variety of special meal options, including vegetarian, vegan, gluten-free, and religious meals. Please request your special meal at least 24 hours before departure through Manage Booking.", rougeL:48.9, f1:52.2, bleu:43.5, cost:0.0008, lat:1.94 },
+      3:{ text:"Yes, we offer various special meal options (such as vegetarian, kosher, or gluten-free). Please make sure to request yours through \"Manage My Trip\" at least 24 hours before your flight.", rougeL:36.4, f1:43.8, bleu:33.1, cost:0.0006, lat:1.51 },
+      4:{ text:"Yes, we offer a range of special meals including vegetarian, vegan, kosher, halal, gluten-free, and more. Special meals must be requested at least 48 hours before departure through your booking or by contacting our support team.", rougeL:32.5, f1:37.7, bleu:24.9, cost:0.0003, lat:1.36 },
+    }
+  },
+  { id:7,
+    input:"How do I earn frequent flyer miles?",
+    golden:"You earn miles by flying with us or our partner airlines, using our co-branded credit card, or shopping with partner retailers. Miles post to your account within 72 hours of your flight. The amount earned depends on distance, fare class, and your membership tier.",
+    outputs:{
+      0:{ text:"Again, this is airline-specific. If the airline has a frequent flyer program, you typically earn miles or points for each flight and can accumulate them toward free flights, upgrades, or other rewards. The earning rate and redemption options vary widely.", rougeL:18.0, f1:21.6, bleu:13.8, cost:0.0028, lat:3.81 },
+      1:{ text:"Simply join our loyalty program and enter your member number whenever you book! You'll earn miles for every flight that can be used for future adventures.", rougeL:34.7, f1:38.9, bleu:30.6, cost:0.0015, lat:2.17 },
+      2:{ text:"You can earn miles by joining our frequent flyer program and adding your membership number to your reservation. Miles are earned based on distance flown, fare class, and airline partners.", rougeL:41.6, f1:46.3, bleu:38.2, cost:0.001, lat:1.61 },
+      3:{ text:"You earn SkyMiles by flying with Airlines.com and our partners, using a Delta SkyMiles credit card, or through our SkyMiles shopping and dining programs.", rougeL:31.7, f1:37.7, bleu:25.6, cost:0.0005, lat:1.37 },
+      4:{ text:"Join our SkyWay Rewards program for free through our website or app. You'll earn miles on every SkyWay flight based on the distance flown and your fare class. You can also earn miles with our partner airlines, hotels, car rentals, and co-branded credit cards.", rougeL:53.0, f1:53.3, bleu:43.1, cost:0.0005, lat:1.6 },
+    }
+  },
+  { id:8,
+    input:"Can I bring my pet on the flight?",
+    golden:"Small dogs and cats can travel in the cabin in an approved carrier that fits under the seat, subject to availability and a pet fee. Larger pets travel as checked baggage or cargo. Some breeds may be restricted, so we recommend contacting us at least 48 hours before your flight to confirm arrangements.",
+    outputs:{
+      0:{ text:"Pet policies vary significantly by airline. Some allow pets in the cabin in carriers, others only in cargo, and some don't allow them at all. There are usually fees involved ($50-$200+ per flight). Service animals are typically treated differently.", rougeL:9.9, f1:15.2, bleu:6.4, cost:0.0028, lat:3.86 },
+      1:{ text:"We love furry travelers! Small pets can often join you in the cabin, while larger ones travel in our climate-controlled cargo area. Be sure to book their spot in advance!", rougeL:26.5, f1:33.1, bleu:21.4, cost:0.0011, lat:1.87 },
+      2:{ text:"Pets may be allowed in the cabin or as checked cargo, depending on their size and destination regulations. Please review our pet travel policy and reserve space for your pet in advance.", rougeL:41.5, f1:47.8, bleu:36.8, cost:0.0009, lat:1.96 },
+      3:{ text:"Small pets are permitted to travel in the cabin in a carrier for an additional fee. You must notify us in advance, as there are limits on the number of pets allowed per flight.", rougeL:30.5, f1:38.4, bleu:23.2, cost:0.0006, lat:1.52 },
+      4:{ text:"Small cats and dogs may travel in the cabin in an approved carrier that fits under the seat in front of you. Larger pets can travel in the climate-controlled cargo hold. A pet fee applies, and space is limited, so we recommend booking early. Service animals fly free of charge with proper documentation.", rougeL:52.2, f1:54.7, bleu:39.1, cost:0.0005, lat:1.62 },
+    }
+  },
+  { id:9,
+    input:"What is your refund policy?",
+    golden:"Fully refundable tickets can be cancelled anytime for a complete refund. Non-refundable tickets may be eligible for travel credit. If we cancel your flight, a full refund is always available regardless of fare type. Refunds are returned to your original payment method within 7\u201310 business days.",
+    outputs:{
+      0:{ text:"Refund policies are set by each airline and vary based on ticket type. Typically, fully refundable fares can be refunded as cash, while non-refundable fares might be convertible to travel credits. The timeline for processing refunds also varies.", rougeL:17.7, f1:23.1, bleu:12.8, cost:0.0031, lat:4.22 },
+      1:{ text:"Refund eligibility depends on your ticket type. Fully flexible tickets are refundable, while others may offer credit for future travel. Check your fare rules for specifics!", rougeL:38.9, f1:43.0, bleu:31.0, cost:0.0013, lat:2.2 },
+      2:{ text:"Refund eligibility depends on the fare rules of your ticket. Refundable tickets may be fully refunded, while non-refundable tickets may qualify for travel credit or partial refunds.", rougeL:47.7, f1:52.7, bleu:43.4, cost:0.0011, lat:1.58 },
+      3:{ text:"Refunds are generally available for tickets purchased directly from Airlines.com if the flight is cancelled by the airline or if you purchased a fully refundable fare. Non-refundable tickets can often be converted into a Delta eCredit.", rougeL:27.2, f1:30.5, bleu:20.2, cost:0.0008, lat:1.45 },
+      4:{ text:"Refund eligibility depends on your fare type. Refundable tickets can be fully refunded to the original payment method. Non-refundable tickets may be eligible for a travel credit minus any applicable fees. All tickets booked directly with SkyWay can be cancelled within 24 hours of purchase for a full refund.", rougeL:41.6, f1:46.9, bleu:34.9, cost:0.0004, lat:1.23 },
+    }
+  },
+  { id:10,
+    input:"Is there Wi-Fi available on my flight?",
+    golden:"Wi-Fi is available on most of our domestic and international flights. You can purchase a pass before your trip through our app or website, or onboard. We offer hourly and full-flight plans to suit your needs. Speeds may vary by route and altitude.",
+    outputs:{
+      0:{ text:"Wi-Fi availability on flights depends on the airline. Some newer aircraft are equipped with Wi-Fi, while older planes may not be. If available, it's sometimes free for premium passengers and paid for economy passengers.", rougeL:13.8, f1:21.6, bleu:7.5, cost:0.0028, lat:4.26 },
+      1:{ text:"Stay connected! Most of our aircraft are equipped with high-speed Wi-Fi. You can purchase a pass once you're on board and reach cruising altitude.", rougeL:32.5, f1:35.9, bleu:28.4, cost:0.0014, lat:2.07 },
+      2:{ text:"Many of our aircraft offer in-flight Wi-Fi, though availability varies by aircraft and route. Wi-Fi packages can typically be purchased during the flight.", rougeL:47.8, f1:51.7, bleu:44.2, cost:0.0009, lat:1.97 },
+      3:{ text:"Yes, we offer high-speed Wi-Fi on most aircraft. SkyMiles members can often enjoy free messaging services, while full internet access is available for a fee.", rougeL:27.0, f1:33.0, bleu:19.6, cost:0.0006, lat:1.4 },
+      4:{ text:"Wi-Fi is available on most of our domestic and international flights. We offer a free basic messaging plan and paid options for full browsing and streaming. Availability and speed may vary by aircraft type and route.", rougeL:57.2, f1:56.4, bleu:48.6, cost:0.0004, lat:1.35 },
+    }
+  },
+  { id:11,
+    input:"How do I upgrade my seat to business class?",
+    golden:"Upgrades can be requested through our website, app, or at the check-in counter on the day of travel, subject to availability. You can pay with cash, use frequent flyer miles, or place a bid through our upgrade auction. Elite members may also receive complimentary upgrades based on status.",
+    outputs:{
+      0:{ text:"Seat upgrade policies vary by airline. Some allow you to purchase upgrades at booking, others at the airport, and elite frequent flyer members might get complimentary upgrades. The cost depends on the route and demand.", rougeL:11.2, f1:19.2, bleu:6.8, cost:0.003, lat:4.3 },
+      1:{ text:"Treating yourself? You can check for upgrade availability using your miles or a credit card through our app or at the airport check-in counter.", rougeL:36.3, f1:44.3, bleu:28.6, cost:0.0011, lat:2.39 },
+      2:{ text:"You can upgrade your seat by visiting Manage Booking, using frequent flyer miles, or purchasing an upgrade during check-in if seats are available.", rougeL:36.1, f1:39.5, bleu:28.7, cost:0.001, lat:1.83 },
+      3:{ text:"You can upgrade to Airlines.com One or First Class through the Fly Delta app, during the check-in process, or by using your SkyMiles.", rougeL:31.0, f1:35.0, bleu:23.6, cost:0.0007, lat:1.3 },
+      4:{ text:"You can upgrade through our website, app, or at the airport check-in counter, subject to availability. SkyWay Rewards members can also use miles to upgrade. We sometimes offer discounted upgrade offers via email before your trip \u2014 keep an eye on your inbox!", rougeL:39.8, f1:44.0, bleu:32.5, cost:0.0005, lat:1.27 },
+    }
+  },
+  { id:12,
+    input:"What ID do I need to board a domestic flight?",
+    golden:"A valid government-issued photo ID is required \u2014 such as a REAL ID-compliant driver's license, state ID, or passport. As of May 7, 2025, REAL ID compliance is required for all domestic U.S. flights. Make sure your ID is current before you travel!",
+    outputs:{
+      0:{ text:"For domestic flights in the US, you typically need a valid government-issued photo ID like a driver's license or passport. International flights require a valid passport and possibly a visa depending on your destination.", rougeL:9.2, f1:15.2, bleu:4.8, cost:0.0026, lat:4.5 },
+      1:{ text:"For domestic travel, just bring a valid government-issued photo ID (like a driver's license) and your boarding pass. You're all set!", rougeL:26.6, f1:33.2, bleu:21.2, cost:0.0013, lat:2.15 },
+      2:{ text:"For domestic travel, passengers must present a valid government-issued photo ID, such as a passport, driver's license, or other accepted identification.", rougeL:43.3, f1:47.3, bleu:35.8, cost:0.0008, lat:1.63 },
+      3:{ text:"You will need a valid, government-issued photo ID (such as a Driver's License). Please ensure it is REAL ID compliant if you are traveling within the United States.", rougeL:28.5, f1:34.7, bleu:21.3, cost:0.0005, lat:1.67 },
+      4:{ text:"For domestic flights, a valid government-issued photo ID is required, such as a driver's license, state ID, or passport. Beginning May 2025, a REAL ID-compliant ID is required for domestic air travel within the United States.", rougeL:51.3, f1:53.3, bleu:37.8, cost:0.0003, lat:1.64 },
+    }
+  },
+  { id:13,
+    input:"Can I travel while pregnant?",
+    golden:"Passengers up to 28 weeks pregnant can fly without documentation. From 28 to 36 weeks, a doctor's letter confirming your due date and fitness to fly is required. Travel is generally not advised after 36 weeks (or 32 weeks for multiples). We always recommend checking with your physician before booking.",
+    outputs:{
+      0:{ text:"Pregnancy and air travel depend on various factors including how far along you are and your airline's specific policy. Most airlines allow pregnant travelers to fly until around 36 weeks for domestic flights.", rougeL:17.0, f1:20.8, bleu:10.1, cost:0.0028, lat:4.03 },
+      1:{ text:"Usually, yes! Most expectant mothers can fly up to 36 weeks. We recommend checking with your doctor and carrying a medical note just in case.", rougeL:33.2, f1:36.8, bleu:25.9, cost:0.0011, lat:2.13 },
+      2:{ text:"Most airlines allow pregnant passengers to travel up to around 36 weeks, though policies vary. For later stages of pregnancy, a medical certificate may be required.", rougeL:47.5, f1:52.1, bleu:40.0, cost:0.001, lat:1.58 },
+      3:{ text:"Yes, you can travel while pregnant. However, we recommend consulting your physician and ensuring you have any necessary medical documentation if required.", rougeL:32.6, f1:40.1, bleu:28.5, cost:0.0008, lat:1.76 },
+      4:{ text:"Passengers up to 36 weeks pregnant (or 32 weeks for multiple pregnancies) are welcome to fly with us. After 28 weeks, we recommend carrying a letter from your doctor confirming your due date and fitness to travel. Please contact us if you have any concerns about traveling during pregnancy.", rougeL:40.4, f1:47.3, bleu:32.3, cost:0.0005, lat:1.21 },
+    }
+  },
+  { id:14,
+    input:"How do I request wheelchair assistance?",
+    golden:"Wheelchair assistance is available at no charge and can be requested at booking, through 'Manage My Booking,' or by calling our accessibility support line. Please let us know at least 48 hours in advance so we can have everything ready for you from check-in to deplaning.",
+    outputs:{
+      0:{ text:"Most airports and airlines provide wheelchair assistance and accessibility services for passengers with mobility needs. This is typically free and you usually need to request it when booking or checking in.", rougeL:15.4, f1:22.7, bleu:11.8, cost:0.0036, lat:3.8 },
+      1:{ text:"Absolutely! We're here to help. You can request wheelchair assistance during booking or by contacting us at least 48 hours before your flight.", rougeL:30.0, f1:37.0, bleu:22.6, cost:0.0013, lat:1.72 },
+      2:{ text:"You can request wheelchair assistance when booking your ticket or later through Manage Booking. You may also ask for assistance at the airport check-in counter.", rougeL:49.0, f1:53.3, bleu:41.7, cost:0.0008, lat:1.6 },
+      3:{ text:"You can request mobility assistance during the booking process or by contacting our customer service team at least 48 hours before your flight.", rougeL:35.4, f1:42.4, bleu:31.3, cost:0.0007, lat:1.46 },
+      4:{ text:"You can request wheelchair or mobility assistance when booking your flight, through Manage My Booking on our website, or by calling customer support at least 48 hours before departure. Assistance is available at no charge from check-in through boarding and at your destination.", rougeL:59.7, f1:63.1, bleu:45.3, cost:0.0004, lat:1.4 },
+    }
+  },
+  { id:15,
+    input:"What carry-on items are not allowed on the plane?",
+    golden:"Liquids over 3.4 oz not in a clear quart-sized bag, sharp objects with blades over 4 inches, firearms, flammable liquids, and lithium batteries above 100Wh are not permitted in carry-ons. We recommend checking the TSA prohibited items list before you pack to avoid any surprises at security.",
+    outputs:{
+      0:{ text:"TSA regulations (in the US) and similar aviation authorities in other countries prohibit items like weapons, large amounts of liquid, flammable materials, and sharp objects in carry-on baggage.", rougeL:17.8, f1:25.7, bleu:14.3, cost:0.0033, lat:3.83 },
+      1:{ text:"For safety, items like sharp objects, liquids over 100ml, and hazardous materials are restricted. Check our website for a full list of \"no-fly\" items!", rougeL:33.0, f1:36.9, bleu:27.9, cost:0.0013, lat:2.2 },
+      2:{ text:"Prohibited items include weapons, sharp objects, flammable materials, and certain liquids exceeding security limits. Please follow airport security guidelines for carry-on baggage.", rougeL:49.1, f1:56.9, bleu:42.4, cost:0.0009, lat:1.5 },
+      3:{ text:"Prohibited items include hazardous materials (explosives, flammables), weapons, and liquids exceeding 3.4oz/100ml (unless they are in a clear, quart-sized bag under TSA rules).", rougeL:26.5, f1:30.8, bleu:21.9, cost:0.0007, lat:1.76 },
+      4:{ text:"Prohibited carry-on items include sharp objects, flammable materials, firearms, explosives, and liquids over 100 ml (3.4 oz) that aren't in a clear resealable bag. Sporting equipment like bats and golf clubs must be checked. For a full list, please visit our website or check your local aviation authority's guidelines.", rougeL:36.5, f1:42.3, bleu:28.8, cost:0.0004, lat:1.38 },
+    }
+  },
+  { id:16,
+    input:"How do I file a lost baggage claim?",
+    golden:"We're sorry to hear your bag didn't arrive! Please report it at our baggage service desk before leaving the airport. You'll receive a Property Irregularity Report (PIR) and a tracking reference. We'll do our best to locate and deliver your bag within 24\u201372 hours. Compensation is available per our policy and applicable regulations.",
+    outputs:{
+      0:{ text:"If you've lost baggage, you'd typically report it to your airline's baggage services desk at the airport immediately. You'll need to file a claim and provide details about your bag and its contents.", rougeL:8.7, f1:15.9, bleu:3.7, cost:0.003, lat:4.3 },
+      1:{ text:"We're so sorry for the trouble! Please visit the baggage service office at the airport immediately, or file a claim through our website within 24 hours.", rougeL:35.0, f1:41.6, bleu:30.0, cost:0.0016, lat:1.91 },
+      2:{ text:"If your baggage is missing, please report it at the airport baggage service desk or submit a claim online. Provide your baggage tag number and flight details so we can track your bag.", rougeL:40.0, f1:44.5, bleu:35.5, cost:0.001, lat:1.77 },
+      3:{ text:"If your bag doesn't arrive, please speak with a Airlines.com Baggage Service Agent at the airport immediately, or file a claim online through the \"Baggage\" section of our website.", rougeL:29.1, f1:33.6, bleu:25.4, cost:0.0008, lat:1.3 },
+      4:{ text:"If your baggage doesn't arrive, report it immediately at the SkyWay baggage service desk in the arrivals hall. You can also file a claim online through our website within 21 days of your flight. We'll track your bag and keep you updated via email or SMS until it's returned to you.", rougeL:45.5, f1:50.5, bleu:41.0, cost:0.0004, lat:1.43 },
+    }
+  },
+  { id:17,
+    input:"Can I select my seat in advance?",
+    golden:"Yes! Seat selection is available at booking or anytime through 'Manage My Booking.' Standard seats are free for most fare classes; seats with extra legroom or preferred locations carry a small fee. Basic economy passengers are assigned a seat at check-in at no charge.",
+    outputs:{
+      0:{ text:"Most airlines allow you to select your seat during booking or through their website up to 24 hours before departure. Premium seat selections may cost additional fees.", rougeL:12.4, f1:19.4, bleu:6.3, cost:0.0034, lat:3.82 },
+      1:{ text:"You sure can! You can pick your favorite spot during booking or anytime afterward via \"Manage Booking.\" Window or aisle\u2014the choice is yours!", rougeL:28.2, f1:32.1, bleu:23.5, cost:0.0011, lat:2.03 },
+      2:{ text:"Yes, seat selection is available during booking or through Manage Booking. Some seat options may require an additional fee depending on the fare type.", rougeL:42.1, f1:45.5, bleu:35.0, cost:0.0008, lat:1.92 },
+      3:{ text:"Yes, you can select your seat during the booking process or through \"Manage My Trip.\" Note that certain seats, such as Exit Rows, may require an additional fee.", rougeL:36.7, f1:42.3, bleu:30.0, cost:0.0005, lat:1.34 },
+      4:{ text:"Yes, seat selection is available at the time of booking or anytime after through Manage My Booking. Standard seats can be selected for free or for a small fee depending on your fare type. Premium seats such as extra legroom or front-row seats are available for an additional charge.", rougeL:35.0, f1:40.5, bleu:30.0, cost:0.0004, lat:1.45 },
+    }
+  },
+  { id:18,
+    input:"What is the minimum connection time between flights?",
+    golden:"We generally recommend at least 60 minutes for domestic connections and 90\u2013120 minutes for international ones. At larger hub airports, more time is advisable. If your flights are on a single itinerary with us, your connection time is already guaranteed to meet our minimum requirements.",
+    outputs:{
+      0:{ text:"Minimum connection times vary by airport and airline partnership. Generally, 45 minutes might work for domestic connections at some airports, while you might need 2+ hours for international connections.", rougeL:10.4, f1:17.3, bleu:2.7, cost:0.0036, lat:4.78 },
+      1:{ text:"This varies by airport, but we typically build in at least 60\u201390 minutes to ensure you and your bags make it comfortably to your next flight.", rougeL:34.8, f1:38.4, bleu:29.3, cost:0.0013, lat:2.12 },
+      2:{ text:"Minimum connection times vary by airport and flight type. Generally, we recommend at least 60 minutes for domestic connections and 90 minutes or more for international connections.", rougeL:35.1, f1:40.2, bleu:31.8, cost:0.001, lat:1.98 },
+      3:{ text:"Minimum connection times vary by airport. We recommend checking your specific itinerary in the Fly Airlines.com app, which will show you if your connection time is sufficient.", rougeL:34.8, f1:38.6, bleu:30.5, cost:0.0007, lat:1.75 },
+      4:{ text:"Minimum connection times vary by airport, but as a general guide, allow at least 60 minutes for domestic connections and 90 minutes for international connections. When you book connecting flights with SkyWay, we ensure your itinerary meets the minimum connection requirements.", rougeL:43.6, f1:48.2, bleu:36.9, cost:0.0005, lat:1.47 },
+    }
+  },
+  { id:19,
+    input:"Do you offer discounts for children or infants?",
+    golden:"Infants under 2 traveling on a lap fly free domestically and at a reduced fare internationally. Children 2 and older need their own seat and ticket. Discounts vary by route and fare type. We also offer an Unaccompanied Minor service for children ages 5\u201314 traveling solo.",
+    outputs:{
+      0:{ text:"Many airlines offer discounted fares for children and infants, though the specifics vary. Children (typically ages 2-11) usually get discounts of 25-50%, while infants under 2 might fly free on your lap.", rougeL:17.0, f1:21.2, bleu:10.8, cost:0.0029, lat:3.8 },
+      1:{ text:"Yes! Infants sitting on a lap usually fly for a small fraction of the fare, and we often offer discounted tickets for children under 12.", rougeL:36.2, f1:42.3, bleu:31.8, cost:0.0012, lat:2.19 },
+      2:{ text:"Yes. Infants under 2 years old may travel at a reduced fare when seated on an adult's lap. Children aged 2\u201311 may qualify for special fares depending on the route.", rougeL:42.1, f1:48.9, bleu:38.7, cost:0.0009, lat:1.85 },
+      3:{ text:"Fares for infants traveling on a lap or children may vary by fare class. Please check the specific pricing during your booking process.", rougeL:28.4, f1:34.0, bleu:23.9, cost:0.0005, lat:1.33 },
+      4:{ text:"Children aged 2\u201311 may receive discounted fares on select routes. Infants under 2 who sit on a parent's lap travel free on domestic flights and at a reduced fare on international flights. If you'd like a separate seat for your infant, a child fare applies.", rougeL:34.9, f1:40.1, bleu:28.8, cost:0.0003, lat:1.41 },
+    }
+  },
+  { id:20,
+    input:"How can I contact customer support?",
+    golden:"Our support team is available 24/7 by phone, live chat on our website or app, or email. For quick answers, our virtual assistant handles common questions like flight status, check-in, and baggage instantly. You can also reach us on social media. We appreciate your patience during peak travel periods!",
+    outputs:{
+      0:{ text:"I don't have a specific customer support number or email since I'm Claude, an AI assistant. If you have airline-related questions, you'd need to contact your specific airline directly through their website, phone number, or customer service channels.", rougeL:17.0, f1:23.9, bleu:10.3, cost:0.0035, lat:3.79 },
+      1:{ text:"We're here 24/7! You can reach us via the live chat on our website, call our hotline, or send us a message on social media.", rougeL:33.8, f1:38.7, bleu:26.5, cost:0.0013, lat:2.01 },
+      2:{ text:"You can contact customer support via live chat on our website, phone, email, or social media channels. Our support team is available 24/7 to assist you.", rougeL:45.4, f1:48.5, bleu:37.7, cost:0.0009, lat:1.51 },
+      3:{ text:"You can reach us via the Airlines.com, our website's Help Center, our official social media channels, or by calling our customer service line.", rougeL:36.1, f1:40.9, bleu:31.0, cost:0.0006, lat:1.47 },
+      4:{ text:"You can reach us 24/7 by phone at 1-800-SKY-WAYS, through live chat on our website or app, or via email at support@skywayairlines.com. You can also message us on Twitter/X or Facebook. SkyWay Rewards Gold and Platinum members have access to a priority support line.", rougeL:54.5, f1:54.3, bleu:40.7, cost:0.0004, lat:1.26 },
     }
   },
 ];
@@ -1396,7 +1566,7 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
 
   // Model/metric order with visibility (draggable)
   const [modelOrder, setModelOrder] = useState(
-    models.slice(0,4).map((m, i) => ({ id:m.id, name:m.name, provider:m.provider, color:MODEL_COLORS[i], visible:true }))
+    models.slice(0,5).map((m, i) => ({ id:m.id, name:m.name, provider:m.provider, color:MODEL_COLORS[i], visible:true }))
   );
   const [metricOrder, setMetricOrder] = useState([
     { key:"rouge", label:"ROUGE-L", visible:true  },
@@ -1929,7 +2099,7 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
           <div style={{ width:1,height:16,background:T.border }} />
           <span style={{ fontSize:13,color:T.lo }}>Experiment Results</span>
           {taskType && <Chip name={taskType.toUpperCase().replace("-","/")} />}
-          {models.slice(0,4).map((m,i) => <Chip key={m.id} name={m.provider.toUpperCase()} />)}
+          {models.slice(0,5).map((m,i) => <Chip key={m.id} name={m.provider.toUpperCase()} />)}
           <div style={{ display:"flex",alignItems:"center",gap:6,marginLeft:"auto",fontFamily:MONO,fontSize:11,color:T.mTeal.tx,letterSpacing:"0.05em" }}>
             <div style={{ width:6,height:6,borderRadius:"50%",background:T.mTeal.tx,animation:"blink 1.8s infinite" }} />
             LIVE
@@ -1969,7 +2139,7 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
         {embedded && (
           <div style={{ marginLeft:"auto",display:"flex",alignItems:"center",gap:6 }}>
             {taskType && <Chip name={taskType.toUpperCase().replace("-","/")} />}
-            {models.slice(0,4).map((m,i) => (
+            {models.slice(0,5).map((m,i) => (
               <div key={m.id} style={{ display:"inline-flex",alignItems:"center",gap:5,height:20,padding:"0 7px",borderRadius:4,background:T.elev,border:`1px solid ${T.border}` }}>
                 <div style={{ width:6,height:6,borderRadius:2,background:MODEL_COLORS[i] }} />
                 <span style={{ fontSize:11,fontFamily:MONO,color:T.mid }}>{m.name.split(" ").slice(-2).join(" ")}</span>
@@ -2175,7 +2345,8 @@ function Step5({ selModels, challenger, metrics, taskType, onBack }) {
     reader.readAsText(file);
   };
 
-  const testModels = selModels.length > 0 ? selModels.slice(0,4) : ALL_MODELS.slice(0,3);
+  const baseModels = selModels.length > 0 ? selModels.slice(0,4) : ALL_MODELS.slice(0,3);
+  const testModels = challenger ? [...baseModels, { id:challenger.id, name:challenger.name, provider:challenger.provider }] : baseModels;
   const enabledMetrics = metrics.filter(m => m.enabled);
   const shownMetrics   = enabledMetrics.slice(0, 3);
   const extraCount     = Math.max(0, enabledMetrics.length - 3);
