@@ -1613,7 +1613,7 @@ function Step5({ selModels, challenger, metrics, taskType, onBack }) {
           <div>
             <div style={{ display:"grid",gridTemplateColumns:"1fr auto",gap:12,alignItems:"end",marginBottom: (fileName || true) ? 16 : 0 }}>
               <div>
-                <SubLabel>CSV File (requires: input, golden_output)</SubLabel>
+                <SubLabel>CSV File (requires: input, output)</SubLabel>
                 <div onClick={()=>document.getElementById("csv-up").click()} style={{ border:`1px dashed ${fileName ? T.blue : T.border}`,borderRadius:8,padding:"16px 18px",cursor:"pointer",display:"flex",alignItems:"center",gap:12 }}
                   onMouseEnter={e=>e.currentTarget.style.borderColor=T.blue} onMouseLeave={e=>e.currentTarget.style.borderColor=fileName?T.blue:T.border}>
                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 12V4M5 8l4-4 4 4M2 14h14" stroke={T.blue} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
