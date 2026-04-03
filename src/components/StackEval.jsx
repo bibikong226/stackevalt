@@ -1642,7 +1642,7 @@ function Step5({ selModels, challenger, metrics, taskType, onBack }) {
         {running && (
           <div style={{ marginTop:16 }}>
             <div style={{ display:"flex",justifyContent:"space-between",fontSize:11,color:T.mid,fontFamily:UI,marginBottom:5 }}>
-              <span>Evaluating {testModels.length} models across {EVAL_DATA.length} rows…</span>
+              <span>Processing {EVAL_DATA.length} rows…</span>
               <span style={{ fontFamily:MONO }}>{Math.min(100,Math.round(progress))}%</span>
             </div>
             <div style={{ height:4,background:T.elev,borderRadius:2 }}>
