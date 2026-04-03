@@ -1837,7 +1837,7 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
         <span style={{ fontSize:12,textTransform:"uppercase",letterSpacing:"0.08em",color:T.mid,fontFamily:MONO,fontWeight:500 }}>Model Leaders</span>
         <span style={{ fontSize:11,color:T.lo,marginLeft:"auto",fontFamily:UI }}>Ordered by priority</span>
       </div>
-      <div style={{ display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:14 }}>
+      <div style={{ display:"grid",gridTemplateColumns:`repeat(${LEADER_CFGS.length},1fr)`,gap:14 }}>
         {LEADER_CFGS.map(cfg => {
           const avgs = modelOrder.map((m,i) => ({ m, i, avg: EVAL_DATA.reduce((s,r)=>s+cfg.getVal(r,i),0)/EVAL_DATA.length }));
           const sorted = [...avgs].sort((a,b) => cfg.higher?b.avg-a.avg:a.avg-b.avg);
