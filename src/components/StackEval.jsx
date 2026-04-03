@@ -1601,7 +1601,8 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
               return (
                 <td key={m.id} style={{ padding:"10px 12px",verticalAlign:"top",borderLeft:`1px solid ${T.border}` }}>
                   {visMetrics.map(met => {
-                    const cfg = LEADER_CFGS.find(c=>c.label.toLowerCase()===({rouge:"accuracy",cost:"cost",lat:"speed"}[met.key]));
+                    const cfgMap = {rouge:"accuracy",f1:"f1 score",bleu:"bleu",cost:"cost",lat:"speed"};
+                    const cfg = LEADER_CFGS.find(c=>c.label.toLowerCase()===cfgMap[met.key]);
                     if (!cfg) return null;
                     const avg = EVAL_DATA.reduce((s,r)=>s+cfg.getVal(r,mIdx),0)/EVAL_DATA.length;
                     const isW = gW(cfg)===mIdx;
