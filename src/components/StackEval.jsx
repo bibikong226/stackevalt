@@ -1657,13 +1657,13 @@ function Step5({ selModels, challenger, metrics, taskType, onBack }) {
       </div>
     </div>
 
-      {/* Output Comparison — full-width below the run section */}
+      {/* Dataset Preview — full-width below the run section */}
       {ran && (
         <div style={{ borderTop:`1px solid ${T.border}`, marginTop:8 }}>
           <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between",padding:"20px 28px 0" }}>
             <div>
-              <h2 style={{ fontSize:20,fontWeight:700,color:T.hi,letterSpacing:"-0.2px",margin:"0 0 4px",fontFamily:UI }}>Output Comparison</h2>
-              <p style={{ fontSize:13,color:T.mid,margin:0,fontFamily:UI }}>Results across {testModels.length} models · {EVAL_DATA.length} evaluation rows</p>
+              <h2 style={{ fontSize:20,fontWeight:700,color:T.hi,letterSpacing:"-0.2px",margin:"0 0 4px",fontFamily:UI }}>Dataset Preview</h2>
+              <p style={{ fontSize:13,color:T.mid,margin:0,fontFamily:UI }}>{EVAL_DATA.length} input–output pairs</p>
             </div>
             <Btn onClick={()=>setRan(false)} variant="ghost" small>Run Again</Btn>
           </div>
