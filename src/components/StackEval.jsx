@@ -1335,56 +1335,25 @@ const MODEL_COLORS = ["#3B82F6","#C4B5FD","#6EE7B7","#FCD34D","#F87171"];
 
 // Rich mock evaluation data (5 rows with per-model rougeL/cost/lat)
 const EVAL_DATA = [
-  { id:1,
-    input:"What is your baggage allowance for economy class?",
-    golden:"Economy passengers can bring one carry-on bag (up to 22x14x9 inches, 15 lbs) and one personal item. For checked bags, domestic flights allow one bag up to 50 lbs for a fee; many international routes include one free checked bag. Overweight or extra bags will incur additional charges.",
-    outputs:{
-      0:{ text:"I'm not sure about specific baggage policies without knowing which airline you're flying with, as these vary significantly. Typically, most airlines allow one carry-on item and a personal item for free in economy class. For checked baggage, many airlines include one free checked bag with economy tickets, though some budget carriers charge for this.", rougeL:9.4, cost:0.0031, lat:4.21 },
-      1:{ text:"Welcome! In economy class, you're typically allowed one carry-on and one personal item. For checked bags, limits vary by route, so please check your specific booking details!", rougeL:16.8, cost:0.0012, lat:2.05 },
-      2:{ text:"Economy class passengers may bring one carry-on bag and one personal item on board. Checked baggage allowance varies by fare type and route, but most economy fares include one checked bag up to 23 kg (50 lb). Please check your ticket details for the exact allowance.", rougeL:41.2, cost:0.0008, lat:1.87 },
-      3:{ text:"Economy passengers are entitled to one carry-on and one personal item. Checked bag allowances differ by route and fare class — one bag is typically included on international flights.", rougeL:28.5, cost:0.0006, lat:1.64 },
-    }
-  },
-  { id:2,
-    input:"How do I check in for my flight online?",
-    golden:"Online check-in opens 24 hours before departure. Head to our website or app, select 'Check-In,' and enter your confirmation number and last name. From there you can pick your seat, add baggage, and grab your boarding pass — all from your phone!",
-    outputs:{
-      0:{ text:"Most airlines allow online check-in starting 24 hours before departure through their website or mobile app. You'll need your booking reference and passport information. You can usually download a mobile boarding pass or print one at the airport. The exact process depends on your specific airline.", rougeL:21.3, cost:0.0028, lat:3.94 },
-      1:{ text:"It's easy! Just visit our website or mobile app 24 hours before your flight, enter your confirmation code, and you'll have your boarding pass in no time.", rougeL:38.7, cost:0.0011, lat:1.88 },
-      2:{ text:"You can check in online by visiting our website or mobile app and selecting \"Check In.\" Enter your booking reference and last name to access your reservation. Online check-in usually opens 24 hours before departure.", rougeL:44.1, cost:0.0009, lat:1.72 },
-      3:{ text:"Online check-in is available 24 hours before departure via our website or app. Enter your booking reference and last name, then select your seat and download your boarding pass.", rougeL:36.2, cost:0.0007, lat:1.58 },
-    }
-  },
-  { id:3,
-    input:"Can I change my flight after booking?",
-    golden:"Yes, flight changes can be made online, through our app, or by calling us. Flexible and business fares usually allow free changes, while basic economy tickets may be more limited. Any fare difference will apply at the time of the change.",
-    outputs:{
-      0:{ text:"This depends entirely on your airline and the type of fare you purchased. Some airlines allow free changes, while others charge fees that can range from $50–$200+ depending on the route. Non-refundable fares typically have stricter change policies.", rougeL:12.1, cost:0.0034, lat:4.55 },
-      1:{ text:"Yes, you can! Changes depend on your ticket type. Visit \"Manage Booking\" to see your options; please note that fare differences or change fees may apply.", rougeL:29.4, cost:0.0014, lat:2.11 },
-      2:{ text:"Yes, most tickets allow changes, though change fees or fare differences may apply depending on your ticket type. You can modify your booking through \"Manage Booking\" on our website or contact customer support.", rougeL:37.8, cost:0.0009, lat:1.93 },
-      3:{ text:"Flight changes are possible for most fare types. Flexible fares are free to change; basic economy may have restrictions. Any price difference will be collected at the time of modification.", rougeL:31.5, cost:0.0007, lat:1.71 },
-    }
-  },
-  { id:4,
-    input:"What happens if my flight is cancelled?",
-    golden:"If your flight is cancelled, we'll automatically rebook you on the next available flight and notify you by email or SMS. You can also opt for a full refund to your original payment method. If an overnight stay is needed due to a cancellation on our end, hotel and meal vouchers may be provided.",
-    outputs:{
-      0:{ text:"Airline cancellation policies are determined by each carrier, but generally they're required to offer you either a rebooking on another flight, a full refund, or a travel credit. In some regions, you may be entitled to compensation. Check your airline's policy or contact them directly.", rougeL:11.7, cost:0.0029, lat:4.12 },
-      1:{ text:"We've got you covered! If a flight is cancelled, we'll do our best to rebook you on the next available flight or provide a full refund if you prefer not to travel.", rougeL:31.6, cost:0.0013, lat:2.22 },
-      2:{ text:"If your flight is cancelled, we will automatically rebook you on the next available flight when possible. You may also choose to request a refund or select an alternative flight through our website or customer support.", rougeL:39.2, cost:0.0009, lat:1.89 },
-      3:{ text:"Cancelled flights are automatically rebooked on the next available departure. Alternatively, request a full refund through our website. Vouchers for meals or hotels may apply for disruptions caused by the airline.", rougeL:33.4, cost:0.0007, lat:1.66 },
-    }
-  },
-  { id:5,
-    input:"How early should I arrive at the airport?",
-    golden:"We recommend arriving at least 2 hours before domestic flights and 3 hours before international flights. This gives you comfortable time for check-in, bag drop, and security. During busy travel periods, a little extra buffer is always a good idea.",
-    outputs:{
-      0:{ text:"General travel advice suggests arriving 2–3 hours before domestic flights and 3–4 hours before international flights. This can vary based on the airport's congestion, time of day, and how familiar you are with the airport. During peak travel times, arriving earlier is a good idea.", rougeL:29.8, cost:0.0026, lat:3.77 },
-      1:{ text:"To keep things stress-free, we recommend arriving 2 hours early for domestic flights and 3 hours for international journeys. Safe travels!", rougeL:52.3, cost:0.0010, lat:1.74 },
-      2:{ text:"We recommend arriving 2 hours before departure for domestic flights and 3 hours before departure for international flights. This allows time for check-in, security screening, and boarding.", rougeL:58.1, cost:0.0008, lat:1.61 },
-      3:{ text:"Plan to arrive at least 2 hours early for domestic and 3 hours for international travel. Factor in extra time during peak seasons or at busy hub airports.", rougeL:44.7, cost:0.0006, lat:1.49 },
-    }
-  },
+  { id:1, input:"What is your baggage allowance for economy class?", golden:"Economy passengers can bring one carry-on bag (up to 22x14x9 inches, 15 lbs) and one personal item. For checked bags, domestic flights allow one bag up to 50 lbs for a fee; many international routes include one free checked bag. Overweight or extra bags will incur additional charges." },
+  { id:2, input:"How do I check in for my flight online?", golden:"Online check-in opens 24 hours before departure. Head to our website or app, select 'Check-In,' and enter your confirmation number and last name. From there you can pick your seat, add baggage, and grab your boarding pass — all from your phone!" },
+  { id:3, input:"Can I change my flight after booking?", golden:"Yes, flight changes can be made online, through our app, or by calling us. Flexible and business fares usually allow free changes, while basic economy tickets may be more limited. Any fare difference will apply at the time of the change." },
+  { id:4, input:"What happens if my flight is cancelled?", golden:"If your flight is cancelled, we'll automatically rebook you on the next available flight and notify you by email or SMS. You can also opt for a full refund to your original payment method. If an overnight stay is needed due to a cancellation on our end, hotel and meal vouchers may be provided." },
+  { id:5, input:"How early should I arrive at the airport?", golden:"We recommend arriving at least 2 hours before domestic flights and 3 hours before international flights. This gives you comfortable time for check-in, bag drop, and security. During busy travel periods, a little extra buffer is always a good idea." },
+  { id:6, input:"Do you offer special meals on flights?", golden:"Absolutely! We offer vegetarian, vegan, gluten-free, kosher, halal, diabetic-friendly, and child meal options. Just make your request at least 48 hours before departure — you can do this at booking or through 'Manage My Booking' online." },
+  { id:7, input:"How do I earn frequent flyer miles?", golden:"You earn miles by flying with us or our partner airlines, using our co-branded credit card, or shopping with partner retailers. Miles post to your account within 72 hours of your flight. The amount earned depends on distance, fare class, and your membership tier." },
+  { id:8, input:"Can I bring my pet on the flight?", golden:"Small dogs and cats can travel in the cabin in an approved carrier that fits under the seat, subject to availability and a pet fee. Larger pets travel as checked baggage or cargo. Some breeds may be restricted, so we recommend contacting us at least 48 hours before your flight to confirm arrangements." },
+  { id:9, input:"What is your refund policy?", golden:"Fully refundable tickets can be cancelled anytime for a complete refund. Non-refundable tickets may be eligible for travel credit. If we cancel your flight, a full refund is always available regardless of fare type. Refunds are returned to your original payment method within 7–10 business days." },
+  { id:10, input:"Is there Wi-Fi available on my flight?", golden:"Wi-Fi is available on most of our domestic and international flights. You can purchase a pass before your trip through our app or website, or onboard. We offer hourly and full-flight plans to suit your needs. Speeds may vary by route and altitude." },
+  { id:11, input:"How do I upgrade my seat to business class?", golden:"Upgrades can be requested through our website, app, or at the check-in counter on the day of travel, subject to availability. You can pay with cash, use frequent flyer miles, or place a bid through our upgrade auction. Elite members may also receive complimentary upgrades based on status." },
+  { id:12, input:"What ID do I need to board a domestic flight?", golden:"A valid government-issued photo ID is required — such as a REAL ID-compliant driver's license, state ID, or passport. As of May 7, 2025, REAL ID compliance is required for all domestic U.S. flights. Make sure your ID is current before you travel!" },
+  { id:13, input:"Can I travel while pregnant?", golden:"Passengers up to 28 weeks pregnant can fly without documentation. From 28 to 36 weeks, a doctor's letter confirming your due date and fitness to fly is required. Travel is generally not advised after 36 weeks (or 32 weeks for multiples). We always recommend checking with your physician before booking." },
+  { id:14, input:"How do I request wheelchair assistance?", golden:"Wheelchair assistance is available at no charge and can be requested at booking, through 'Manage My Booking,' or by calling our accessibility support line. Please let us know at least 48 hours in advance so we can have everything ready for you from check-in to deplaning." },
+  { id:15, input:"What carry-on items are not allowed on the plane?", golden:"Liquids over 3.4 oz not in a clear quart-sized bag, sharp objects with blades over 4 inches, firearms, flammable liquids, and lithium batteries above 100Wh are not permitted in carry-ons. We recommend checking the TSA prohibited items list before you pack to avoid any surprises at security." },
+  { id:16, input:"How do I file a lost baggage claim?", golden:"We're sorry to hear your bag didn't arrive! Please report it at our baggage service desk before leaving the airport. You'll receive a Property Irregularity Report (PIR) and a tracking reference. We'll do our best to locate and deliver your bag within 24–72 hours. Compensation is available per our policy and applicable regulations." },
+  { id:17, input:"Can I select my seat in advance?", golden:"Yes! Seat selection is available at booking or anytime through 'Manage My Booking.' Standard seats are free for most fare classes; seats with extra legroom or preferred locations carry a small fee. Basic economy passengers are assigned a seat at check-in at no charge." },
+  { id:18, input:"What is the minimum connection time between flights?", golden:"We generally recommend at least 60 minutes for domestic connections and 90–120 minutes for international ones. At larger hub airports, more time is advisable. If your flights are on a single itinerary with us, your connection time is already guaranteed to meet our minimum requirements." },
+  { id:19, input:"Do you offer discounts for children or infants?", golden:"Infants under 2 traveling on a lap fly free domestically and at a reduced fare internationally. Children 2 and older need their own seat and ticket. Discounts vary by route and fare type. We also offer an Unaccompanied Minor service for children ages 5–14 traveling solo." },
 ];
 
 function EvalResults({ models, taskType, onNewEval, embedded }) {
