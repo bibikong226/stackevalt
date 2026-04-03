@@ -595,7 +595,7 @@ Score (0-1):
         {/* Footer */}
         <div style={{ padding:"12px 20px",borderTop:`1px solid ${T.border}`,display:"flex",gap:8,justifyContent:"flex-end",flexShrink:0 }}>
           <Btn onClick={onClose} variant="ghost">Cancel</Btn>
-          <Btn onClick={save}>Save Evaluator</Btn>
+          <Btn onClick={save}>Save Custom Metrics</Btn>
         </div>
       </div>
     </div>
