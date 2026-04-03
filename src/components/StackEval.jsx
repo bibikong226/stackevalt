@@ -1349,10 +1349,10 @@ const EVAL_DATA = [
     input:"How do I check in for my flight online?",
     golden:"Online check-in opens 24 hours before departure. Head to our website or app, select 'Check-In,' and enter your confirmation number and last name. From there you can pick your seat, add baggage, and grab your boarding pass — all from your phone!",
     outputs:{
-      0:{ text:"Most airlines allow online check-in starting 24 hours before departure through their website or mobile app. You'll need your booking reference and passport information. You can usually download a mobile boarding pass or print one at the airport. The exact process depends on your specific airline.", rougeL:21.3, cost:0.0028, lat:3.94 },
-      1:{ text:"It's easy! Just visit our website or mobile app 24 hours before your flight, enter your confirmation code, and you'll have your boarding pass in no time.", rougeL:38.7, cost:0.0011, lat:1.88 },
-      2:{ text:"You can check in online by visiting our website or mobile app and selecting \"Check In.\" Enter your booking reference and last name to access your reservation. Online check-in usually opens 24 hours before departure.", rougeL:44.1, cost:0.0009, lat:1.72 },
-      3:{ text:"Online check-in is available 24 hours before departure via our website or app. Enter your booking reference and last name, then select your seat and download your boarding pass.", rougeL:36.2, cost:0.0007, lat:1.58 },
+      0:{ text:"Most airlines allow online check-in starting 24 hours before departure through their website or mobile app. You'll need your booking reference and passport information. You can usually download a mobile boarding pass or print one at the airport. The exact process depends on your specific airline.", rougeL:21.3, f1:25.7, bleu:14.2, cost:0.0028, lat:3.94 },
+      1:{ text:"It's easy! Just visit our website or mobile app 24 hours before your flight, enter your confirmation code, and you'll have your boarding pass in no time.", rougeL:38.7, f1:42.1, bleu:26.8, cost:0.0011, lat:1.88 },
+      2:{ text:"You can check in online by visiting our website or mobile app and selecting \"Check In.\" Enter your booking reference and last name to access your reservation. Online check-in usually opens 24 hours before departure.", rougeL:44.1, f1:48.9, bleu:31.4, cost:0.0009, lat:1.72 },
+      3:{ text:"Online check-in is available 24 hours before departure via our website or app. Enter your booking reference and last name, then select your seat and download your boarding pass.", rougeL:36.2, f1:40.5, bleu:24.1, cost:0.0007, lat:1.58 },
     }
   },
   { id:3,
