@@ -1558,7 +1558,7 @@ const EVAL_DATA = [
 ];
 
 function EvalResults({ models, taskType, onNewEval, embedded }) {
-  const [layout, setLayout]     = useState("a");
+  const layout = "b";
   const [search, setSearch]     = useState("");
   const [sortVal, setSortVal]   = useState("default");
   const [filterVal, setFilterVal] = useState("all");
