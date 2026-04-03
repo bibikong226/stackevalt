@@ -1797,7 +1797,7 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
           const minVal = Math.min(...avgs.map(x=>x.avg));
           const range = (maxVal-minVal) || 1;
           return (
-            <div key={cfg.label} style={{ background:T.elev,border:`1px solid ${T.border}`,borderRadius:8,padding:"16px 18px" }}>
+            <div key={cfg.label} style={{ background:T.elev,border:`1px solid ${T.border}`,borderRadius:8,padding:"16px 18px",minWidth:240,flex:"0 0 240px" }}>
               <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14 }}>
                 <span style={{ fontSize:11,fontFamily:MONO,color:T.lo,textTransform:"uppercase",letterSpacing:"0.08em" }}>{cfg.label}</span>
                 <Badge label={cfg.badgeTx} color={cfg.badgeColor} />
