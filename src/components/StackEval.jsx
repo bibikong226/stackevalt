@@ -1627,10 +1627,8 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
   const LayoutB = () => (
     <div style={{ display:"flex",flexDirection:"column",gap:6 }}>
       {rows.map(row => {
-        const rW = getWinner(row,"rouge"), cW = getWinner(row,"cost"), lW = getWinner(row,"lat");
-        const maxR = Math.max(...modelOrder.map((_,i)=>getRow(row,i).rougeL));
-        const maxC = Math.max(...modelOrder.map((_,i)=>getRow(row,i).cost));
-        const maxL = Math.max(...modelOrder.map((_,i)=>getRow(row,i).lat));
+        const winners = {}; const maxes = {};
+        ["rouge","f1","bleu","cost","lat"].forEach(k => { winners[k]=getWinner(row,k); maxes[k]=Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(row,i),k))); });
         const exp = expandedRows.has(row.id);
         const toggleRow = () => setExpandedRows(p => { const n=new Set(p); n.has(row.id)?n.delete(row.id):n.add(row.id); return n; });
         return (
@@ -1643,7 +1641,7 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
                 {visModels.map(m => {
                   const mi = modelOrder.findIndex(x=>x.id===m.id);
                   const v = getRow(row,mi).rougeL;
-                  const isW = mi===rW && maxR>0;
+                  const isW = mi===winners.rouge && maxes.rouge>0;
                   return (
                     <span key={m.id} style={{ display:"inline-flex",alignItems:"center",gap:4,height:22,padding:"0 8px",borderRadius:4,fontFamily:MONO,fontSize:10,
                       border:`1px solid ${isW?T.mBlue.bd:T.border}`,background:isW?T.mBlue.bg:T.elev,color:isW?T.mBlue.tx:T.lo }}>
@@ -1661,31 +1659,30 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
                   {visModels.map(m => {
                     const mi = modelOrder.findIndex(x=>x.id===m.id);
                     const v = getRow(row,mi);
-                    const isRW=mi===rW, isCW=mi===cW, isLW=mi===lW;
-                    const rPct=maxR>0?v.rougeL/maxR*100:0, cPct=maxC>0?v.cost/maxC*100:0, lPct=maxL>0?v.lat/maxL*100:0;
                     return (
-                      <div key={m.id} style={{ padding:"16px 16px",borderRight:`1px solid ${T.borderS}`,background:isRW&&maxR>0?"rgba(59,130,246,0.03)":"transparent" }}>
+                      <div key={m.id} style={{ padding:"16px 16px",borderRight:`1px solid ${T.borderS}`,background:mi===winners.rouge&&maxes.rouge>0?"rgba(59,130,246,0.03)":"transparent" }}>
                         <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10 }}>
                           <div style={{ display:"flex",alignItems:"center",gap:6 }}>
                             <div style={{ width:2,height:"100%",minHeight:14,borderRadius:2,background:m.color,alignSelf:"stretch" }} />
                             <span style={{ fontSize:12,color:m.color,fontFamily:UI,fontWeight:500,opacity:0.85 }}>{m.name}</span>
                           </div>
                           <div style={{ display:"flex",gap:4,flexWrap:"wrap",justifyContent:"flex-end" }}>
-                            {isRW&&maxR>0 && <SmBadge color={T.mBlue} text="Best" />}
-                            {isCW&&visMetrics.find(x=>x.key==="cost") && <SmBadge color={T.mGreen} text="Cheap" />}
-                            {isLW&&visMetrics.find(x=>x.key==="lat") && <SmBadge color={T.mTeal} text="Fast" />}
+                            {mi===winners.rouge&&maxes.rouge>0 && <SmBadge color={T.mBlue} text="Best" />}
+                            {mi===winners.cost&&visMetrics.find(x=>x.key==="cost") && <SmBadge color={T.mGreen} text="Cheap" />}
+                            {mi===winners.lat&&visMetrics.find(x=>x.key==="lat") && <SmBadge color={T.mTeal} text="Fast" />}
                           </div>
                         </div>
                         <div style={{ fontSize:13,color:T.mid,lineHeight:1.6,marginBottom:12 }}>{v.text}</div>
                         <div style={{ borderTop:`1px solid ${T.borderS}`,paddingTop:10,display:"flex",flexDirection:"column",gap:6 }}>
                           {visMetrics.map(met => {
-                            const isW=met.key==="rouge"?isRW:met.key==="cost"?isCW:isLW;
-                            const val=met.key==="rouge"?v.rougeL:met.key==="cost"?v.cost:v.lat;
-                            const pct=met.key==="rouge"?rPct:met.key==="cost"?cPct:lPct;
+                            const isW=mi===winners[met.key];
+                            const val=getMetricVal(v, met.key);
+                            const mx=maxes[met.key];
+                            const pct=mx>0?val/mx*100:0;
                             return (
                               <div key={met.key} style={{ display:"flex",alignItems:"center",gap:6 }}>
                                 <span style={{ fontFamily:MONO,fontSize:10,color:T.lo,textTransform:"uppercase",letterSpacing:"0.06em",width:52,flexShrink:0 }}>{met.label}</span>
-                                <MiniBar pct={pct} color={m.color} dim={met.key==="rouge"&&!isW} />
+                                <MiniBar pct={pct} color={m.color} dim={(met.key==="rouge"||met.key==="f1"||met.key==="bleu")&&!isW} />
                                 <span style={{ fontFamily:MONO,fontSize:11,color:isW?T.hi:T.mid,minWidth:52,textAlign:"right",fontWeight:isW?500:400 }}>{fmtMetric(val,met.key)}</span>
                               </div>
                             );
