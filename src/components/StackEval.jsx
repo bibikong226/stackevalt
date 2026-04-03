@@ -2116,47 +2116,19 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
         </div>
       )}
 
-      {/* Layout switcher — styled to match Define Metrics tab style when embedded */}
-      <div style={{ background:embedded?T.elev:T.surface, borderBottom:`${embedded?"1px":"2px"} solid ${T.border}`,padding:"0 24px",display:"flex",alignItems:"center",gap:0,height:46,flexShrink:0 }}>
-        {embedded && (
-          <>
-            <span style={{ fontSize:11,fontWeight:600,color:T.lo,fontFamily:MONO,textTransform:"uppercase",letterSpacing:"0.08em",marginRight:16,whiteSpace:"nowrap" }}>View</span>
-          </>
-        )}
-        {!embedded && (
-          <span style={{ fontSize:10,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,fontFamily:MONO,marginRight:16,whiteSpace:"nowrap" }}>Layout</span>
-        )}
-        {[
-          { id:"a", label:"Synchronized Grid", desc:"all models side by side" },
-          { id:"b", label:"Row Focus",          desc:"expand to compare" },
-          { id:"c", label:"Output Focus",       desc:"outputs + metric columns" },
-        ].map(tab => (
-          <div key={tab.id} onClick={()=>setLayout(tab.id)} style={{
-            padding:"0 16px", height:"100%", display:"flex", alignItems:"center", gap:6, cursor:"pointer",
-            borderBottom:`2px solid ${layout===tab.id?T.blue:"transparent"}`, marginBottom:-1,
-            color:layout===tab.id?T.blueTxt:T.lo, transition:"all .15s", whiteSpace:"nowrap",
-          }}>
-            <span style={{ fontSize:13, fontWeight:layout===tab.id?500:400 }}>{tab.label}</span>
-            {!embedded && <span style={{ fontSize:11,color:T.lo,fontFamily:MONO }}>{tab.desc}</span>}
+      {/* Context chips bar */}
+      <div style={{ background:embedded?T.elev:T.surface, borderBottom:`1px solid ${T.border}`,padding:"0 24px",display:"flex",alignItems:"center",gap:6,height:46,flexShrink:0 }}>
+        {taskType && <Chip name={taskType.toUpperCase().replace("-","/")} />}
+        {models.slice(0,5).map((m,i) => (
+          <div key={m.id} style={{ display:"inline-flex",alignItems:"center",gap:5,height:20,padding:"0 7px",borderRadius:4,background:T.elev,border:`1px solid ${T.border}` }}>
+            <div style={{ width:6,height:6,borderRadius:2,background:MODEL_COLORS[i] }} />
+            <span style={{ fontSize:11,fontFamily:MONO,color:T.mid }}>{m.name.split(" ").slice(-2).join(" ")}</span>
           </div>
         ))}
-
-        {/* Context chips inline in embedded topbar */}
-        {embedded && (
-          <div style={{ marginLeft:"auto",display:"flex",alignItems:"center",gap:6 }}>
-            {taskType && <Chip name={taskType.toUpperCase().replace("-","/")} />}
-            {models.slice(0,5).map((m,i) => (
-              <div key={m.id} style={{ display:"inline-flex",alignItems:"center",gap:5,height:20,padding:"0 7px",borderRadius:4,background:T.elev,border:`1px solid ${T.border}` }}>
-                <div style={{ width:6,height:6,borderRadius:2,background:MODEL_COLORS[i] }} />
-                <span style={{ fontSize:11,fontFamily:MONO,color:T.mid }}>{m.name.split(" ").slice(-2).join(" ")}</span>
-              </div>
-            ))}
-            <div style={{ display:"flex",alignItems:"center",gap:5,fontFamily:MONO,fontSize:11,color:T.mTeal.tx,letterSpacing:"0.05em" }}>
-              <div style={{ width:6,height:6,borderRadius:"50%",background:T.mTeal.tx,animation:"blink 1.8s infinite" }} />
-              LIVE
-            </div>
-          </div>
-        )}
+        <div style={{ display:"flex",alignItems:"center",gap:5,fontFamily:MONO,fontSize:11,color:T.mTeal.tx,letterSpacing:"0.05em",marginLeft:"auto" }}>
+          <div style={{ width:6,height:6,borderRadius:"50%",background:T.mTeal.tx,animation:"blink 1.8s infinite" }} />
+          LIVE
+        </div>
       </div>
 
       {/* Leaders */}
