@@ -1788,7 +1788,7 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
         <span style={{ fontSize:12,textTransform:"uppercase",letterSpacing:"0.08em",color:T.mid,fontFamily:MONO,fontWeight:500 }}>Model Leaders</span>
         <span style={{ fontSize:11,color:T.lo,marginLeft:"auto",fontFamily:UI }}>Ordered by priority</span>
       </div>
-      <div style={{ display:"grid",gridTemplateColumns:`repeat(${LEADER_CFGS.length},1fr)`,gap:14 }}>
+      <div style={{ display:"flex",gap:14,overflowX:"auto",paddingBottom:4 }}>
         {LEADER_CFGS.map(cfg => {
           const avgs = modelOrder.map((m,i) => ({ m, i, avg: EVAL_DATA.reduce((s,r)=>s+cfg.getVal(r,i),0)/EVAL_DATA.length }));
           const sorted = [...avgs].sort((a,b) => cfg.higher?b.avg-a.avg:a.avg-b.avg);
@@ -1797,7 +1797,7 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
           const minVal = Math.min(...avgs.map(x=>x.avg));
           const range = (maxVal-minVal) || 1;
           return (
-            <div key={cfg.label} style={{ background:T.elev,border:`1px solid ${T.border}`,borderRadius:8,padding:"16px 18px" }}>
+            <div key={cfg.label} style={{ background:T.elev,border:`1px solid ${T.border}`,borderRadius:8,padding:"16px 18px",minWidth:240,flex:"0 0 240px" }}>
               <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14 }}>
                 <span style={{ fontSize:11,fontFamily:MONO,color:T.lo,textTransform:"uppercase",letterSpacing:"0.08em" }}>{cfg.label}</span>
                 <Badge label={cfg.badgeTx} color={cfg.badgeColor} />
