@@ -1781,23 +1781,6 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
   );
 
 
-
-            ].map(col => (
-              <th key={col.label} onClick={col.key?()=>setCSort(col.key):undefined} style={{
-                width:col.w,padding:"10px 12px",textAlign:"left",
-                fontSize:10,fontWeight:500,textTransform:"uppercase",letterSpacing:"0.08em",
-                color:cSort===col.key?T.blueTxt:T.lo,
-                borderBottom:`1px solid ${T.border}`,
-                fontFamily:MONO,cursor:col.key?"pointer":"default",
-              }}>{col.label}{cSort===col.key?" ↓":""}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map(row => {
-            const winners = {}; const maxes = {};
-            ["rouge","f1","bleu","cost","lat"].forEach(k => { winners[k]=getWinner(row,k); maxes[k]=Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(row,i),k))); });
-            return (
               <tr key={row.id} style={{ borderBottom:`1px solid ${T.borderS}` }}>
                 <td style={{ padding:"14px 12px",verticalAlign:"top" }}>
                   <span style={{ fontFamily:MONO,fontSize:11,color:T.lo }}>{row.id}</span>
