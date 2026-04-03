@@ -1558,7 +1558,7 @@ const EVAL_DATA = [
 ];
 
 function EvalResults({ models, taskType, onNewEval, embedded }) {
-  const [layout, setLayout]     = useState("a");
+  const layout = "b";
   const [search, setSearch]     = useState("");
   const [sortVal, setSortVal]   = useState("default");
   const [filterVal, setFilterVal] = useState("all");
@@ -1695,105 +1695,8 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
     </div>
   );
 
-  // ══════════════ LAYOUT A — SYNCHRONIZED GRID ═══════════════
-  const LayoutA = () => (
-    <div style={{ border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden" }}>
-      <div style={{ overflowX:"auto" }}>
-      <table style={{ width:"100%",borderCollapse:"collapse",minWidth:visModels.length*350+280 }}>
-        <thead>
-          <tr style={{ background:T.elev }}>
-            <th style={{ width:28,padding:"10px 12px",textAlign:"left",fontSize:10,fontWeight:500,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,borderBottom:`1px solid ${T.border}`,fontFamily:MONO }}>#</th>
-            <th style={{ minWidth:220,padding:"10px 12px",textAlign:"left",fontSize:10,fontWeight:500,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,borderBottom:`1px solid ${T.border}`,fontFamily:MONO }}>Input + Reference</th>
-            {visModels.map((m,ci) => (
-              <th key={m.id} style={{ padding:"10px 12px",textAlign:"left",fontSize:10,fontWeight:500,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,borderBottom:`1px solid ${T.border}`,borderLeft:`1px solid ${T.border}`,fontFamily:MONO,minWidth:300 }}>
-                <div style={{ display:"flex",alignItems:"center",gap:6 }}>
-                  <div style={{ width:7,height:7,borderRadius:2,background:m.color,flexShrink:0 }} />
-                  {m.name}
-                </div>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map(row => {
-            const modelIdxMap = visModels.map(m => modelOrder.findIndex(x=>x.id===m.id));
-            const winners = {}; const maxes = {};
-            ["rouge","f1","bleu","cost","lat"].forEach(k => { winners[k]=getWinner(row,k); maxes[k]=Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(row,i),k))); });
-            return (
-              <tr key={row.id} style={{ borderBottom:`1px solid ${T.borderS}` }}>
-                <td style={{ padding:"14px 12px",verticalAlign:"top" }}>
-                  <span style={{ fontFamily:MONO,fontSize:11,color:T.lo }}>{row.id}</span>
-                </td>
-                <td style={{ padding:"14px 12px",verticalAlign:"top",minWidth:220 }}>
-                  <div style={{ fontSize:14,color:T.hi,lineHeight:1.5,marginBottom:4 }}>{row.input}</div>
-                  <GoldenBlock text={row.golden} />
-                </td>
-                {visModels.map((m, ci) => {
-                  const mIdx = modelIdxMap[ci];
-                  const v = getRow(row, mIdx);
-                  return (
-                    <td key={m.id} style={{ padding:"14px 12px",verticalAlign:"top",borderLeft:`1px solid ${T.borderS}`,minWidth:300 }}>
-                      <div style={{ display:"flex",flexWrap:"wrap",gap:4,marginBottom:8,minHeight:20 }}>
-                        {mIdx===winners.rouge&&maxes.rouge>0 && <SmBadge color={T.mBlue} text="Best ROUGE-L" />}
-                        {mIdx===winners.cost&&visMetrics.find(x=>x.key==="cost") && <SmBadge color={T.mGreen} text="Cheapest" />}
-                        {mIdx===winners.lat&&visMetrics.find(x=>x.key==="lat") && <SmBadge color={T.mTeal} text="Fastest" />}
-                      </div>
-                      <div style={{ fontSize:13,color:T.mid,lineHeight:1.6,marginBottom:10 }}>{v.text}</div>
-                      <div style={{ display:"flex",flexDirection:"column",gap:5 }}>
-                        {visMetrics.map(met => {
-                          const isW = mIdx===winners[met.key];
-                          const val = getMetricVal(v, met.key);
-                          const mx = maxes[met.key];
-                          const pct = mx>0 ? val/mx*100 : 0;
-                          return (
-                            <div key={met.key} style={{ display:"flex",alignItems:"center",gap:6 }}>
-                              <span style={{ fontFamily:MONO,fontSize:9,color:T.lo,textTransform:"uppercase",letterSpacing:"0.06em",width:52,flexShrink:0 }}>{met.label}</span>
-                              <MiniBar pct={pct} color={m.color} dim={!isW&&(met.key==="rouge"||met.key==="f1"||met.key==="bleu")} />
-                              <span style={{ fontFamily:MONO,fontSize:11,color:isW?T.hi:T.mid,minWidth:50,fontWeight:isW?500:400 }}>{fmtMetric(val,met.key)}</span>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-          {/* Avg row */}
-          <tr style={{ background:T.elev,borderTop:`1px solid ${T.border}` }}>
-            <td style={{ padding:"10px 12px" }} />
-            <td style={{ padding:"10px 12px" }}>
-              <span style={{ fontFamily:MONO,fontSize:10,textTransform:"uppercase",letterSpacing:"0.07em",color:T.lo }}>Averages — {EVAL_DATA.length} rows</span>
-            </td>
-            {visModels.map((m, ci) => {
-              const mIdx = modelOrder.findIndex(x=>x.id===m.id);
-              const gW = (cfg) => { const avgs = modelOrder.map((_,i)=>({i,avg:EVAL_DATA.reduce((s,r)=>s+cfg.getVal(r,i),0)/EVAL_DATA.length})); return cfg.higher?avgs.reduce((a,b)=>b.avg>a.avg?b:a).i:avgs.reduce((a,b)=>b.avg<a.avg?b:a).i; };
-              return (
-                <td key={m.id} style={{ padding:"10px 12px",verticalAlign:"top",borderLeft:`1px solid ${T.border}` }}>
-                  {visMetrics.map(met => {
-                    const cfgMap = {rouge:"accuracy",f1:"f1 score",bleu:"bleu",cost:"cost",lat:"speed"};
-                    const cfg = LEADER_CFGS.find(c=>c.label.toLowerCase()===cfgMap[met.key]);
-                    if (!cfg) return null;
-                    const avg = EVAL_DATA.reduce((s,r)=>s+cfg.getVal(r,mIdx),0)/EVAL_DATA.length;
-                    const isW = gW(cfg)===mIdx;
-                    return (
-                      <div key={met.key} style={{ display:"flex",alignItems:"center",gap:6,marginBottom:4,fontFamily:MONO,fontSize:11 }}>
-                        <span style={{ color:T.lo,width:52 }}>{met.label}</span>
-                        <span style={{ color:isW?T.hi:T.mid,fontWeight:isW?500:400 }}>{fmtMetric(avg,met.key)}</span>
-                        {isW && <SmBadge color={cfg.badgeColor} text="avg best" />}
-                      </div>
-                    );
-                  })}
-                </td>
-              );
-            })}
-          </tr>
-        </tbody>
-      </table>
-      </div>
-    </div>
-  );
+
+
 
   // ══════════════ LAYOUT B — ROW FOCUS ACCORDION ════════════════
   const LayoutB = () => (
@@ -1877,134 +1780,6 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
     </div>
   );
 
-  // ══════════════ LAYOUT C — OUTPUT FOCUS TABLE ════════════════
-  const [cSort, setCSort] = useState("rouge-desc");
-
-  const LayoutC = () => (
-    <div style={{ border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden" }}>
-      <div style={{ overflowX:"auto" }}>
-      <table style={{ width:"100%",borderCollapse:"collapse",minWidth:visModels.length*120+500 }}>
-        <thead>
-          <tr style={{ background:T.elev }}>
-            {[
-              { w:28, label:"#", key:null },
-              { w:200, label:"Input + Reference", key:null },
-              { w:"44%", label:"Outputs", key:null },
-              ...visMetrics.map(m => ({ w:90, label:m.label, key:(m.key==="rouge"||m.key==="f1"||m.key==="bleu")?m.key+"-desc":m.key==="cost"?"cost-asc":"lat-asc" }))
-            ].map(col => (
-              <th key={col.label} onClick={col.key?()=>setCSort(col.key):undefined} style={{
-                width:col.w,padding:"10px 12px",textAlign:"left",
-                fontSize:10,fontWeight:500,textTransform:"uppercase",letterSpacing:"0.08em",
-                color:cSort===col.key?T.blueTxt:T.lo,
-                borderBottom:`1px solid ${T.border}`,
-                fontFamily:MONO,cursor:col.key?"pointer":"default",
-              }}>{col.label}{cSort===col.key?" ↓":""}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map(row => {
-            const winners = {}; const maxes = {};
-            ["rouge","f1","bleu","cost","lat"].forEach(k => { winners[k]=getWinner(row,k); maxes[k]=Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(row,i),k))); });
-            return (
-              <tr key={row.id} style={{ borderBottom:`1px solid ${T.borderS}` }}>
-                <td style={{ padding:"14px 12px",verticalAlign:"top" }}>
-                  <span style={{ fontFamily:MONO,fontSize:11,color:T.lo }}>{row.id}</span>
-                </td>
-                <td style={{ padding:"14px 12px",verticalAlign:"top" }}>
-                  <div style={{ fontSize:14,color:T.hi,lineHeight:1.5 }}>{row.input}</div>
-                  <GoldenBlock text={row.golden} />
-                </td>
-                {/* Stacked outputs */}
-                <td style={{ padding:"0",verticalAlign:"top",minWidth:300 }}>
-                  {visModels.map(m => {
-                    const mi=modelOrder.findIndex(x=>x.id===m.id);
-                    const v=getRow(row,mi);
-                    return (
-                      <div key={m.id} style={{ display:"flex",gap:10,padding:"12px 12px",borderBottom:`1px solid ${T.borderS}` }}>
-                        <div style={{ width:2,borderRadius:2,flexShrink:0,alignSelf:"stretch",minHeight:14,background:m.color }} />
-                        <div style={{ flex:1,minWidth:0 }}>
-                          <div style={{ display:"flex",alignItems:"center",gap:6,marginBottom:7,flexWrap:"wrap" }}>
-                            <span style={{ fontFamily:MONO,fontSize:10,color:m.color,textTransform:"uppercase",letterSpacing:"0.06em" }}>{m.name}</span>
-                            {mi===winners.rouge&&maxes.rouge>0 && <SmBadge color={T.mBlue} text="Best ROUGE-L" />}
-                            {mi===winners.cost&&visMetrics.find(x=>x.key==="cost") && <SmBadge color={T.mGreen} text="Cheapest" />}
-                            {mi===winners.lat&&visMetrics.find(x=>x.key==="lat") && <SmBadge color={T.mTeal} text="Fastest" />}
-                          </div>
-                          <div style={{ fontSize:13,color:T.mid,lineHeight:1.6 }}>{v.text}</div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </td>
-                {/* Stacked metric values per metric column */}
-                {visMetrics.map(met => {
-                  const maxVal = maxes[met.key];
-                  const isWIdx = winners[met.key];
-                  const isHigher = met.key==="rouge"||met.key==="f1"||met.key==="bleu";
-                  const badgeColor = isHigher?T.mBlue:met.key==="cost"?T.mGreen:T.mTeal;
-                  return (
-                    <td key={met.key} style={{ padding:"0",verticalAlign:"top",minWidth:100 }}>
-                      {visModels.map(m => {
-                        const mi=modelOrder.findIndex(x=>x.id===m.id);
-                        const v=getRow(row,mi);
-                        const val=getMetricVal(v, met.key);
-                        const pct=maxVal>0?val/maxVal*100:0;
-                        const isW=mi===isWIdx;
-                        const winBadge = isW&&(isHigher?maxVal>0:true)
-                          ? <SmBadge color={badgeColor} text="best" />
-                          : null;
-                        return (
-                          <div key={m.id} style={{ padding:"12px 12px",borderBottom:`1px solid ${T.borderS}`,display:"flex",flexDirection:"column",gap:3 }}>
-                            <div style={{ display:"flex",alignItems:"center",gap:5 }}>
-                              <div style={{ width:7,height:7,borderRadius:2,flexShrink:0,background:m.color }} />
-                              <span style={{ fontFamily:MONO,fontSize:13,color:isW?T.hi:T.mid,fontWeight:isW?600:400 }}>{fmtMetric(val,met.key)}</span>
-                              {winBadge}
-                            </div>
-                            <div style={{ height:4,background:T.borderS,borderRadius:2,overflow:"hidden" }}>
-                              <div style={{ height:"100%",borderRadius:2,background:m.color,opacity:isW||!isHigher?1:0.25,width:`${Math.max(pct,isHigher?0:4)}%`,transition:"width .4s" }} />
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-          {/* Avg row */}
-          <tr style={{ background:T.elev,borderTop:`1px solid ${T.border}` }}>
-            <td style={{ padding:"10px 12px" }} />
-            <td style={{ padding:"10px 12px" }}>
-              <span style={{ fontFamily:MONO,fontSize:10,textTransform:"uppercase",letterSpacing:"0.07em",color:T.lo }}>Averages — {EVAL_DATA.length} rows</span>
-            </td>
-            <td style={{ padding:"10px 12px" }} />
-            {visMetrics.map(met => {
-              const cfgMap = {rouge:"accuracy",f1:"f1 score",bleu:"bleu",cost:"cost",lat:"speed"};
-              const cfg = LEADER_CFGS.find(c=>c.label.toLowerCase()===cfgMap[met.key]);
-              return (
-                <td key={met.key} style={{ padding:"10px 12px" }}>
-                  {visModels.map(m => {
-                    const mi=modelOrder.findIndex(x=>x.id===m.id);
-                    const avg=EVAL_DATA.reduce((s,r)=>s+cfg.getVal(r,mi),0)/EVAL_DATA.length;
-                    const isW=globalWinner(cfg).i===mi;
-                    return (
-                      <div key={m.id} style={{ display:"flex",alignItems:"center",gap:5,marginBottom:4 }}>
-                        <div style={{ width:6,height:6,borderRadius:1.5,background:m.color }} />
-                        <span style={{ fontFamily:MONO,fontSize:11,color:isW?T.hi:T.mid,fontWeight:isW?500:400 }}>{fmtMetric(avg,met.key)}</span>
-                        {isW && <SmBadge color={cfg.badgeColor} text="avg" />}
-                      </div>
-                    );
-                  })}
-                </td>
-              );
-            })}
-          </tr>
-        </tbody>
-      </table>
-      </div>
-    </div>
-  );
 
   // ── Leaders panel ─────────────────────────────────────────
   const LeadersPanel = () => (
@@ -2116,47 +1891,19 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
         </div>
       )}
 
-      {/* Layout switcher — styled to match Define Metrics tab style when embedded */}
-      <div style={{ background:embedded?T.elev:T.surface, borderBottom:`${embedded?"1px":"2px"} solid ${T.border}`,padding:"0 24px",display:"flex",alignItems:"center",gap:0,height:46,flexShrink:0 }}>
-        {embedded && (
-          <>
-            <span style={{ fontSize:11,fontWeight:600,color:T.lo,fontFamily:MONO,textTransform:"uppercase",letterSpacing:"0.08em",marginRight:16,whiteSpace:"nowrap" }}>View</span>
-          </>
-        )}
-        {!embedded && (
-          <span style={{ fontSize:10,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,fontFamily:MONO,marginRight:16,whiteSpace:"nowrap" }}>Layout</span>
-        )}
-        {[
-          { id:"a", label:"Synchronized Grid", desc:"all models side by side" },
-          { id:"b", label:"Row Focus",          desc:"expand to compare" },
-          { id:"c", label:"Output Focus",       desc:"outputs + metric columns" },
-        ].map(tab => (
-          <div key={tab.id} onClick={()=>setLayout(tab.id)} style={{
-            padding:"0 16px", height:"100%", display:"flex", alignItems:"center", gap:6, cursor:"pointer",
-            borderBottom:`2px solid ${layout===tab.id?T.blue:"transparent"}`, marginBottom:-1,
-            color:layout===tab.id?T.blueTxt:T.lo, transition:"all .15s", whiteSpace:"nowrap",
-          }}>
-            <span style={{ fontSize:13, fontWeight:layout===tab.id?500:400 }}>{tab.label}</span>
-            {!embedded && <span style={{ fontSize:11,color:T.lo,fontFamily:MONO }}>{tab.desc}</span>}
+      {/* Context chips bar */}
+      <div style={{ background:embedded?T.elev:T.surface, borderBottom:`1px solid ${T.border}`,padding:"0 24px",display:"flex",alignItems:"center",gap:6,height:46,flexShrink:0 }}>
+        {taskType && <Chip name={taskType.toUpperCase().replace("-","/")} />}
+        {models.slice(0,5).map((m,i) => (
+          <div key={m.id} style={{ display:"inline-flex",alignItems:"center",gap:5,height:20,padding:"0 7px",borderRadius:4,background:T.elev,border:`1px solid ${T.border}` }}>
+            <div style={{ width:6,height:6,borderRadius:2,background:MODEL_COLORS[i] }} />
+            <span style={{ fontSize:11,fontFamily:MONO,color:T.mid }}>{m.name.split(" ").slice(-2).join(" ")}</span>
           </div>
         ))}
-
-        {/* Context chips inline in embedded topbar */}
-        {embedded && (
-          <div style={{ marginLeft:"auto",display:"flex",alignItems:"center",gap:6 }}>
-            {taskType && <Chip name={taskType.toUpperCase().replace("-","/")} />}
-            {models.slice(0,5).map((m,i) => (
-              <div key={m.id} style={{ display:"inline-flex",alignItems:"center",gap:5,height:20,padding:"0 7px",borderRadius:4,background:T.elev,border:`1px solid ${T.border}` }}>
-                <div style={{ width:6,height:6,borderRadius:2,background:MODEL_COLORS[i] }} />
-                <span style={{ fontSize:11,fontFamily:MONO,color:T.mid }}>{m.name.split(" ").slice(-2).join(" ")}</span>
-              </div>
-            ))}
-            <div style={{ display:"flex",alignItems:"center",gap:5,fontFamily:MONO,fontSize:11,color:T.mTeal.tx,letterSpacing:"0.05em" }}>
-              <div style={{ width:6,height:6,borderRadius:"50%",background:T.mTeal.tx,animation:"blink 1.8s infinite" }} />
-              LIVE
-            </div>
-          </div>
-        )}
+        <div style={{ display:"flex",alignItems:"center",gap:5,fontFamily:MONO,fontSize:11,color:T.mTeal.tx,letterSpacing:"0.05em",marginLeft:"auto" }}>
+          <div style={{ width:6,height:6,borderRadius:"50%",background:T.mTeal.tx,animation:"blink 1.8s infinite" }} />
+          LIVE
+        </div>
       </div>
 
       {/* Leaders */}
@@ -2209,9 +1956,7 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
 
       {/* Content area */}
       <div style={{ padding:"16px 24px 32px", flex:embedded?undefined:1 }}>
-        {layout==="a" && <LayoutA />}
-        {layout==="b" && <LayoutB />}
-        {layout==="c" && <LayoutC />}
+        <LayoutB />
       </div>
     </div>
   );
