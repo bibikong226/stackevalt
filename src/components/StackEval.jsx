@@ -595,7 +595,7 @@ Score (0-1):
         {/* Footer */}
         <div style={{ padding:"12px 20px",borderTop:`1px solid ${T.border}`,display:"flex",gap:8,justifyContent:"flex-end",flexShrink:0 }}>
           <Btn onClick={onClose} variant="ghost">Cancel</Btn>
-          <Btn onClick={save}>Save Evaluator</Btn>
+          <Btn onClick={save}>Save Custom Metrics</Btn>
         </div>
       </div>
     </div>
@@ -1444,9 +1444,15 @@ function Step5({ selModels, challenger, metrics, taskType, onBack }) {
   const parseCSV = (text) => {
     const lines = text.trim().split(/\r?\n/);
     if (lines.length < 2) return;
-    const cols = lines[0].split(",").map(c => c.trim().replace(/^"|"$/g, ""));
+    const rawCols = lines[0].split(",").map(c => c.trim().replace(/^"|"$/g, ""));
+    const colMap = rawCols.reduce((acc, col) => {
+      const key = col.toLowerCase();
+      if (key === "input") acc.input = col;
+      if (key === "golden_output" || key === "output") acc.output = col;
+      return acc;
+    }, {});
+    const previewCols = ["input", "golden_output"];
     const rows = lines.slice(1, 6).map(line => {
-      // handle quoted fields
       const vals = [];
       let cur = "", inQ = false;
       for (let i = 0; i < line.length; i++) {
@@ -1456,11 +1462,14 @@ function Step5({ selModels, challenger, metrics, taskType, onBack }) {
         else { cur += ch; }
       }
       vals.push(cur.trim());
-      const obj = {};
-      cols.forEach((c, i) => { obj[c] = vals[i] ?? ""; });
-      return obj;
+      const source = {};
+      rawCols.forEach((c, i) => { source[c] = vals[i] ?? ""; });
+      return {
+        input: source[colMap.input] ?? "",
+        golden_output: source[colMap.output] ?? "",
+      };
     });
-    setCsvColumns(cols);
+    setCsvColumns(previewCols);
     setCsvRows(rows);
   };
 
@@ -1498,7 +1507,7 @@ function Step5({ selModels, challenger, metrics, taskType, onBack }) {
 
       {/* Evaluation Configuration */}
       <Card style={{ marginBottom:20 }}>
-        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:24 }}>
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:24 }}>
           <div>
             <div style={{ fontSize:11,fontWeight:700,color:T.lo,letterSpacing:"0.07em",textTransform:"uppercase",fontFamily:UI,marginBottom:10 }}>Task Type</div>
             <div style={{ position:"relative" }}>
@@ -1519,6 +1528,17 @@ function Step5({ selModels, challenger, metrics, taskType, onBack }) {
               {extraCount > 0 && <span style={{ fontSize:12,color:T.mid,fontFamily:UI,alignSelf:"center" }}>+{extraCount} more</span>}
             </div>
             <button onClick={()=>{}} style={{ background:"none",border:"none",cursor:"pointer",color:T.blueTxt,fontSize:13,fontFamily:UI,padding:0 }}>Edit metrics →</button>
+          </div>
+          <div>
+            <div style={{ fontSize:11,fontWeight:700,color:T.lo,letterSpacing:"0.07em",textTransform:"uppercase",fontFamily:UI,marginBottom:10 }}>Selected Models</div>
+            <div style={{ display:"flex",flexWrap:"wrap",gap:8 }}>
+              {testModels.map((m, i) => (
+                <div key={m.id} style={{ display:"inline-flex",alignItems:"center",gap:8,padding:"7px 12px",background:T.elev,border:`1px solid ${T.border}`,borderRadius:8 }}>
+                  <div style={{ width:7,height:7,borderRadius:2,background:MODEL_COLORS[i],flexShrink:0 }} />
+                  <span style={{ fontSize:13,fontWeight:500,color:T.hi,fontFamily:UI }}>{m.name}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </Card>
