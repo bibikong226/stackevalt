@@ -1359,10 +1359,10 @@ const EVAL_DATA = [
     input:"Can I change my flight after booking?",
     golden:"Yes, flight changes can be made online, through our app, or by calling us. Flexible and business fares usually allow free changes, while basic economy tickets may be more limited. Any fare difference will apply at the time of the change.",
     outputs:{
-      0:{ text:"This depends entirely on your airline and the type of fare you purchased. Some airlines allow free changes, while others charge fees that can range from $50–$200+ depending on the route. Non-refundable fares typically have stricter change policies.", rougeL:12.1, cost:0.0034, lat:4.55 },
-      1:{ text:"Yes, you can! Changes depend on your ticket type. Visit \"Manage Booking\" to see your options; please note that fare differences or change fees may apply.", rougeL:29.4, cost:0.0014, lat:2.11 },
-      2:{ text:"Yes, most tickets allow changes, though change fees or fare differences may apply depending on your ticket type. You can modify your booking through \"Manage Booking\" on our website or contact customer support.", rougeL:37.8, cost:0.0009, lat:1.93 },
-      3:{ text:"Flight changes are possible for most fare types. Flexible fares are free to change; basic economy may have restrictions. Any price difference will be collected at the time of modification.", rougeL:31.5, cost:0.0007, lat:1.71 },
+      0:{ text:"This depends entirely on your airline and the type of fare you purchased. Some airlines allow free changes, while others charge fees that can range from $50–$200+ depending on the route. Non-refundable fares typically have stricter change policies.", rougeL:12.1, f1:15.8, bleu:8.3, cost:0.0034, lat:4.55 },
+      1:{ text:"Yes, you can! Changes depend on your ticket type. Visit \"Manage Booking\" to see your options; please note that fare differences or change fees may apply.", rougeL:29.4, f1:34.2, bleu:20.1, cost:0.0014, lat:2.11 },
+      2:{ text:"Yes, most tickets allow changes, though change fees or fare differences may apply depending on your ticket type. You can modify your booking through \"Manage Booking\" on our website or contact customer support.", rougeL:37.8, f1:41.5, bleu:25.9, cost:0.0009, lat:1.93 },
+      3:{ text:"Flight changes are possible for most fare types. Flexible fares are free to change; basic economy may have restrictions. Any price difference will be collected at the time of modification.", rougeL:31.5, f1:36.8, bleu:22.4, cost:0.0007, lat:1.71 },
     }
   },
   { id:4,
