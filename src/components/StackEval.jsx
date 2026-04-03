@@ -1507,7 +1507,7 @@ function Step5({ selModels, challenger, metrics, taskType, onBack }) {
 
       {/* Evaluation Configuration */}
       <Card style={{ marginBottom:20 }}>
-        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:24 }}>
+        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:24 }}>
           <div>
             <div style={{ fontSize:11,fontWeight:700,color:T.lo,letterSpacing:"0.07em",textTransform:"uppercase",fontFamily:UI,marginBottom:10 }}>Task Type</div>
             <div style={{ position:"relative" }}>
@@ -1528,6 +1528,17 @@ function Step5({ selModels, challenger, metrics, taskType, onBack }) {
               {extraCount > 0 && <span style={{ fontSize:12,color:T.mid,fontFamily:UI,alignSelf:"center" }}>+{extraCount} more</span>}
             </div>
             <button onClick={()=>{}} style={{ background:"none",border:"none",cursor:"pointer",color:T.blueTxt,fontSize:13,fontFamily:UI,padding:0 }}>Edit metrics →</button>
+          </div>
+          <div>
+            <div style={{ fontSize:11,fontWeight:700,color:T.lo,letterSpacing:"0.07em",textTransform:"uppercase",fontFamily:UI,marginBottom:10 }}>Selected Models</div>
+            <div style={{ display:"flex",flexWrap:"wrap",gap:8 }}>
+              {testModels.map((m, i) => (
+                <div key={m.id} style={{ display:"inline-flex",alignItems:"center",gap:8,padding:"7px 12px",background:T.elev,border:`1px solid ${T.border}`,borderRadius:8 }}>
+                  <div style={{ width:7,height:7,borderRadius:2,background:MODEL_COLORS[i],flexShrink:0 }} />
+                  <span style={{ fontSize:13,fontWeight:500,color:T.hi,fontFamily:UI }}>{m.name}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </Card>
