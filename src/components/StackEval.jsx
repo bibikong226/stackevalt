@@ -1780,14 +1780,8 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
     </div>
   );
 
-  // ══════════════ LAYOUT C — OUTPUT FOCUS TABLE ════════════════
-  const [cSort, setCSort] = useState("rouge-desc");
 
-  const LayoutC = () => (
-    <div style={{ border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden" }}>
-      <div style={{ overflowX:"auto" }}>
-      <table style={{ width:"100%",borderCollapse:"collapse",minWidth:visModels.length*120+500 }}>
-        <thead>
+
           <tr style={{ background:T.elev }}>
             {[
               { w:28, label:"#", key:null },
