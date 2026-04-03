@@ -152,10 +152,10 @@ const TASK_OPTIONS = [
 ];
 
 const TASK_EXAMPLES = {
-  qa:           { input:"What is the capital of France?", output:"The capital of France is Paris." },
-  summarization:{ input:"The quarterly earnings report shows significant growth across all major product lines. Revenue increased 23% YoY, driven by strong cloud services performance. Operating expenses grew only 12%.", output:"Quarterly earnings showed 23% revenue growth driven by cloud services. Operating expenses grew 12%." },
-  "rag-qa":     { input:"How long do I have to take parental leave after my child is born?", output:"You have 12 months from the date of your child's birth or adoption." },
-  locomo:       { input:"Who is Alice Chen's manager's boss and what is their title?", output:"Emma Thompson, VP Engineering." },
+  qa:           { input:"What is your baggage allowance for economy class?", output:"Economy passengers can bring one carry-on bag (up to 22x14x9 inches, 15 lbs) and one personal item. For checked bags, domestic flights allow one bag up to 50 lbs for a fee; many international routes include one free checked bag." },
+  summarization:{ input:"If your flight is cancelled, we'll automatically rebook you on the next available flight and notify you by email or SMS. You can also opt for a full refund to your original payment method. If an overnight stay is needed due to a cancellation on our end, hotel and meal vouchers may be provided.", output:"Cancelled flights are automatically rebooked. Full refunds or hotel/meal vouchers available depending on circumstances." },
+  "rag-qa":     { input:"How do I check in for my flight online?", output:"Online check-in opens 24 hours before departure. Head to our website or app, select 'Check-In,' and enter your confirmation number and last name." },
+  locomo:       { input:"Can I bring my pet on the flight?", output:"Small dogs and cats can travel in the cabin in an approved carrier that fits under the seat, subject to availability and a pet fee." },
 };
 
 const INIT_METRICS = [
