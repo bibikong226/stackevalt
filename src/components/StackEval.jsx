@@ -2054,35 +2054,97 @@ function Step5({ selModels, challenger, metrics, taskType, onBack }) {
   const [csvRows, setCsvRows]       = useState([]);
 
   // Mock preview rows from airline dataset (PDF)
-  const MOCK_CSV_COLUMNS = ["input", "golden_output"];
+  const MOCK_CSV_COLUMNS = ["input", "output"];
   const MOCK_CSV_ROWS = [
-    { input: "What is your baggage allowance for economy class?", golden_output: "Economy passengers can bring one carry-on bag (up to 22x14x9 inches, 15 lbs) and one personal item. For checked bags, domestic flights allow one bag up to 50 lbs for a fee; many international routes include one free checked bag." },
-    { input: "How do I check in for my flight online?", golden_output: "Online check-in opens 24 hours before departure. Head to our website or app, select 'Check-In,' and enter your confirmation number and last name. From there you can pick your seat, add baggage, and grab your boarding pass." },
-    { input: "Can I change my flight after booking?", golden_output: "Yes, flight changes can be made online, through our app, or by calling us. Flexible and business fares usually allow free changes, while basic economy tickets may be more limited. Any fare difference will apply at the time of the change." },
-    { input: "What happens if my flight is cancelled?", golden_output: "If your flight is cancelled, we'll automatically rebook you on the next available flight and notify you by email or SMS. You can also opt for a full refund to your original payment method." },
-    { input: "How early should I arrive at the airport?", golden_output: "We recommend arriving at least 2 hours before domestic flights and 3 hours before international flights. This gives you comfortable time for check-in, bag drop, and security." },
+    { input: "What is your baggage allowance for economy class?", output: "Economy passengers can bring one carry-on bag (up to 22x14x9 inches, 15 lbs) and one personal item. For checked bags, domestic flights allow one bag up to 50 lbs for a fee; many international routes include one free checked bag." },
+    { input: "How do I check in for my flight online?", output: "Online check-in opens 24 hours before departure. Head to our website or app, select 'Check-In,' and enter your confirmation number and last name. From there you can pick your seat, add baggage, and grab your boarding pass." },
+    { input: "Can I change my flight after booking?", output: "Yes, flight changes can be made online, through our app, or by calling us. Flexible and business fares usually allow free changes, while basic economy tickets may be more limited. Any fare difference will apply at the time of the change." },
+    { input: "What happens if my flight is cancelled?", output: "If your flight is cancelled, we'll automatically rebook you on the next available flight and notify you by email or SMS. You can also opt for a full refund to your original payment method." },
+    { input: "How early should I arrive at the airport?", output: "We recommend arriving at least 2 hours before domestic flights and 3 hours before international flights. This gives you comfortable time for check-in, bag drop, and security." },
   ];
 
+  const normalizeHeader = (value = "") => value
+    .toLowerCase()
+    .replace(/^\ufeff/, "")
+    .trim()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "");
+
+  const INPUT_COLUMN_ALIASES = ["input", "prompt", "question", "query", "request", "instruction", "user_input"];
+  const OUTPUT_COLUMN_ALIASES = ["output", "golden_output", "golden", "expected_output", "expected_answer", "reference_output", "reference_answer", "reference", "answer", "response", "target", "ground_truth", "groundtruth"];
+
   const parseCSV = (text) => {
-    const lines = text.trim().split(/\r?\n/);
-    if (lines.length < 2) return;
-    const cols = lines[0].split(",").map(c => c.trim().replace(/^"|"$/g, ""));
-    const rows = lines.slice(1, 6).map(line => {
-      // handle quoted fields
-      const vals = [];
-      let cur = "", inQ = false;
-      for (let i = 0; i < line.length; i++) {
-        const ch = line[i];
-        if (ch === '"') { inQ = !inQ; }
-        else if (ch === "," && !inQ) { vals.push(cur.trim()); cur = ""; }
-        else { cur += ch; }
+    const parsedRows = [];
+    let row = [];
+    let cell = "";
+    let inQuotes = false;
+
+    const pushCell = () => {
+      row.push(cell.trim());
+      cell = "";
+    };
+
+    const pushRow = () => {
+      if (row.some(value => String(value ?? "").trim() !== "")) parsedRows.push(row);
+      row = [];
+    };
+
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+
+      if (ch === '"') {
+        if (inQuotes && text[i + 1] === '"') {
+          cell += '"';
+          i++;
+        } else {
+          inQuotes = !inQuotes;
+        }
+        continue;
       }
-      vals.push(cur.trim());
-      const obj = {};
-      cols.forEach((c, i) => { obj[c] = vals[i] ?? ""; });
-      return obj;
-    });
-    setCsvColumns(cols);
+
+      if (ch === "," && !inQuotes) {
+        pushCell();
+        continue;
+      }
+
+      if ((ch === "\n" || ch === "\r") && !inQuotes) {
+        if (ch === "\r" && text[i + 1] === "\n") i++;
+        pushCell();
+        pushRow();
+        continue;
+      }
+
+      cell += ch;
+    }
+
+    if (cell.length > 0 || row.length > 0) {
+      pushCell();
+      pushRow();
+    }
+
+    if (parsedRows.length < 2) {
+      setCsvColumns([]);
+      setCsvRows([]);
+      return;
+    }
+
+    const headers = parsedRows[0].map(col => col.replace(/^"|"$/g, "").trim());
+    const normalizedHeaders = headers.map(normalizeHeader);
+    const inputIndex = normalizedHeaders.findIndex(col => INPUT_COLUMN_ALIASES.includes(col));
+    const outputIndex = normalizedHeaders.findIndex(col => OUTPUT_COLUMN_ALIASES.includes(col));
+    const resolvedInputIndex = inputIndex >= 0 ? inputIndex : 0;
+    const resolvedOutputIndex = outputIndex >= 0 ? outputIndex : (headers.length > 1 ? (resolvedInputIndex === 0 ? 1 : 0) : 0);
+
+    const rows = parsedRows
+      .slice(1)
+      .filter(values => values.some(value => String(value ?? "").trim() !== ""))
+      .slice(0, 5)
+      .map(values => ({
+        input: values[resolvedInputIndex] ?? "",
+        output: values[resolvedOutputIndex] ?? "",
+      }));
+
+    setCsvColumns(["input", "output"]);
     setCsvRows(rows);
   };
 
@@ -2211,7 +2273,7 @@ function Step5({ selModels, challenger, metrics, taskType, onBack }) {
           <div>
             <div style={{ display:"grid",gridTemplateColumns:"1fr auto",gap:12,alignItems:"end",marginBottom: (fileName || true) ? 16 : 0 }}>
               <div>
-                <SubLabel>CSV File (requires: input, golden_output)</SubLabel>
+                <SubLabel>CSV File (requires: input, output)</SubLabel>
                 <div onClick={()=>document.getElementById("csv-up").click()} style={{ border:`1px dashed ${fileName ? T.blue : T.border}`,borderRadius:8,padding:"16px 18px",cursor:"pointer",display:"flex",alignItems:"center",gap:12 }}
                   onMouseEnter={e=>e.currentTarget.style.borderColor=T.blue} onMouseLeave={e=>e.currentTarget.style.borderColor=fileName?T.blue:T.border}>
                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 12V4M5 8l4-4 4 4M2 14h14" stroke={T.blue} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
@@ -2237,8 +2299,8 @@ function Step5({ selModels, challenger, metrics, taskType, onBack }) {
                   </div>
                   <div style={{ border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden" }}>
                     {/* Header */}
-                    <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", background:T.elev, borderBottom:`1px solid ${T.border}` }}>
-                      {["input","golden_output"].map((col,i) => (
+                      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", background:T.elev, borderBottom:`1px solid ${T.border}` }}>
+                       {cols.map((col,i) => (
                         <div key={col} style={{ padding:"8px 12px",fontSize:11,fontWeight:700,color:T.lo,fontFamily:UI,letterSpacing:"0.07em",textTransform:"uppercase", borderRight: i===0 ? `1px solid ${T.border}` : "none" }}>
                           {col}
                         </div>
@@ -2247,7 +2309,7 @@ function Step5({ selModels, challenger, metrics, taskType, onBack }) {
                     {/* Rows */}
                     {rows.map((row, ri) => (
                       <div key={ri} style={{ display:"grid", gridTemplateColumns:"1fr 1fr", borderBottom: ri < rows.length-1 ? `1px solid ${T.borderS}` : "none", background: ri%2===0 ? "transparent" : "rgba(255,255,255,0.01)" }}>
-                        {["input","golden_output"].map((col,i) => (
+                        {cols.map((col,i) => (
                           <div key={col} style={{ padding:"9px 12px",fontSize:12,color:T.mid,fontFamily:UI,lineHeight:1.5, borderRight: i===0 ? `1px solid ${T.borderS}` : "none",overflow:"hidden",display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical" }}>
                             {row[col] ?? ""}
                           </div>
