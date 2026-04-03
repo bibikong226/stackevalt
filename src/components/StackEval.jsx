@@ -1729,10 +1729,8 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
         </thead>
         <tbody>
           {rows.map(row => {
-            const rW=getWinner(row,"rouge"),cW=getWinner(row,"cost"),lW=getWinner(row,"lat");
-            const maxR=Math.max(...modelOrder.map((_,i)=>getRow(row,i).rougeL));
-            const maxC=Math.max(...modelOrder.map((_,i)=>getRow(row,i).cost));
-            const maxL=Math.max(...modelOrder.map((_,i)=>getRow(row,i).lat));
+            const winners = {}; const maxes = {};
+            ["rouge","f1","bleu","cost","lat"].forEach(k => { winners[k]=getWinner(row,k); maxes[k]=Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(row,i),k))); });
             return (
               <tr key={row.id} style={{ borderBottom:`1px solid ${T.borderS}` }}>
                 <td style={{ padding:"14px 12px",verticalAlign:"top" }}>
