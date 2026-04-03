@@ -1435,10 +1435,10 @@ function Step5({ selModels, challenger, metrics, taskType, onBack }) {
   const MOCK_CSV_COLUMNS = ["input", "golden_output"];
   const MOCK_CSV_ROWS = [
     { input: "What is your baggage allowance for economy class?", golden_output: "Economy passengers can bring one carry-on bag (up to 22x14x9 inches, 15 lbs) and one personal item. For checked bags, domestic flights allow one bag up to 50 lbs for a fee; many international routes include one free checked bag." },
-    { input: "How do I check in for my flight online?", golden_output: "Online check-in opens 24 hours before departure. Head to our website or app, select 'Check-In,' and enter your confirmation number and last name. From there you can pick your seat, add baggage, and grab your boarding pass." },
-    { input: "Can I change my flight after booking?", golden_output: "Yes, flight changes can be made online, through our app, or by calling us. Flexible and business fares usually allow free changes, while basic economy tickets may be more limited. Any fare difference will apply at the time of the change." },
+    { input: "How do I check in for my flight online?", golden_output: "Online check-in opens 24 hours before departure. Head to our website or app, select 'Check-In,' and enter your confirmation number and last name." },
+    { input: "Can I change my flight after booking?", golden_output: "Yes, flight changes can be made online, through our app, or by calling us. Flexible and business fares usually allow free changes, while basic economy tickets may be more limited." },
     { input: "What happens if my flight is cancelled?", golden_output: "If your flight is cancelled, we'll automatically rebook you on the next available flight and notify you by email or SMS. You can also opt for a full refund to your original payment method." },
-    { input: "How early should I arrive at the airport?", golden_output: "We recommend arriving at least 2 hours before domestic flights and 3 hours before international flights. This gives you comfortable time for check-in, bag drop, and security." },
+    { input: "How early should I arrive at the airport?", golden_output: "We recommend arriving at least 2 hours before domestic flights and 3 hours before international flights." },
   ];
 
   const parseCSV = (text) => {
