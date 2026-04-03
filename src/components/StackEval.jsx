@@ -1400,6 +1400,8 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
   );
   const [metricOrder, setMetricOrder] = useState([
     { key:"rouge", label:"ROUGE-L", visible:true  },
+    { key:"f1",    label:"F1",      visible:true  },
+    { key:"bleu",  label:"BLEU",    visible:true  },
     { key:"cost",  label:"Cost",    visible:true  },
     { key:"lat",   label:"Latency", visible:true  },
   ]);
