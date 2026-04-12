@@ -437,7 +437,7 @@ function DefineTaskStep({ taskType, setTaskType, taskContext, setTaskContext, ai
           <textarea value={taskContext}
             onChange={e=>{ setTaskContext(e.target.value); if(tcPending) setTcPending(false); }}
             placeholder={"You are evaluating a customer support AI assistant.\n\nScore the output on:\n- Factual accuracy vs the reference\n- Tone: professional and helpful\n- Completeness\n\nReturn a score 0–1 with a one-sentence reason.\n\nInput: {{input}}\nOutput: {{output}}\nReference: {{golden_output}}"}
-            rows={6}
+            rows={10}
             style={{ width:"100%", padding:"12px 14px", paddingBottom:36, background:tcPending?"rgba(91,142,240,0.08)":"rgba(255,255,255,0.06)", border:`2px solid ${tcPending?"rgba(91,142,240,0.5)":taskContext?T.blue+"66":T.border}`, borderRadius:8, resize:"vertical", fontSize:13, color:T.hi, outline:"none", boxSizing:"border-box", fontFamily:MONO, lineHeight:1.6, transition:"all .15s" }}
             onFocus={e=>{ if(!tcPending) e.target.style.borderColor=T.blue; }}
             onBlur={e=>{ if(!tcPending) e.target.style.borderColor=taskContext?T.blue+"66":T.border; }}
@@ -2453,18 +2453,18 @@ function CopilotPanel({ open, onToggle, step, taskType, taskContext, metrics, cr
         position:"fixed", right: open ? 320 : 0, top:"50%", transform:"translateY(-50%)",
         zIndex:60, cursor:"pointer", border:"none",
         background:"#2B5ECC",
-        borderRadius:"8px 0 0 8px", padding:"14px 8px",
-        display:"flex", flexDirection:"column", alignItems:"center", gap:5,
+        borderRadius:"10px 0 0 10px", padding:"18px 12px",
+        display:"flex", flexDirection:"column", alignItems:"center", gap:7,
         transition:"right .25s cubic-bezier(.4,0,.2,1)",
         boxShadow:open?"none":"-2px 0 12px rgba(91,142,240,0.4)",
       }}>
         {open
           ? <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1 1l9 9M10 1L1 10" stroke="#fff" strokeWidth="1.8" strokeLinecap="round"/></svg>
           : <>
-              <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <svg width="18" height="18" viewBox="0 0 13 13" fill="none">
                 <path d="M6.5 1L7.8 4.7H11.5L8.5 6.8L9.8 10.5L6.5 8.4L3.2 10.5L4.5 6.8L1.5 4.7H5.2L6.5 1Z" fill="#fff"/>
               </svg>
-              <span style={{ fontSize:9, color:"rgba(255,255,255,0.9)", fontFamily:UI, fontWeight:700, letterSpacing:"0.04em", writingMode:"vertical-rl" }}>AI</span>
+              <span style={{ fontSize:11, color:"rgba(255,255,255,0.95)", fontFamily:UI, fontWeight:700, letterSpacing:"0.04em", writingMode:"vertical-rl" }}>AI</span>
             </>
         }
       </button>
