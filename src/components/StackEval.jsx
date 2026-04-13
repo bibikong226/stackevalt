@@ -1764,7 +1764,7 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
             </td>
             <td style={{ padding:"10px 12px" }} />
             {visMetrics.map(met => {
-              const cfg = LEADER_CFGS.find(c=>c.label.toLowerCase()===({rouge:"accuracy",cost:"cost",lat:"speed"}[met.key]));
+              const cfg = LEADER_CFGS.find(c=>c.metKey===met.key);
               return (
                 <td key={met.key} style={{ padding:"10px 12px" }}>
                   {visModels.map(m => {
