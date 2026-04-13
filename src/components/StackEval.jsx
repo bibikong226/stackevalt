@@ -2624,6 +2624,7 @@ function CopilotPanel({ open, onToggle, step, taskType, taskContext, metrics, cr
 
 export default function App() {
   const [step,          setStep]         = useState(1);
+  const [completedSteps, setCompletedSteps] = useState(new Set());
   const [taskType,      setTaskType]     = useState(null);
   const [taskContext,   setTaskContext]  = useState('');
   const [metrics,       setMetrics]      = useState(INIT_METRICS);
