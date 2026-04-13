@@ -2026,7 +2026,7 @@ function RunStep({ selModels, challenger, metrics, taskType, taskContext, onBack
   };
 
   const baseModels = selModels.length > 0 ? selModels.slice(0,4) : ALL_MODELS.slice(0,3);
-  const testModels = (challengerActive && challenger && !baseModels.find(m=>m.id===challenger.id)) ? [...baseModels, challenger] : baseModels;
+  const testModels = baseModels;
   const enabledMetrics = metrics.filter(m => m.enabled);
   const shownMetrics   = enabledMetrics.slice(0, 3);
   const extraCount     = Math.max(0, enabledMetrics.length - 3);
@@ -2145,11 +2145,11 @@ function RunStep({ selModels, challenger, metrics, taskType, taskContext, onBack
       <Card style={{ marginBottom:20 }}>
         <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14 }}>
           <div style={{ fontSize:11,fontWeight:700,color:T.mid,letterSpacing:"0.06em",textTransform:"uppercase",fontFamily:UI }}>
-            Selected Models ({testModels.length}{challengerActive&&challenger?" + 1 Challenger":""})
+            Selected Models ({testModels.length})
           </div>
           <button onClick={()=>{}} style={{ background:"none",border:"none",cursor:"pointer",color:T.blueTxt,fontSize:13,fontFamily:UI,padding:0 }}>+ Add models</button>
         </div>
-        <div style={{ display:"flex",flexWrap:"wrap",gap:8 }}>
+        <div style={{ display:"flex",flexWrap:"wrap",gap:8,alignItems:"center" }}>
           {testModels.map((m, i) => (
             <div key={m.id} style={{ display:"inline-flex",alignItems:"center",gap:8,padding:"7px 12px",background:T.elev,border:`1px solid ${T.border}`,borderRadius:8 }}>
               <div style={{ width:7,height:7,borderRadius:2,background:MODEL_COLORS[i],flexShrink:0 }} />
@@ -2159,12 +2159,10 @@ function RunStep({ selModels, challenger, metrics, taskType, taskContext, onBack
             </div>
           ))}
           {challengerActive && challenger && (
-            <div style={{ display:"inline-flex",alignItems:"center",gap:8,padding:"7px 12px",background:"rgba(245,158,11,0.08)",border:"1px solid rgba(245,158,11,0.3)",borderRadius:8 }}>
-              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><polygon points="6.5,1 8,4.5 11.5,4.5 8.75,6.5 9.75,10 6.5,8 3.25,10 4.25,6.5 1.5,4.5 5,4.5" fill="#F59E0B"/></svg>
-              <span style={{ fontSize:13,fontWeight:600,color:"#F59E0B",fontFamily:UI }}>{challenger.name}</span>
-              <span style={{ color:"rgba(245,158,11,0.4)" }}>|</span>
-              <span style={{ fontSize:11,fontWeight:500,color:"#F59E0B",letterSpacing:"0.04em",textTransform:"uppercase",fontFamily:UI }}>Challenger</span>
-            </div>
+            <span style={{ fontSize:13, fontWeight:600, color:"#F59E0B", fontFamily:UI, display:"inline-flex", alignItems:"center", gap:6 }}>
+              <svg width="12" height="12" viewBox="0 0 13 13" fill="none"><polygon points="6.5,1 8,4.5 11.5,4.5 8.75,6.5 9.75,10 6.5,8 3.25,10 4.25,6.5 1.5,4.5 5,4.5" fill="#F59E0B"/></svg>
+              + {challenger.name} (Challenger)
+            </span>
           )}
         </div>
       </Card>
