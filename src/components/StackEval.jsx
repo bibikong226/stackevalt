@@ -1825,7 +1825,7 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
               <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between" }}>
                 <div style={{ display:"flex",alignItems:"center",gap:5 }}>
                   <span style={{ fontSize:12,fontFamily:MONO,fontWeight:700,color:T.mid,textTransform:"uppercase",letterSpacing:"0.07em" }}>{cfg.label}</span>
-                  <MetricTip metKey={cfg.label==="Accuracy"?"rouge":cfg.label==="Cost"?"cost":"lat"} />
+                  <MetricTip metKey={cfg.metKey||"rouge"} />
                 </div>
                 <Badge label={cfg.badgeTx} color={cfg.badgeColor} />
               </div>
