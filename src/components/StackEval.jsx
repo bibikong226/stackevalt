@@ -2644,7 +2644,7 @@ export default function App() {
   const [evalCsvRows,     setEvalCsvRows]      = useState([]);
   const [evalChallengerOn,setEvalChallengerOn] = useState(true);
 
-  const next = () => setStep(s => s + 1);
+  const next = () => { setCompletedSteps(p => new Set([...p, step])); setStep(s => s + 1); };
   const back = () => setStep(s => s - 1);
 
   const handleCopilotApply = (action) => {
