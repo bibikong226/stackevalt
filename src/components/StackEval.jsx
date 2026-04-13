@@ -1483,11 +1483,18 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
 
   // ── Mini bar track ────────────────────────────────────────
   const MiniBar = ({ pct, color, dim, metKey, value }) => {
+    const [hover, setHover] = useState(false);
     const desc = METRIC_DEFS[metKey];
-    const tip = desc ? `${desc}\n\nValue: ${value}` : value;
     return (
-      <div style={{ flex:1,height:4,background:T.borderS,borderRadius:2,overflow:"hidden",cursor:"help" }} title={tip}>
-        <div style={{ height:"100%",borderRadius:2,background:color,opacity:dim?0.28:1,width:`${Math.max(pct,2)}%`,transition:"width .4s" }} />
+      <div style={{ flex:1,height:4,background:T.borderS,borderRadius:2,overflow:"visible",cursor:"help",position:"relative" }}
+        onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}>
+        <div style={{ height:4,borderRadius:2,background:color,opacity:dim?0.28:1,width:`${Math.max(pct,2)}%`,transition:"width .4s" }} />
+        {hover && desc && (
+          <div style={{ position:"absolute",bottom:12,left:"50%",transform:"translateX(-50%)",background:T.base,border:`1px solid ${T.border}`,borderRadius:6,padding:"8px 10px",fontSize:11,color:T.mid,fontFamily:UI,lineHeight:1.5,width:220,zIndex:50,boxShadow:"0 4px 16px rgba(0,0,0,0.5)",pointerEvents:"none" }}>
+            <div style={{ fontWeight:700,color:T.hi,marginBottom:3,fontSize:10,textTransform:"uppercase",letterSpacing:"0.05em",fontFamily:MONO }}>{metKey} — {value}</div>
+            {desc}
+          </div>
+        )}
       </div>
     );
   };
