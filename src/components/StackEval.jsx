@@ -308,7 +308,7 @@ function calcAgg(models) {
 const STEPS = STEPS_B;
 
 function Sidebar({ step, nav, taskType, selModels, metrics }) {
-  const done = id => ({ 1:!!taskType, 2:step>2 && metrics.some(m=>m.enabled), 3:selModels.length>0, 4:false }[id]);
+  const done = id => ({ 1: step > 1 && !!taskType, 2: step > 2 && metrics.some(m=>m.enabled), 3: step > 3 && selModels.length>0, 4:false }[id]);
   return (
     <aside style={{ width:180, background:T.base, borderRight:`1px solid ${T.border}`, display:"flex", flexDirection:"column", flexShrink:0 }}>
       <div style={{ padding:"12px 14px 10px", borderBottom:`1px solid ${T.border}`, display:"flex", gap:8, alignItems:"center" }}>
@@ -338,7 +338,7 @@ function Sidebar({ step, nav, taskType, selModels, metrics }) {
               <span style={{ fontSize:13, fontFamily:UI, fontWeight:active?600:400, color:active?T.hi:T.mid }}>
                 {s.label}
               </span>
-              {active && (
+              {active && !complete && (
                 <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style={{ flexShrink:0 }}>
                   <path d="M2 6.5L5.5 10L11 3" stroke={T.blue} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
@@ -2453,18 +2453,18 @@ function CopilotPanel({ open, onToggle, step, taskType, taskContext, metrics, cr
         position:"fixed", right: open ? 320 : 0, top:"50%", transform:"translateY(-50%)",
         zIndex:60, cursor:"pointer", border:"none",
         background:"#2B5ECC",
-        borderRadius:"10px 0 0 10px", padding:"18px 12px",
-        display:"flex", flexDirection:"column", alignItems:"center", gap:7,
+        borderRadius:"8px 0 0 8px", padding:"16px 10px",
+        display:"flex", flexDirection:"column", alignItems:"center", gap:6,
         transition:"right .25s cubic-bezier(.4,0,.2,1)",
         boxShadow:open?"none":"-2px 0 12px rgba(91,142,240,0.4)",
       }}>
         {open
           ? <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1 1l9 9M10 1L1 10" stroke="#fff" strokeWidth="1.8" strokeLinecap="round"/></svg>
           : <>
-              <svg width="18" height="18" viewBox="0 0 13 13" fill="none">
+              <svg width="15" height="15" viewBox="0 0 13 13" fill="none">
                 <path d="M6.5 1L7.8 4.7H11.5L8.5 6.8L9.8 10.5L6.5 8.4L3.2 10.5L4.5 6.8L1.5 4.7H5.2L6.5 1Z" fill="#fff"/>
               </svg>
-              <span style={{ fontSize:11, color:"rgba(255,255,255,0.95)", fontFamily:UI, fontWeight:700, letterSpacing:"0.04em", writingMode:"vertical-rl" }}>AI</span>
+              <span style={{ fontSize:10, color:"rgba(255,255,255,0.95)", fontFamily:UI, fontWeight:700, letterSpacing:"0.04em", writingMode:"vertical-rl" }}>AI</span>
             </>
         }
       </button>
