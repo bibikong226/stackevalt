@@ -2677,7 +2677,7 @@ export default function App() {
         @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
       `}</style>
 
-      <Sidebar step={step} nav={setStep} taskType={taskType} selModels={selModels} metrics={metrics} />
+      <Sidebar step={step} nav={setStep} taskType={taskType} selModels={selModels} metrics={metrics} completedSteps={completedSteps} />
 
       <main style={{ flex:1, overflow: step===3 ? "hidden" : "auto", display:"flex", flexDirection:"column" }}>
 
