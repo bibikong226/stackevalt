@@ -205,26 +205,26 @@ const INIT_METRICS = [
 ];
 
 const ALL_MODELS = [
-  { id:"gpt-4-turbo",    name:"GPT-4 Turbo",    provider:"OpenAI",    ctx:128000, oss:false, cost:10.0, speed:120, lmsys:1251, mmlu:86.4, matchPct:95, released:2024 },
-  { id:"claude-3-opus",  name:"Claude 3 Opus",  provider:"Anthropic", ctx:200000, oss:false, cost:15.0, speed:90,  lmsys:1263, mmlu:86.8, matchPct:92, released:2024 },
-  { id:"claude-3-sonnet",name:"Claude 3 Sonnet",provider:"Anthropic", ctx:200000, oss:false, cost:3.0,  speed:150, lmsys:1202, mmlu:79.0, matchPct:87, released:2024 },
-  { id:"claude-3-haiku", name:"Claude 3 Haiku", provider:"Anthropic", ctx:200000, oss:false, cost:0.25, speed:250, lmsys:1179, mmlu:75.2,              released:2024 },
-  { id:"gemini-ultra",   name:"Gemini Ultra",   provider:"Google",    ctx:32768,  oss:false, cost:18.0, speed:100, lmsys:1258, mmlu:90.0,              released:2024 },
-  { id:"gemini-pro",     name:"Gemini Pro",     provider:"Google",    ctx:32768,  oss:false, cost:0.5,  speed:130, lmsys:1215, mmlu:79.1,              released:2023 },
-  { id:"gpt-4",          name:"GPT-4",          provider:"OpenAI",    ctx:8192,   oss:false, cost:30.0, speed:80,  lmsys:1247, mmlu:86.4, matchPct:88, released:2023 },
-  { id:"gpt-3.5-turbo",  name:"GPT-3.5 Turbo", provider:"OpenAI",    ctx:16385,  oss:false, cost:0.5,  speed:200, lmsys:1105, mmlu:70.0,              released:2022 },
-  { id:"llama-3-70b",    name:"Llama 3 70B",    provider:"Meta",      ctx:8192,   oss:true,  cost:0.9,  speed:110, lmsys:1213, mmlu:79.5,              released:2024 },
-  { id:"llama-3-8b",     name:"Llama 3 8B",     provider:"Meta",      ctx:8192,   oss:true,  cost:0.06, speed:300, lmsys:1155, mmlu:66.6,              released:2024 },
-  { id:"mixtral-8x7b",   name:"Mixtral 8x7B",   provider:"Mistral",   ctx:32768,  oss:true,  cost:0.6,  speed:140, lmsys:1191, mmlu:70.6,              released:2023 },
-  { id:"mistral-7b",     name:"Mistral 7B",     provider:"Mistral",   ctx:8192,   oss:true,  cost:0.25, speed:220, lmsys:1141, mmlu:62.5,              released:2023 },
-  { id:"command-r-plus", name:"Command R+",     provider:"Cohere",    ctx:128000, oss:false, cost:2.5,  speed:115, lmsys:1225, mmlu:75.0,              released:2024 },
-  { id:"command-r",      name:"Command R",      provider:"Cohere",    ctx:128000, oss:false, cost:0.15, speed:135, lmsys:1186, mmlu:72.3,              released:2024 },
+  { id:"gpt-4o",          name:"GPT-4o",          provider:"OpenAI",    ctx:128000, oss:false, cost:5.0,  speed:140, lmsys:1285, mmlu:88.7, matchPct:95, released:2025 },
+  { id:"gpt-4.1",         name:"GPT-4.1",         provider:"OpenAI",    ctx:1000000,oss:false, cost:2.0,  speed:180, lmsys:1290, mmlu:90.2, matchPct:96, released:2025 },
+  { id:"claude-4-opus",   name:"Claude 4 Opus",   provider:"Anthropic", ctx:200000, oss:false, cost:15.0, speed:95,  lmsys:1310, mmlu:91.5, matchPct:94, released:2025 },
+  { id:"claude-4-sonnet", name:"Claude 4 Sonnet", provider:"Anthropic", ctx:200000, oss:false, cost:3.0,  speed:160, lmsys:1295, mmlu:88.0, matchPct:90, released:2025 },
+  { id:"claude-4-haiku",  name:"Claude 4 Haiku",  provider:"Anthropic", ctx:200000, oss:false, cost:0.80, speed:280, lmsys:1240, mmlu:80.5,              released:2025 },
+  { id:"gemini-2.5-pro",  name:"Gemini 2.5 Pro",  provider:"Google",    ctx:1000000,oss:false, cost:1.25, speed:150, lmsys:1300, mmlu:92.0,              released:2025 },
+  { id:"gemini-2.5-flash",name:"Gemini 2.5 Flash",provider:"Google",    ctx:1000000,oss:false, cost:0.15, speed:350, lmsys:1265, mmlu:84.5,              released:2025 },
+  { id:"gpt-4o-mini",     name:"GPT-4o Mini",     provider:"OpenAI",    ctx:128000, oss:false, cost:0.15, speed:300, lmsys:1220, mmlu:82.0,              released:2025 },
+  { id:"llama-4-maverick",name:"Llama 4 Maverick", provider:"Meta",     ctx:1000000,oss:true,  cost:0.20, speed:200, lmsys:1280, mmlu:86.5,              released:2025 },
+  { id:"llama-4-scout",   name:"Llama 4 Scout",   provider:"Meta",      ctx:512000, oss:true,  cost:0.10, speed:250, lmsys:1255, mmlu:83.0,              released:2025 },
+  { id:"mistral-large",   name:"Mistral Large 2", provider:"Mistral",   ctx:128000, oss:false, cost:2.0,  speed:130, lmsys:1260, mmlu:84.0,              released:2025 },
+  { id:"mistral-small",   name:"Mistral Small 3", provider:"Mistral",   ctx:128000, oss:true,  cost:0.10, speed:280, lmsys:1210, mmlu:75.0,              released:2025 },
+  { id:"command-r-plus",  name:"Command A",       provider:"Cohere",    ctx:256000, oss:false, cost:2.5,  speed:120, lmsys:1245, mmlu:78.0,              released:2025 },
+  { id:"command-r",       name:"Command R7B",     provider:"Cohere",    ctx:128000, oss:true,  cost:0.04, speed:320, lmsys:1195, mmlu:72.0,              released:2025 },
 ];
 
 const CHALLENGERS = [
-  { id:"phi-3-mini", name:"Phi-3 Mini",  provider:"Microsoft", ctx:4096,  oss:true,  cost:0.04, speed:350, lmsys:1180, mmlu:68.8 },
-  { id:"falcon-40b", name:"Falcon 40B",  provider:"TII",       ctx:2048,  oss:true,  cost:0.35, speed:160, lmsys:1165, mmlu:55.4 },
-  { id:"vicuna-13b", name:"Vicuna 13B",  provider:"LMSYS",     ctx:2048,  oss:true,  cost:0.13, speed:180, lmsys:1121, mmlu:56.0 },
+  { id:"phi-4-mini", name:"Phi-4 Mini",   provider:"Microsoft", ctx:128000, oss:true,  cost:0.03, speed:400, lmsys:1225, mmlu:74.5 },
+  { id:"qwen-3-8b",  name:"Qwen 3 8B",   provider:"Alibaba",   ctx:128000, oss:true,  cost:0.05, speed:350, lmsys:1235, mmlu:76.0 },
+  { id:"deepseek-v3",name:"DeepSeek V3",  provider:"DeepSeek",  ctx:128000, oss:true,  cost:0.07, speed:280, lmsys:1270, mmlu:82.0 },
 ];
 
 const MOCK_RESULTS = [
@@ -2026,7 +2026,7 @@ function RunStep({ selModels, challenger, metrics, taskType, taskContext, onBack
   };
 
   const baseModels = selModels.length > 0 ? selModels.slice(0,4) : ALL_MODELS.slice(0,3);
-  const testModels = (challengerActive && challenger && !baseModels.find(m=>m.id===challenger.id)) ? [...baseModels, challenger] : baseModels;
+  const testModels = baseModels;
   const enabledMetrics = metrics.filter(m => m.enabled);
   const shownMetrics   = enabledMetrics.slice(0, 3);
   const extraCount     = Math.max(0, enabledMetrics.length - 3);
@@ -2145,11 +2145,11 @@ function RunStep({ selModels, challenger, metrics, taskType, taskContext, onBack
       <Card style={{ marginBottom:20 }}>
         <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14 }}>
           <div style={{ fontSize:11,fontWeight:700,color:T.mid,letterSpacing:"0.06em",textTransform:"uppercase",fontFamily:UI }}>
-            Selected Models ({testModels.length}{challengerActive&&challenger?" + 1 Challenger":""})
+            Selected Models ({testModels.length})
           </div>
           <button onClick={()=>{}} style={{ background:"none",border:"none",cursor:"pointer",color:T.blueTxt,fontSize:13,fontFamily:UI,padding:0 }}>+ Add models</button>
         </div>
-        <div style={{ display:"flex",flexWrap:"wrap",gap:8 }}>
+        <div style={{ display:"flex",flexWrap:"wrap",gap:8,alignItems:"center" }}>
           {testModels.map((m, i) => (
             <div key={m.id} style={{ display:"inline-flex",alignItems:"center",gap:8,padding:"7px 12px",background:T.elev,border:`1px solid ${T.border}`,borderRadius:8 }}>
               <div style={{ width:7,height:7,borderRadius:2,background:MODEL_COLORS[i],flexShrink:0 }} />
@@ -2159,12 +2159,10 @@ function RunStep({ selModels, challenger, metrics, taskType, taskContext, onBack
             </div>
           ))}
           {challengerActive && challenger && (
-            <div style={{ display:"inline-flex",alignItems:"center",gap:8,padding:"7px 12px",background:"rgba(245,158,11,0.08)",border:"1px solid rgba(245,158,11,0.3)",borderRadius:8 }}>
-              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><polygon points="6.5,1 8,4.5 11.5,4.5 8.75,6.5 9.75,10 6.5,8 3.25,10 4.25,6.5 1.5,4.5 5,4.5" fill="#F59E0B"/></svg>
-              <span style={{ fontSize:13,fontWeight:600,color:"#F59E0B",fontFamily:UI }}>{challenger.name}</span>
-              <span style={{ color:"rgba(245,158,11,0.4)" }}>|</span>
-              <span style={{ fontSize:11,fontWeight:500,color:"#F59E0B",letterSpacing:"0.04em",textTransform:"uppercase",fontFamily:UI }}>Challenger</span>
-            </div>
+            <span style={{ fontSize:13, fontWeight:600, color:"#F59E0B", fontFamily:UI, display:"inline-flex", alignItems:"center", gap:6 }}>
+              <svg width="12" height="12" viewBox="0 0 13 13" fill="none"><polygon points="6.5,1 8,4.5 11.5,4.5 8.75,6.5 9.75,10 6.5,8 3.25,10 4.25,6.5 1.5,4.5 5,4.5" fill="#F59E0B"/></svg>
+              + {challenger.name} (Challenger)
+            </span>
           )}
         </div>
       </Card>
