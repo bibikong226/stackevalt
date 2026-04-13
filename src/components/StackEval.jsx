@@ -2025,8 +2025,7 @@ function RunStep({ selModels, challenger, metrics, taskType, taskContext, onBack
     reader.readAsText(file);
   };
 
-  const baseModels = selModels.length > 0 ? selModels.slice(0,4) : ALL_MODELS.slice(0,3);
-  const testModels = baseModels;
+  const testModels = selModels.length > 0 ? selModels : ALL_MODELS.slice(0,3);
   const enabledMetrics = metrics.filter(m => m.enabled);
   const shownMetrics   = enabledMetrics.slice(0, 3);
   const extraCount     = Math.max(0, enabledMetrics.length - 3);
@@ -2159,10 +2158,12 @@ function RunStep({ selModels, challenger, metrics, taskType, taskContext, onBack
             </div>
           ))}
           {challengerActive && challenger && (
-            <span style={{ fontSize:13, fontWeight:600, color:"#F59E0B", fontFamily:UI, display:"inline-flex", alignItems:"center", gap:6 }}>
-              <svg width="12" height="12" viewBox="0 0 13 13" fill="none"><polygon points="6.5,1 8,4.5 11.5,4.5 8.75,6.5 9.75,10 6.5,8 3.25,10 4.25,6.5 1.5,4.5 5,4.5" fill="#F59E0B"/></svg>
-              + {challenger.name} (Challenger)
-            </span>
+            <div style={{ display:"inline-flex",alignItems:"center",gap:10,padding:"7px 14px",background:"rgba(245,158,11,0.08)",border:"1px solid rgba(245,158,11,0.4)",borderRadius:8 }}>
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><polygon points="6.5,1 8,4.5 11.5,4.5 8.75,6.5 9.75,10 6.5,8 3.25,10 4.25,6.5 1.5,4.5 5,4.5" fill="#F59E0B"/></svg>
+              <span style={{ fontSize:13,fontWeight:600,color:"#F59E0B",fontFamily:UI }}>{challenger.name}</span>
+              <span style={{ color:"rgba(245,158,11,0.4)",fontSize:16 }}>|</span>
+              <span style={{ fontSize:12,fontWeight:700,color:"#F59E0B",fontFamily:UI,letterSpacing:"0.08em" }}>CHALLENGER</span>
+            </div>
           )}
         </div>
       </Card>
