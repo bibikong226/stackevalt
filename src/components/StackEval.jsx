@@ -2525,7 +2525,7 @@ function CopilotPanel({ open, onToggle, step, taskType, taskContext, metrics, cr
       }}>
         {/* Header */}
         <div style={{ padding:"11px 14px", borderBottom:`1px solid ${T.border}`, display:"flex", alignItems:"center", gap:9, flexShrink:0, background:T.elev }}>
-          <div style={{ width:26,height:26,background:"#5B8EF0",borderRadius:6,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
+          <div style={{ width:26,height:26,background:T.blueBtn,borderRadius:6,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
             <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
               <path d="M6.5 1L7.8 4.7H11.5L8.5 6.8L9.8 10.5L6.5 8.4L3.2 10.5L4.5 6.8L1.5 4.7H5.2L6.5 1Z" fill="#fff"/>
             </svg>
