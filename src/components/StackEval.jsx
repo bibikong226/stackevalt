@@ -1594,8 +1594,10 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
   const LayoutB = () => (
     <div style={{ display:"flex",flexDirection:"column",gap:6 }}>
       {rows.map(row => {
-        const rW = getWinner(row,"rouge"), cW = getWinner(row,"cost"), lW = getWinner(row,"lat");
-        const maxR = Math.max(...modelOrder.map((_,i)=>getRow(row,i).rougeL));
+        const winners = {};
+        visMetrics.forEach(met => { winners[met.key] = getWinner(row, met.key); });
+        const firstQualityMet = visMetrics.find(m => m.higher);
+        const firstQualityMax = firstQualityMet ? Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(row,i), firstQualityMet.key))) : 0;
         const exp = expandedRows.has(row.id);
         const toggleRow = () => setExpandedRows(p => { const n=new Set(p); n.has(row.id)?n.delete(row.id):n.add(row.id); return n; });
         return (
