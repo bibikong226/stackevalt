@@ -307,8 +307,8 @@ function calcAgg(models) {
 ───────────────────────────────────────────────────────────── */
 const STEPS = STEPS_B;
 
-function Sidebar({ step, nav, taskType, selModels, metrics }) {
-  const done = id => ({ 1: step > 1 && !!taskType, 2: step > 2 && metrics.some(m=>m.enabled), 3: step > 3 && selModels.length>0, 4:false }[id]);
+function Sidebar({ step, nav, taskType, selModels, metrics, completedSteps }) {
+  const done = id => completedSteps.has(id);
   return (
     <aside style={{ width:180, background:T.base, borderRight:`1px solid ${T.border}`, display:"flex", flexDirection:"column", flexShrink:0 }}>
       <div style={{ padding:"12px 14px 10px", borderBottom:`1px solid ${T.border}`, display:"flex", gap:8, alignItems:"center" }}>
