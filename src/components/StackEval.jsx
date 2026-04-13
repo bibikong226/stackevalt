@@ -1482,11 +1482,15 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
   );
 
   // ── Mini bar track ────────────────────────────────────────
-  const MiniBar = ({ pct, color, dim, label, value }) => (
-    <div style={{ flex:1,height:4,background:T.borderS,borderRadius:2,overflow:"hidden",cursor:"default" }} title={label && value != null ? `${label}: ${value}` : undefined}>
-      <div style={{ height:"100%",borderRadius:2,background:color,opacity:dim?0.28:1,width:`${Math.max(pct,2)}%`,transition:"width .4s" }} />
-    </div>
-  );
+  const MiniBar = ({ pct, color, dim, metKey, value }) => {
+    const desc = METRIC_DEFS[metKey];
+    const tip = desc ? `${desc}\n\nValue: ${value}` : value;
+    return (
+      <div style={{ flex:1,height:4,background:T.borderS,borderRadius:2,overflow:"hidden",cursor:"help" }} title={tip}>
+        <div style={{ height:"100%",borderRadius:2,background:color,opacity:dim?0.28:1,width:`${Math.max(pct,2)}%`,transition:"width .4s" }} />
+      </div>
+    );
+  };
 
   // ══════════════ LAYOUT A — SYNCHRONIZED GRID ═══════════════
   const LayoutA = () => (
