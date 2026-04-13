@@ -1623,28 +1623,28 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
                   {visModels.map(m => {
                     const mi = modelOrder.findIndex(x=>x.id===m.id);
                     const v = getRow(row,mi);
-                    const isRW=mi===rW, isCW=mi===cW, isLW=mi===lW;
+                    const isFirstQW = firstQualityMet && mi===winners[firstQualityMet.key];
                     return (
-                      <div key={m.id} style={{ padding:"14px 16px", borderRight:`1px solid ${T.borderS}`, background:isRW&&maxR>0?"rgba(91,142,240,0.04)":"transparent", display:"flex", flexDirection:"column", minWidth:220, flex:"0 0 220px" }}>
+                      <div key={m.id} style={{ padding:"14px 16px", borderRight:`1px solid ${T.borderS}`, background:isFirstQW&&firstQualityMax>0?"rgba(91,142,240,0.04)":"transparent", display:"flex", flexDirection:"column", minWidth:220, flex:"0 0 220px" }}>
                         <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8 }}>
                           <div style={{ display:"flex",alignItems:"center",gap:6 }}>
                             <div style={{ width:2,height:14,borderRadius:2,background:m.color,flexShrink:0 }} />
                             <span style={{ fontSize:12,color:m.color,fontFamily:UI,fontWeight:500 }}>{m.name}</span>
                           </div>
                           <div style={{ display:"flex",gap:3 }}>
-                            {isRW&&maxR>0 && <SmBadge color={T.mBlue} text="Best match" />}
+                            {isFirstQW&&firstQualityMax>0 && <SmBadge color={T.mBlue} text="Best match" />}
                           </div>
                         </div>
                         <div style={{ fontSize:13,color:T.mid,lineHeight:1.6,marginBottom:10,flex:1 }}>{v.text}</div>
                         <div style={{ borderTop:`1px solid ${T.border}`,paddingTop:10,display:"flex",flexDirection:"column",gap:6 }}>
                           {visMetrics.map(met => {
-                            const isW = met.key==="rouge"?isRW:met.key==="cost"?isCW:isLW;
-                            const val = met.key==="rouge"?v.rougeL:met.key==="cost"?v.cost:v.lat;
-                            const maxV = met.key==="rouge"?maxR:met.key==="cost"?Math.max(...modelOrder.map((_,i2)=>getRow(row,i2).cost)):Math.max(...modelOrder.map((_,i2)=>getRow(row,i2).lat));
+                            const isW = mi===winners[met.key];
+                            const val = getMetricVal(v, met.key);
+                            const maxV = Math.max(...modelOrder.map((_,i2)=>getMetricVal(getRow(row,i2), met.key)));
                             const pct = maxV>0 ? val/maxV*100 : 0;
                             return (
                               <div key={met.key} style={{ display:"grid", gridTemplateColumns:"56px 1fr 44px", alignItems:"center", gap:4 }}>
-                                <span style={{ fontFamily:MONO,fontSize:10,fontWeight:700,color:T.mid,textTransform:"uppercase",letterSpacing:"0.04em",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" }}>{{rouge:"ROUGE-L",cost:"Cost",lat:"Speed"}[met.key]||met.label}</span>
+                                <span style={{ fontFamily:MONO,fontSize:10,fontWeight:700,color:T.mid,textTransform:"uppercase",letterSpacing:"0.04em",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" }}>{met.label}</span>
                                 <MiniBar pct={pct} color={m.color} dim={!isW} />
                                 <span style={{ fontFamily:MONO,fontSize:11,color:isW?T.hi:T.lo,textAlign:"right",fontWeight:isW?700:400 }}>{fmtMetric(val,met.key)}</span>
                               </div>
