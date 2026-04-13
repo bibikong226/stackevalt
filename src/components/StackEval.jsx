@@ -1406,15 +1406,17 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
       r.golden.toLowerCase().includes(s) ||
       modelOrder.some((m,i) => getRow(r,i).text.toLowerCase().includes(s))
     );
-    if (filterVal === "zero")       rows = rows.filter(r => modelOrder.every((_,i) => getRow(r,i).rougeL === 0));
+    if (filterVal === "zero")       rows = rows.filter(r => modelOrder.every((_,i) => getMetricVal(getRow(r,i), metricOrder[0]?.key || "rouge") === 0));
     else if (filterVal.startsWith("best-")) {
       const idx = parseInt(filterVal.replace("best-",""));
-      rows = rows.filter(r => getWinner(r,"rouge") === idx);
+      rows = rows.filter(r => getWinner(r, metricOrder[0]?.key || "rouge") === idx);
     }
-    if (sortVal === "rouge-desc")   rows.sort((a,b) => Math.max(...modelOrder.map((_,i)=>getRow(b,i).rougeL)) - Math.max(...modelOrder.map((_,i)=>getRow(a,i).rougeL)));
-    else if (sortVal === "rouge-asc")  rows.sort((a,b) => Math.max(...modelOrder.map((_,i)=>getRow(a,i).rougeL)) - Math.max(...modelOrder.map((_,i)=>getRow(b,i).rougeL)));
-    else if (sortVal === "cost-asc")   rows.sort((a,b) => Math.min(...modelOrder.map((_,i)=>getRow(a,i).cost)) - Math.min(...modelOrder.map((_,i)=>getRow(b,i).cost)));
-    else if (sortVal === "lat-asc")    rows.sort((a,b) => Math.min(...modelOrder.map((_,i)=>getRow(a,i).lat)) - Math.min(...modelOrder.map((_,i)=>getRow(b,i).lat)));
+    if (sortVal === "rouge-desc")   rows.sort((a,b) => Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(b,i),"rouge"))) - Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(a,i),"rouge"))));
+    else if (sortVal === "rouge-asc")  rows.sort((a,b) => Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(a,i),"rouge"))) - Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(b,i),"rouge"))));
+    else if (sortVal === "cost-asc")   rows.sort((a,b) => Math.min(...modelOrder.map((_,i)=>getMetricVal(getRow(a,i),"cost"))) - Math.min(...modelOrder.map((_,i)=>getMetricVal(getRow(b,i),"cost"))));
+    else if (sortVal === "lat-asc")    rows.sort((a,b) => Math.min(...modelOrder.map((_,i)=>getMetricVal(getRow(a,i),"lat"))) - Math.min(...modelOrder.map((_,i)=>getMetricVal(getRow(b,i),"lat"))));
+    else if (sortVal === "f1-desc")    rows.sort((a,b) => Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(b,i),"f1"))) - Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(a,i),"f1"))));
+    else if (sortVal === "bleu-desc")  rows.sort((a,b) => Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(b,i),"bleu"))) - Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(a,i),"bleu"))));
     return rows;
   };
 
