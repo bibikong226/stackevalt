@@ -307,8 +307,8 @@ function calcAgg(models) {
 ───────────────────────────────────────────────────────────── */
 const STEPS = STEPS_B;
 
-function Sidebar({ step, nav, taskType, selModels, metrics }) {
-  const done = id => ({ 1: step > 1 && !!taskType, 2: step > 2 && metrics.some(m=>m.enabled), 3: step > 3 && selModels.length>0, 4:false }[id]);
+function Sidebar({ step, nav, taskType, selModels, metrics, completedSteps }) {
+  const done = id => completedSteps.has(id);
   return (
     <aside style={{ width:180, background:T.base, borderRight:`1px solid ${T.border}`, display:"flex", flexDirection:"column", flexShrink:0 }}>
       <div style={{ padding:"12px 14px 10px", borderBottom:`1px solid ${T.border}`, display:"flex", gap:8, alignItems:"center" }}>
@@ -1483,11 +1483,18 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
 
   // ── Mini bar track ────────────────────────────────────────
   const MiniBar = ({ pct, color, dim, metKey, value }) => {
+    const [hover, setHover] = useState(false);
     const desc = METRIC_DEFS[metKey];
-    const tip = desc ? `${desc}\n\nValue: ${value}` : value;
     return (
-      <div style={{ flex:1,height:4,background:T.borderS,borderRadius:2,overflow:"hidden",cursor:"help" }} title={tip}>
-        <div style={{ height:"100%",borderRadius:2,background:color,opacity:dim?0.28:1,width:`${Math.max(pct,2)}%`,transition:"width .4s" }} />
+      <div style={{ flex:1,height:4,background:T.borderS,borderRadius:2,overflow:"visible",cursor:"help",position:"relative" }}
+        onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}>
+        <div style={{ height:4,borderRadius:2,background:color,opacity:dim?0.28:1,width:`${Math.max(pct,2)}%`,transition:"width .4s" }} />
+        {hover && desc && (
+          <div style={{ position:"absolute",bottom:12,left:"50%",transform:"translateX(-50%)",background:T.base,border:`1px solid ${T.border}`,borderRadius:6,padding:"8px 10px",fontSize:11,color:T.mid,fontFamily:UI,lineHeight:1.5,width:220,zIndex:50,boxShadow:"0 4px 16px rgba(0,0,0,0.5)",pointerEvents:"none" }}>
+            <div style={{ fontWeight:700,color:T.hi,marginBottom:3,fontSize:10,textTransform:"uppercase",letterSpacing:"0.05em",fontFamily:MONO }}>{metKey} — {value}</div>
+            {desc}
+          </div>
+        )}
       </div>
     );
   };
@@ -2624,6 +2631,7 @@ function CopilotPanel({ open, onToggle, step, taskType, taskContext, metrics, cr
 
 export default function App() {
   const [step,          setStep]         = useState(1);
+  const [completedSteps, setCompletedSteps] = useState(new Set());
   const [taskType,      setTaskType]     = useState(null);
   const [taskContext,   setTaskContext]  = useState('');
   const [metrics,       setMetrics]      = useState(INIT_METRICS);
@@ -2643,7 +2651,7 @@ export default function App() {
   const [evalCsvRows,     setEvalCsvRows]      = useState([]);
   const [evalChallengerOn,setEvalChallengerOn] = useState(true);
 
-  const next = () => setStep(s => s + 1);
+  const next = () => { setCompletedSteps(p => new Set([...p, step])); setStep(s => s + 1); };
   const back = () => setStep(s => s - 1);
 
   const handleCopilotApply = (action) => {
@@ -2676,7 +2684,7 @@ export default function App() {
         @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
       `}</style>
 
-      <Sidebar step={step} nav={setStep} taskType={taskType} selModels={selModels} metrics={metrics} />
+      <Sidebar step={step} nav={setStep} taskType={taskType} selModels={selModels} metrics={metrics} completedSteps={completedSteps} />
 
       <main style={{ flex:1, overflow: step===3 ? "hidden" : "auto", display:"flex", flexDirection:"column" }}>
 
