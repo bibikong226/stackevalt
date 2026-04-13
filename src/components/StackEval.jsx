@@ -2528,10 +2528,15 @@ function CopilotPanel({ open, onToggle, step, taskType, taskContext, metrics, cr
             <div style={{ fontSize:13,fontWeight:600,color:T.hi,fontFamily:UI }}>AI Copilot</div>
             <div style={{ fontSize:10,color:T.lo,fontFamily:UI }}>Step: {stepName}</div>
           </div>
-          <div style={{ display:"flex",alignItems:"center",gap:4 }}>
-            <div style={{ width:6,height:6,borderRadius:"50%",background:"#22C55E",animation:"pulse 2s infinite" }} />
-            <span style={{ fontSize:10,color:T.lo,fontFamily:MONO }}>live</span>
-          </div>
+           <div style={{ display:"flex",alignItems:"center",gap:8 }}>
+             <div style={{ display:"flex",alignItems:"center",gap:4 }}>
+               <div style={{ width:6,height:6,borderRadius:"50%",background:"#22C55E",animation:"pulse 2s infinite" }} />
+               <span style={{ fontSize:10,color:T.lo,fontFamily:MONO }}>live</span>
+             </div>
+             <button onClick={onToggle} title="Close panel" style={{ background:"none",border:"none",cursor:"pointer",padding:4,display:"flex",alignItems:"center",justifyContent:"center",borderRadius:4,color:T.mid }}>
+               <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3L3 11" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/></svg>
+             </button>
+           </div>
         </div>
 
         {/* Messages */}
