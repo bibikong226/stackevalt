@@ -1482,8 +1482,8 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
   );
 
   // ── Mini bar track ────────────────────────────────────────
-  const MiniBar = ({ pct, color, dim }) => (
-    <div style={{ flex:1,height:4,background:T.borderS,borderRadius:2,overflow:"hidden" }}>
+  const MiniBar = ({ pct, color, dim, label, value }) => (
+    <div style={{ flex:1,height:4,background:T.borderS,borderRadius:2,overflow:"hidden",cursor:"default" }} title={label && value != null ? `${label}: ${value}` : undefined}>
       <div style={{ height:"100%",borderRadius:2,background:color,opacity:dim?0.28:1,width:`${Math.max(pct,2)}%`,transition:"width .4s" }} />
     </div>
   );
@@ -1543,7 +1543,7 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
                           return (
                             <div key={met.key} style={{ display:"flex",alignItems:"center",gap:6 }}>
                               <span style={{ fontFamily:MONO,fontSize:9,color:T.lo,textTransform:"uppercase",letterSpacing:"0.06em",width:44,flexShrink:0 }}>{met.label}</span>
-                              <MiniBar pct={pct} color={m.color} dim={!isW&&met.higher} />
+                              <MiniBar pct={pct} color={m.color} dim={!isW&&met.higher} label={met.label} value={fmtMetric(val,met.key)} />
                               <span style={{ fontFamily:MONO,fontSize:11,color:isW?T.hi:T.mid,minWidth:50,fontWeight:isW?500:400 }}>{fmtMetric(val,met.key)}</span>
                             </div>
                           );
@@ -1645,7 +1645,7 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
                             return (
                               <div key={met.key} style={{ display:"grid", gridTemplateColumns:"56px 1fr 44px", alignItems:"center", gap:4 }}>
                                 <span style={{ fontFamily:MONO,fontSize:10,fontWeight:700,color:T.mid,textTransform:"uppercase",letterSpacing:"0.04em",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" }}>{met.label}</span>
-                                <MiniBar pct={pct} color={m.color} dim={!isW} />
+                                <MiniBar pct={pct} color={m.color} dim={!isW} label={met.label} value={fmtMetric(val,met.key)} />
                                 <span style={{ fontFamily:MONO,fontSize:11,color:isW?T.hi:T.lo,textAlign:"right",fontWeight:isW?700:400 }}>{fmtMetric(val,met.key)}</span>
                               </div>
                             );
