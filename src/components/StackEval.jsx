@@ -1688,10 +1688,10 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
         </thead>
         <tbody>
           {rows.map(row => {
-            const rW=getWinner(row,"rouge"),cW=getWinner(row,"cost"),lW=getWinner(row,"lat");
-            const maxR=Math.max(...modelOrder.map((_,i)=>getRow(row,i).rougeL));
-            const maxC=Math.max(...modelOrder.map((_,i)=>getRow(row,i).cost));
-            const maxL=Math.max(...modelOrder.map((_,i)=>getRow(row,i).lat));
+            const winners = {};
+            visMetrics.forEach(met => { winners[met.key] = getWinner(row, met.key); });
+            const maxVals = {};
+            visMetrics.forEach(met => { maxVals[met.key] = Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(row,i), met.key))); });
             return (
               <tr key={row.id} style={{ borderBottom:`1px solid ${T.borderS}` }}>
                 <td style={{ padding:"14px 12px",verticalAlign:"top" }}>
@@ -1701,21 +1701,21 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
                   <div style={{ fontSize:14,color:T.hi,lineHeight:1.5 }}>{row.input}</div>
                   <GoldenBlock text={row.golden} />
                 </td>
-                {/* Stacked outputs */}
                 <td style={{ padding:"0",verticalAlign:"top" }}>
                   {visModels.map(m => {
                     const mi=modelOrder.findIndex(x=>x.id===m.id);
                     const v=getRow(row,mi);
-                    const isRW=mi===rW, isCW=mi===cW, isLW=mi===lW;
                     return (
                       <div key={m.id} style={{ display:"flex",gap:10,padding:"12px 12px",borderBottom:`1px solid ${T.borderS}` }}>
                         <div style={{ width:2,borderRadius:2,flexShrink:0,alignSelf:"stretch",minHeight:14,background:m.color }} />
                         <div style={{ flex:1,minWidth:0 }}>
                           <div style={{ display:"flex",alignItems:"center",gap:6,marginBottom:7,flexWrap:"wrap" }}>
                             <span style={{ fontFamily:MONO,fontSize:10,color:m.color,textTransform:"uppercase",letterSpacing:"0.06em" }}>{m.name}</span>
-                            {isRW&&maxR>0 && <SmBadge color={T.mBlue} text="Best ROUGE-L" />}
-                            {isCW&&visMetrics.find(x=>x.key==="cost") && <SmBadge color={T.mGreen} text="Cheapest" />}
-                            {isLW&&visMetrics.find(x=>x.key==="lat") && <SmBadge color={T.mTeal} text="Fastest" />}
+                            {visMetrics.filter(met=>met.higher && mi===winners[met.key] && maxVals[met.key]>0).slice(0,1).map(met=>(
+                              <SmBadge key={met.key} color={met.badgeColor} text={`Best ${met.label}`} />
+                            ))}
+                            {mi===winners["cost"] && visMetrics.find(x=>x.key==="cost") && <SmBadge color={T.mGreen} text="Cheapest" />}
+                            {mi===winners["lat"] && visMetrics.find(x=>x.key==="lat") && <SmBadge color={T.mTeal} text="Fastest" />}
                           </div>
                           <div style={{ fontSize:13,color:T.mid,lineHeight:1.6 }}>{v.text}</div>
                         </div>
@@ -1723,20 +1723,19 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
                     );
                   })}
                 </td>
-                {/* Stacked metric values per metric column */}
                 {visMetrics.map(met => {
-                  const maxVal = met.key==="rouge"?maxR:met.key==="cost"?maxC:maxL;
-                  const isWIdx = met.key==="rouge"?rW:met.key==="cost"?cW:lW;
+                  const maxVal = maxVals[met.key];
+                  const isWIdx = winners[met.key];
                   return (
                     <td key={met.key} style={{ padding:"0",verticalAlign:"top" }}>
                       {visModels.map(m => {
                         const mi=modelOrder.findIndex(x=>x.id===m.id);
                         const v=getRow(row,mi);
-                        const val=met.key==="rouge"?v.rougeL:met.key==="cost"?v.cost:v.lat;
+                        const val=getMetricVal(v, met.key);
                         const pct=maxVal>0?val/maxVal*100:0;
                         const isW=mi===isWIdx;
-                        const winBadge = isW&&(met.key==="rouge"?maxR>0:true)
-                          ? <SmBadge color={met.key==="rouge"?T.mBlue:met.key==="cost"?T.mGreen:T.mTeal} text="best" />
+                        const winBadge = isW && (met.higher ? maxVal>0 : true)
+                          ? <SmBadge color={met.badgeColor} text="best" />
                           : null;
                         return (
                           <div key={m.id} style={{ padding:"12px 12px",borderBottom:`1px solid ${T.borderS}`,display:"flex",flexDirection:"column",gap:3 }}>
@@ -1746,7 +1745,7 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
                               {winBadge}
                             </div>
                             <div style={{ height:4,background:T.borderS,borderRadius:2,overflow:"hidden" }}>
-                              <div style={{ height:"100%",borderRadius:2,background:m.color,opacity:isW||(met.key!=="rouge")?1:0.25,width:`${Math.max(pct,met.key==="rouge"?0:4)}%`,transition:"width .4s" }} />
+                              <div style={{ height:"100%",borderRadius:2,background:m.color,opacity:isW||!met.higher?1:0.25,width:`${Math.max(pct,met.higher?0:4)}%`,transition:"width .4s" }} />
                             </div>
                           </div>
                         );
