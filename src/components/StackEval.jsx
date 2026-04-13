@@ -1482,11 +1482,15 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
   );
 
   // ── Mini bar track ────────────────────────────────────────
-  const MiniBar = ({ pct, color, dim, label, value }) => (
-    <div style={{ flex:1,height:4,background:T.borderS,borderRadius:2,overflow:"hidden",cursor:"default" }} title={label && value != null ? `${label}: ${value}` : undefined}>
-      <div style={{ height:"100%",borderRadius:2,background:color,opacity:dim?0.28:1,width:`${Math.max(pct,2)}%`,transition:"width .4s" }} />
-    </div>
-  );
+  const MiniBar = ({ pct, color, dim, metKey, value }) => {
+    const desc = METRIC_DEFS[metKey];
+    const tip = desc ? `${desc}\n\nValue: ${value}` : value;
+    return (
+      <div style={{ flex:1,height:4,background:T.borderS,borderRadius:2,overflow:"hidden",cursor:"help" }} title={tip}>
+        <div style={{ height:"100%",borderRadius:2,background:color,opacity:dim?0.28:1,width:`${Math.max(pct,2)}%`,transition:"width .4s" }} />
+      </div>
+    );
+  };
 
   // ══════════════ LAYOUT A — SYNCHRONIZED GRID ═══════════════
   const LayoutA = () => (
@@ -1543,7 +1547,7 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
                           return (
                             <div key={met.key} style={{ display:"flex",alignItems:"center",gap:6 }}>
                               <span style={{ fontFamily:MONO,fontSize:9,color:T.lo,textTransform:"uppercase",letterSpacing:"0.06em",width:44,flexShrink:0 }}>{met.label}</span>
-                              <MiniBar pct={pct} color={m.color} dim={!isW&&met.higher} label={met.label} value={fmtMetric(val,met.key)} />
+                              <MiniBar pct={pct} color={m.color} dim={!isW&&met.higher} metKey={met.key} value={fmtMetric(val,met.key)} />
                               <span style={{ fontFamily:MONO,fontSize:11,color:isW?T.hi:T.mid,minWidth:50,fontWeight:isW?500:400 }}>{fmtMetric(val,met.key)}</span>
                             </div>
                           );
@@ -1645,7 +1649,7 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
                             return (
                               <div key={met.key} style={{ display:"grid", gridTemplateColumns:"56px 1fr 44px", alignItems:"center", gap:4 }}>
                                 <span style={{ fontFamily:MONO,fontSize:10,fontWeight:700,color:T.mid,textTransform:"uppercase",letterSpacing:"0.04em",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" }}>{met.label}</span>
-                                <MiniBar pct={pct} color={m.color} dim={!isW} label={met.label} value={fmtMetric(val,met.key)} />
+                                <MiniBar pct={pct} color={m.color} dim={!isW} metKey={met.key} value={fmtMetric(val,met.key)} />
                                 <span style={{ fontFamily:MONO,fontSize:11,color:isW?T.hi:T.lo,textAlign:"right",fontWeight:isW?700:400 }}>{fmtMetric(val,met.key)}</span>
                               </div>
                             );
@@ -2494,7 +2498,7 @@ function CopilotPanel({ open, onToggle, step, taskType, taskContext, metrics, cr
       <button onClick={onToggle} style={{
         position:"fixed", right: open ? 320 : 0, top:"50%", transform:"translateY(-50%)",
         zIndex:60, cursor:"pointer", border:"none",
-        background:"#2B5ECC",
+        background:T.blueBtn,
         borderRadius:"8px 0 0 8px", padding:"16px 10px",
         display:"flex", flexDirection:"column", alignItems:"center", gap:6,
         transition:"right .25s cubic-bezier(.4,0,.2,1)",
@@ -2521,7 +2525,7 @@ function CopilotPanel({ open, onToggle, step, taskType, taskContext, metrics, cr
       }}>
         {/* Header */}
         <div style={{ padding:"11px 14px", borderBottom:`1px solid ${T.border}`, display:"flex", alignItems:"center", gap:9, flexShrink:0, background:T.elev }}>
-          <div style={{ width:26,height:26,background:"#5B8EF0",borderRadius:6,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
+          <div style={{ width:26,height:26,background:T.blueBtn,borderRadius:6,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
             <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
               <path d="M6.5 1L7.8 4.7H11.5L8.5 6.8L9.8 10.5L6.5 8.4L3.2 10.5L4.5 6.8L1.5 4.7H5.2L6.5 1Z" fill="#fff"/>
             </svg>
