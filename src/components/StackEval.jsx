@@ -2025,8 +2025,7 @@ function RunStep({ selModels, challenger, metrics, taskType, taskContext, onBack
     reader.readAsText(file);
   };
 
-  const baseModels = selModels.length > 0 ? selModels.slice(0,4) : ALL_MODELS.slice(0,3);
-  const testModels = baseModels;
+  const testModels = selModels.length > 0 ? selModels : ALL_MODELS.slice(0,3);
   const enabledMetrics = metrics.filter(m => m.enabled);
   const shownMetrics   = enabledMetrics.slice(0, 3);
   const extraCount     = Math.max(0, enabledMetrics.length - 3);
