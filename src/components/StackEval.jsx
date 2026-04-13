@@ -1654,8 +1654,8 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
                       </div>
                     );
                   })}
+                  </div>
                 </div>
-
               </div>
             )}
           </div>
