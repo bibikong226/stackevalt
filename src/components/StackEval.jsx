@@ -1955,7 +1955,7 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
           <span style={{ fontSize:10,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,fontFamily:MONO,whiteSpace:"nowrap" }}>Metrics</span>
           <div style={{ display:"flex",alignItems:"center",gap:4,flexWrap:"wrap" }}>
             {metricOrder.map(m=>(
-              <CtrlChip key={m.key} label={m.label} color={{rouge:T.mBlue.tx,cost:T.mGreen.tx,lat:T.mTeal.tx}[m.key]} visible={m.visible} dragKey={m.key} dragType="metric" onToggle={()=>toggleMetricVis(m.key)} />
+              <CtrlChip key={m.key} label={m.label} color={{rouge:T.mBlue.tx,f1:T.mBlue.tx,bleu:T.mBlue.tx,cost:T.mGreen.tx,lat:T.mTeal.tx}[m.key]||T.mBlue.tx} visible={m.visible} dragKey={m.key} dragType="metric" onToggle={()=>toggleMetricVis(m.key)} />
             ))}
           </div>
         </div>
