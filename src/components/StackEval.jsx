@@ -1378,16 +1378,24 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
   // ── Helpers ──────────────────────────────────────────────────
   const getRow = (row, modelIdx) => row.outputs[modelIdx] || row.outputs[0];
 
-  const getWinner = (row, metric) => {
-    const vals = modelOrder.map((m, i) => ({ i, val: metric === "rouge" ? getRow(row,i).rougeL : metric === "cost" ? getRow(row,i).cost : getRow(row,i).lat }));
-    const valid = vals.filter(v => v.val > 0);
-    if (!valid.length) return null;
-    if (metric === "rouge") return valid.reduce((a,b) => b.val > a.val ? b : a).i;
-    return valid.reduce((a,b) => b.val < a.val ? b : a).i;
+  const getMetricVal = (output, metKey) => {
+    const mm = METRIC_MAP[metKey];
+    return mm ? (output[mm.dataKey] ?? 0) : 0;
   };
 
-  const fmtMetric = (val, key) =>
-    key === "rouge" ? val.toFixed(1) : key === "cost" ? `$${val.toFixed(4)}` : `${val.toFixed(2)}s`;
+  const getWinner = (row, metKey) => {
+    const mm = METRIC_MAP[metKey];
+    if (!mm) return null;
+    const vals = modelOrder.map((m, i) => ({ i, val: getMetricVal(getRow(row,i), metKey) }));
+    const valid = vals.filter(v => v.val > 0);
+    if (!valid.length) return null;
+    return mm.higher ? valid.reduce((a,b) => b.val > a.val ? b : a).i : valid.reduce((a,b) => b.val < a.val ? b : a).i;
+  };
+
+  const fmtMetric = (val, key) => {
+    const mm = METRIC_MAP[key];
+    return mm ? mm.fmt(val) : val.toFixed(2);
+  };
 
   // ── Filtering ────────────────────────────────────────────────
   const getRows = () => {
