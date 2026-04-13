@@ -1207,50 +1207,50 @@ const EVAL_DATA = [
     input:"What is your baggage allowance for economy class?",
     golden:"Economy passengers can bring one carry-on bag (up to 22x14x9 inches, 15 lbs) and one personal item. For checked bags, domestic flights allow one bag up to 50 lbs for a fee; many international routes include one free checked bag. Overweight or extra bags will incur additional charges.",
     outputs:{
-      0:{ text:"I'm not sure about specific baggage policies without knowing which airline you're flying with, as these vary significantly. Typically, most airlines allow one carry-on item and a personal item for free in economy class. For checked baggage, many airlines include one free checked bag with economy tickets, though some budget carriers charge for this.", rougeL:9.4, cost:0.0031, lat:4.21 },
-      1:{ text:"Welcome! In economy class, you're typically allowed one carry-on and one personal item. For checked bags, limits vary by route, so please check your specific booking details!", rougeL:16.8, cost:0.0012, lat:2.05 },
-      2:{ text:"Economy class passengers may bring one carry-on bag and one personal item on board. Checked baggage allowance varies by fare type and route, but most economy fares include one checked bag up to 23 kg (50 lb). Please check your ticket details for the exact allowance.", rougeL:41.2, cost:0.0008, lat:1.87 },
-      3:{ text:"Economy passengers are entitled to one carry-on and one personal item. Checked bag allowances differ by route and fare class — one bag is typically included on international flights.", rougeL:28.5, cost:0.0006, lat:1.64 },
+      0:{ text:"I'm not sure about specific baggage policies without knowing which airline you're flying with, as these vary significantly. Typically, most airlines allow one carry-on item and a personal item for free in economy class. For checked baggage, many airlines include one free checked bag with economy tickets, though some budget carriers charge for this.", rougeL:9.4, f1:0.12, bleu:0.08, cost:0.0031, lat:4.21 },
+      1:{ text:"Welcome! In economy class, you're typically allowed one carry-on and one personal item. For checked bags, limits vary by route, so please check your specific booking details!", rougeL:16.8, f1:0.21, bleu:0.14, cost:0.0012, lat:2.05 },
+      2:{ text:"Economy class passengers may bring one carry-on bag and one personal item on board. Checked baggage allowance varies by fare type and route, but most economy fares include one checked bag up to 23 kg (50 lb). Please check your ticket details for the exact allowance.", rougeL:41.2, f1:0.52, bleu:0.38, cost:0.0008, lat:1.87 },
+      3:{ text:"Economy passengers are entitled to one carry-on and one personal item. Checked bag allowances differ by route and fare class — one bag is typically included on international flights.", rougeL:28.5, f1:0.61, bleu:0.42, cost:0.0006, lat:1.64 },
     }
   },
   { id:2,
     input:"How do I check in for my flight online?",
     golden:"Online check-in opens 24 hours before departure. Head to our website or app, select 'Check-In,' and enter your confirmation number and last name. From there you can pick your seat, add baggage, and grab your boarding pass — all from your phone!",
     outputs:{
-      0:{ text:"Most airlines allow online check-in starting 24 hours before departure through their website or mobile app. You'll need your booking reference and passport information. You can usually download a mobile boarding pass or print one at the airport. The exact process depends on your specific airline.", rougeL:21.3, cost:0.0028, lat:3.94 },
-      1:{ text:"It's easy! Just visit our website or mobile app 24 hours before your flight, enter your confirmation code, and you'll have your boarding pass in no time.", rougeL:38.7, cost:0.0011, lat:1.88 },
-      2:{ text:"You can check in online by visiting our website or mobile app and selecting \"Check In.\" Enter your booking reference and last name to access your reservation. Online check-in usually opens 24 hours before departure.", rougeL:44.1, cost:0.0009, lat:1.72 },
-      3:{ text:"Online check-in is available 24 hours before departure via our website or app. Enter your booking reference and last name, then select your seat and download your boarding pass.", rougeL:36.2, cost:0.0007, lat:1.58 },
+      0:{ text:"Most airlines allow online check-in starting 24 hours before departure through their website or mobile app. You'll need your booking reference and passport information. You can usually download a mobile boarding pass or print one at the airport. The exact process depends on your specific airline.", rougeL:21.3, f1:0.28, bleu:0.19, cost:0.0028, lat:3.94 },
+      1:{ text:"It's easy! Just visit our website or mobile app 24 hours before your flight, enter your confirmation code, and you'll have your boarding pass in no time.", rougeL:38.7, f1:0.45, bleu:0.33, cost:0.0011, lat:1.88 },
+      2:{ text:"You can check in online by visiting our website or mobile app and selecting \"Check In.\" Enter your booking reference and last name to access your reservation. Online check-in usually opens 24 hours before departure.", rougeL:44.1, f1:0.55, bleu:0.41, cost:0.0009, lat:1.72 },
+      3:{ text:"Online check-in is available 24 hours before departure via our website or app. Enter your booking reference and last name, then select your seat and download your boarding pass.", rougeL:36.2, f1:0.58, bleu:0.44, cost:0.0007, lat:1.58 },
     }
   },
   { id:3,
     input:"Can I change my flight after booking?",
     golden:"Yes, flight changes can be made online, through our app, or by calling us. Flexible and business fares usually allow free changes, while basic economy tickets may be more limited. Any fare difference will apply at the time of the change.",
     outputs:{
-      0:{ text:"This depends entirely on your airline and the type of fare you purchased. Some airlines allow free changes, while others charge fees that can range from $50–$200+ depending on the route. Non-refundable fares typically have stricter change policies.", rougeL:12.1, cost:0.0034, lat:4.55 },
-      1:{ text:"Yes, you can! Changes depend on your ticket type. Visit \"Manage Booking\" to see your options; please note that fare differences or change fees may apply.", rougeL:29.4, cost:0.0014, lat:2.11 },
-      2:{ text:"Yes, most tickets allow changes, though change fees or fare differences may apply depending on your ticket type. You can modify your booking through \"Manage Booking\" on our website or contact customer support.", rougeL:37.8, cost:0.0009, lat:1.93 },
-      3:{ text:"Flight changes are possible for most fare types. Flexible fares are free to change; basic economy may have restrictions. Any price difference will be collected at the time of modification.", rougeL:31.5, cost:0.0007, lat:1.71 },
+      0:{ text:"This depends entirely on your airline and the type of fare you purchased. Some airlines allow free changes, while others charge fees that can range from $50–$200+ depending on the route. Non-refundable fares typically have stricter change policies.", rougeL:12.1, f1:0.16, bleu:0.10, cost:0.0034, lat:4.55 },
+      1:{ text:"Yes, you can! Changes depend on your ticket type. Visit \"Manage Booking\" to see your options; please note that fare differences or change fees may apply.", rougeL:29.4, f1:0.35, bleu:0.25, cost:0.0014, lat:2.11 },
+      2:{ text:"Yes, most tickets allow changes, though change fees or fare differences may apply depending on your ticket type. You can modify your booking through \"Manage Booking\" on our website or contact customer support.", rougeL:37.8, f1:0.48, bleu:0.35, cost:0.0009, lat:1.93 },
+      3:{ text:"Flight changes are possible for most fare types. Flexible fares are free to change; basic economy may have restrictions. Any price difference will be collected at the time of modification.", rougeL:31.5, f1:0.54, bleu:0.39, cost:0.0007, lat:1.71 },
     }
   },
   { id:4,
     input:"What happens if my flight is cancelled?",
     golden:"If your flight is cancelled, we'll automatically rebook you on the next available flight and notify you by email or SMS. You can also opt for a full refund to your original payment method. If an overnight stay is needed due to a cancellation on our end, hotel and meal vouchers may be provided.",
     outputs:{
-      0:{ text:"Airline cancellation policies are determined by each carrier, but generally they're required to offer you either a rebooking on another flight, a full refund, or a travel credit. In some regions, you may be entitled to compensation. Check your airline's policy or contact them directly.", rougeL:11.7, cost:0.0029, lat:4.12 },
-      1:{ text:"We've got you covered! If a flight is cancelled, we'll do our best to rebook you on the next available flight or provide a full refund if you prefer not to travel.", rougeL:31.6, cost:0.0013, lat:2.22 },
-      2:{ text:"If your flight is cancelled, we will automatically rebook you on the next available flight when possible. You may also choose to request a refund or select an alternative flight through our website or customer support.", rougeL:39.2, cost:0.0009, lat:1.89 },
-      3:{ text:"Cancelled flights are automatically rebooked on the next available departure. Alternatively, request a full refund through our website. Vouchers for meals or hotels may apply for disruptions caused by the airline.", rougeL:33.4, cost:0.0007, lat:1.66 },
+      0:{ text:"Airline cancellation policies are determined by each carrier, but generally they're required to offer you either a rebooking on another flight, a full refund, or a travel credit. In some regions, you may be entitled to compensation. Check your airline's policy or contact them directly.", rougeL:11.7, f1:0.15, bleu:0.09, cost:0.0029, lat:4.12 },
+      1:{ text:"We've got you covered! If a flight is cancelled, we'll do our best to rebook you on the next available flight or provide a full refund if you prefer not to travel.", rougeL:31.6, f1:0.38, bleu:0.27, cost:0.0013, lat:2.22 },
+      2:{ text:"If your flight is cancelled, we will automatically rebook you on the next available flight when possible. You may also choose to request a refund or select an alternative flight through our website or customer support.", rougeL:39.2, f1:0.50, bleu:0.36, cost:0.0009, lat:1.89 },
+      3:{ text:"Cancelled flights are automatically rebooked on the next available departure. Alternatively, request a full refund through our website. Vouchers for meals or hotels may apply for disruptions caused by the airline.", rougeL:33.4, f1:0.57, bleu:0.40, cost:0.0007, lat:1.66 },
     }
   },
   { id:5,
     input:"How early should I arrive at the airport?",
     golden:"We recommend arriving at least 2 hours before domestic flights and 3 hours before international flights. This gives you comfortable time for check-in, bag drop, and security. During busy travel periods, a little extra buffer is always a good idea.",
     outputs:{
-      0:{ text:"General travel advice suggests arriving 2–3 hours before domestic flights and 3–4 hours before international flights. This can vary based on the airport's congestion, time of day, and how familiar you are with the airport. During peak travel times, arriving earlier is a good idea.", rougeL:29.8, cost:0.0026, lat:3.77 },
-      1:{ text:"To keep things stress-free, we recommend arriving 2 hours early for domestic flights and 3 hours for international journeys. Safe travels!", rougeL:52.3, cost:0.0010, lat:1.74 },
-      2:{ text:"We recommend arriving 2 hours before departure for domestic flights and 3 hours before departure for international flights. This allows time for check-in, security screening, and boarding.", rougeL:58.1, cost:0.0008, lat:1.61 },
-      3:{ text:"Plan to arrive at least 2 hours early for domestic and 3 hours for international travel. Factor in extra time during peak seasons or at busy hub airports.", rougeL:44.7, cost:0.0006, lat:1.49 },
+      0:{ text:"General travel advice suggests arriving 2–3 hours before domestic flights and 3–4 hours before international flights. This can vary based on the airport's congestion, time of day, and how familiar you are with the airport. During peak travel times, arriving earlier is a good idea.", rougeL:29.8, f1:0.36, bleu:0.24, cost:0.0026, lat:3.77 },
+      1:{ text:"To keep things stress-free, we recommend arriving 2 hours early for domestic flights and 3 hours for international journeys. Safe travels!", rougeL:52.3, f1:0.60, bleu:0.46, cost:0.0010, lat:1.74 },
+      2:{ text:"We recommend arriving 2 hours before departure for domestic flights and 3 hours before departure for international flights. This allows time for check-in, security screening, and boarding.", rougeL:58.1, f1:0.68, bleu:0.52, cost:0.0008, lat:1.61 },
+      3:{ text:"Plan to arrive at least 2 hours early for domestic and 3 hours for international travel. Factor in extra time during peak seasons or at busy hub airports.", rougeL:44.7, f1:0.71, bleu:0.55, cost:0.0006, lat:1.49 },
     }
   },
 ];
@@ -1322,22 +1322,51 @@ function ExportMenu({ models }) {
   );
 }
 
-function EvalResults({ models, taskType, onNewEval, embedded }) {
+function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: passedMetrics }) {
   const [layout, setLayout]     = useState("b");
   const [search, setSearch]     = useState("");
   const [sortVal, setSortVal]   = useState("default");
   const [filterVal, setFilterVal] = useState("all");
   const [expandedRows, setExpandedRows] = useState(new Set());
 
+  // Map user-selected metric IDs to data keys and display info
+  const METRIC_MAP = {
+    rouge: { key:"rouge", dataKey:"rougeL", label:"ROUGE-L", higher:true, fmt:v=>v.toFixed(1), fmtShort:v=>v.toFixed(1)+" avg", badgeTx:"Most Accurate", badgeColor:T.rBlue, tipKey:"rouge",
+      note:(wN,wV,rN,rV)=>`Runner-up ${rN} scores ${rV.replace(" avg","")} — ${wV.replace(" avg","")} pts behind` },
+    f1:    { key:"f1", dataKey:"f1", label:"F1 Score", higher:true, fmt:v=>(v*100).toFixed(1)+"%", fmtShort:v=>(v*100).toFixed(1)+"% avg", badgeTx:"Highest F1", badgeColor:T.rBlue, tipKey:"f1",
+      note:(wN,wV,rN,rV)=>`Runner-up ${rN} at ${rV.replace(" avg","")}` },
+    bleu:  { key:"bleu", dataKey:"bleu", label:"BLEU", higher:true, fmt:v=>(v*100).toFixed(1)+"%", fmtShort:v=>(v*100).toFixed(1)+"% avg", badgeTx:"Highest BLEU", badgeColor:T.rPurple, tipKey:"bleu",
+      note:(wN,wV,rN,rV)=>`Runner-up ${rN} at ${rV.replace(" avg","")}` },
+    cost:  { key:"cost", dataKey:"cost", label:"Cost", higher:false, fmt:v=>"$"+v.toFixed(4), fmtShort:v=>"$"+v.toFixed(4)+" avg", badgeTx:"Cheapest", badgeColor:T.rGreen, tipKey:"cost",
+      note:(wN,wV,rN,rV)=>`Runner-up ${rN} at ${rV.replace(" avg","")} — compare impact at scale` },
+    lat:   { key:"lat", dataKey:"lat", label:"Latency", higher:false, fmt:v=>v.toFixed(2)+"s", fmtShort:v=>v.toFixed(2)+"s avg", badgeTx:"Fastest", badgeColor:T.rTeal, tipKey:"lat",
+      note:(wN,wV,rN,rV)=>`Runner-up ${rN} at ${rV.replace(" avg","")}` },
+  };
+
+  // Build metric list from user-selected metrics, always add cost + latency
+  const buildMetricOrder = () => {
+    const order = [];
+    const seen = new Set();
+    if (passedMetrics && passedMetrics.length > 0) {
+      passedMetrics.forEach(m => {
+        if (METRIC_MAP[m.id] && !seen.has(m.id)) { order.push({ ...METRIC_MAP[m.id], visible:true }); seen.add(m.id); }
+      });
+    }
+    // Always include cost and latency if not already
+    if (!seen.has("cost")) order.push({ ...METRIC_MAP.cost, visible:true });
+    if (!seen.has("lat")) order.push({ ...METRIC_MAP.lat, visible:true });
+    // Fallback if no quality metrics
+    if (order.every(m => m.key === "cost" || m.key === "lat")) {
+      order.unshift({ ...METRIC_MAP.rouge, visible:true });
+    }
+    return order;
+  };
+
   // Model/metric order with visibility (draggable)
   const [modelOrder, setModelOrder] = useState(
     models.slice(0,4).map((m, i) => ({ id:m.id, name:m.name, provider:m.provider, color:MODEL_COLORS[i], visible:true }))
   );
-  const [metricOrder, setMetricOrder] = useState([
-    { key:"rouge", label:"ROUGE-L", visible:true  },
-    { key:"cost",  label:"Cost",    visible:true  },
-    { key:"lat",   label:"Latency", visible:true  },
-  ]);
+  const [metricOrder, setMetricOrder] = useState(buildMetricOrder);
 
   // Drag state
   const dragRef = useRef({ type:null, key:null });
@@ -1349,16 +1378,24 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
   // ── Helpers ──────────────────────────────────────────────────
   const getRow = (row, modelIdx) => row.outputs[modelIdx] || row.outputs[0];
 
-  const getWinner = (row, metric) => {
-    const vals = modelOrder.map((m, i) => ({ i, val: metric === "rouge" ? getRow(row,i).rougeL : metric === "cost" ? getRow(row,i).cost : getRow(row,i).lat }));
-    const valid = vals.filter(v => v.val > 0);
-    if (!valid.length) return null;
-    if (metric === "rouge") return valid.reduce((a,b) => b.val > a.val ? b : a).i;
-    return valid.reduce((a,b) => b.val < a.val ? b : a).i;
+  const getMetricVal = (output, metKey) => {
+    const mm = METRIC_MAP[metKey];
+    return mm ? (output[mm.dataKey] ?? 0) : 0;
   };
 
-  const fmtMetric = (val, key) =>
-    key === "rouge" ? val.toFixed(1) : key === "cost" ? `$${val.toFixed(4)}` : `${val.toFixed(2)}s`;
+  const getWinner = (row, metKey) => {
+    const mm = METRIC_MAP[metKey];
+    if (!mm) return null;
+    const vals = modelOrder.map((m, i) => ({ i, val: getMetricVal(getRow(row,i), metKey) }));
+    const valid = vals.filter(v => v.val > 0);
+    if (!valid.length) return null;
+    return mm.higher ? valid.reduce((a,b) => b.val > a.val ? b : a).i : valid.reduce((a,b) => b.val < a.val ? b : a).i;
+  };
+
+  const fmtMetric = (val, key) => {
+    const mm = METRIC_MAP[key];
+    return mm ? mm.fmt(val) : val.toFixed(2);
+  };
 
   // ── Filtering ────────────────────────────────────────────────
   const getRows = () => {
@@ -1369,15 +1406,17 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
       r.golden.toLowerCase().includes(s) ||
       modelOrder.some((m,i) => getRow(r,i).text.toLowerCase().includes(s))
     );
-    if (filterVal === "zero")       rows = rows.filter(r => modelOrder.every((_,i) => getRow(r,i).rougeL === 0));
+    if (filterVal === "zero")       rows = rows.filter(r => modelOrder.every((_,i) => getMetricVal(getRow(r,i), metricOrder[0]?.key || "rouge") === 0));
     else if (filterVal.startsWith("best-")) {
       const idx = parseInt(filterVal.replace("best-",""));
-      rows = rows.filter(r => getWinner(r,"rouge") === idx);
+      rows = rows.filter(r => getWinner(r, metricOrder[0]?.key || "rouge") === idx);
     }
-    if (sortVal === "rouge-desc")   rows.sort((a,b) => Math.max(...modelOrder.map((_,i)=>getRow(b,i).rougeL)) - Math.max(...modelOrder.map((_,i)=>getRow(a,i).rougeL)));
-    else if (sortVal === "rouge-asc")  rows.sort((a,b) => Math.max(...modelOrder.map((_,i)=>getRow(a,i).rougeL)) - Math.max(...modelOrder.map((_,i)=>getRow(b,i).rougeL)));
-    else if (sortVal === "cost-asc")   rows.sort((a,b) => Math.min(...modelOrder.map((_,i)=>getRow(a,i).cost)) - Math.min(...modelOrder.map((_,i)=>getRow(b,i).cost)));
-    else if (sortVal === "lat-asc")    rows.sort((a,b) => Math.min(...modelOrder.map((_,i)=>getRow(a,i).lat)) - Math.min(...modelOrder.map((_,i)=>getRow(b,i).lat)));
+    if (sortVal === "rouge-desc")   rows.sort((a,b) => Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(b,i),"rouge"))) - Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(a,i),"rouge"))));
+    else if (sortVal === "rouge-asc")  rows.sort((a,b) => Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(a,i),"rouge"))) - Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(b,i),"rouge"))));
+    else if (sortVal === "cost-asc")   rows.sort((a,b) => Math.min(...modelOrder.map((_,i)=>getMetricVal(getRow(a,i),"cost"))) - Math.min(...modelOrder.map((_,i)=>getMetricVal(getRow(b,i),"cost"))));
+    else if (sortVal === "lat-asc")    rows.sort((a,b) => Math.min(...modelOrder.map((_,i)=>getMetricVal(getRow(a,i),"lat"))) - Math.min(...modelOrder.map((_,i)=>getMetricVal(getRow(b,i),"lat"))));
+    else if (sortVal === "f1-desc")    rows.sort((a,b) => Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(b,i),"f1"))) - Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(a,i),"f1"))));
+    else if (sortVal === "bleu-desc")  rows.sort((a,b) => Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(b,i),"bleu"))) - Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(a,i),"bleu"))));
     return rows;
   };
 
@@ -1412,17 +1451,16 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
   };
 
   // ── Leaders ────────────────────────────────────────────────
-  const LEADER_CFGS = [
-    { label:"Accuracy", badgeTx:"Most Accurate", badgeColor:T.rBlue,
-      getVal:(r,i)=>getRow(r,i).rougeL, fmt:v=>v.toFixed(1)+" avg", higher:true,
-      note:(wN,wV,rN,rV)=>`Runner-up ${rN} scores ${rV.replace(" avg","")} — ${wV.replace(" avg","")} pts behind` },
-    { label:"Cost", badgeTx:"Cheapest", badgeColor:T.rGreen,
-      getVal:(r,i)=>getRow(r,i).cost, fmt:v=>"$"+v.toFixed(4)+" avg", higher:false,
-      note:(wN,wV,rN,rV)=>`Runner-up ${rN} at ${rV.replace(" avg","")} — compare impact at scale` },
-    { label:"Speed", badgeTx:"Fastest", badgeColor:T.rTeal,
-      getVal:(r,i)=>getRow(r,i).lat, fmt:v=>v.toFixed(2)+"s avg", higher:false,
-      note:(wN,wV,rN,rV)=>`Runner-up ${rN} at ${rV.replace(" avg","")}` },
-  ];
+  const LEADER_CFGS = metricOrder.map(met => ({
+    label: met.label,
+    badgeTx: met.badgeTx,
+    badgeColor: met.badgeColor,
+    getVal: (r,i) => getMetricVal(getRow(r,i), met.key),
+    fmt: v => (met.fmtShort || met.fmt)(v),
+    higher: met.higher,
+    note: met.note,
+    metKey: met.key,
+  }));
 
   // ── Win detection ─────────────────────────────────────────
   const globalWinner = (cfg) => {
@@ -1471,10 +1509,10 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
         <tbody>
           {rows.map(row => {
             const modelIdxMap = visModels.map(m => modelOrder.findIndex(x=>x.id===m.id));
-            const rW = getWinner(row,"rouge"), cW = getWinner(row,"cost"), lW = getWinner(row,"lat");
-            const maxR = Math.max(...modelOrder.map((_,i)=>getRow(row,i).rougeL));
-            const maxC = Math.max(...modelOrder.map((_,i)=>getRow(row,i).cost));
-            const maxL = Math.max(...modelOrder.map((_,i)=>getRow(row,i).lat));
+            const winners = {};
+            visMetrics.forEach(met => { winners[met.key] = getWinner(row, met.key); });
+            const maxVals = {};
+            visMetrics.forEach(met => { maxVals[met.key] = Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(row,i), met.key))); });
             return (
               <tr key={row.id} style={{ borderBottom:`1px solid ${T.borderS}` }}>
                 <td style={{ padding:"14px 12px",verticalAlign:"top" }}>
@@ -1487,27 +1525,25 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
                 {visModels.map((m, ci) => {
                   const mIdx = modelIdxMap[ci];
                   const v = getRow(row, mIdx);
-                  const isRW = mIdx===rW, isCW = mIdx===cW, isLW = mIdx===lW;
-                  const rPct = maxR>0 ? v.rougeL/maxR*100 : 0;
-                  const cPct = maxC>0 ? v.cost/maxC*100 : 0;
-                  const lPct = maxL>0 ? v.lat/maxL*100 : 0;
                   return (
                     <td key={m.id} style={{ padding:"14px 12px",verticalAlign:"top",borderLeft:`1px solid ${T.borderS}` }}>
                       <div style={{ display:"flex",flexWrap:"wrap",gap:4,marginBottom:8,minHeight:20 }}>
-                        {isRW&&maxR>0 && <SmBadge color={T.mBlue} text="Best ROUGE-L" />}
-                        {isCW&&visMetrics.find(x=>x.key==="cost") && <SmBadge color={T.mGreen} text="Cheapest" />}
-                        {isLW&&visMetrics.find(x=>x.key==="lat") && <SmBadge color={T.mTeal} text="Fastest" />}
+                        {visMetrics.filter(met=>met.higher && mIdx===winners[met.key] && maxVals[met.key]>0).slice(0,1).map(met=>(
+                          <SmBadge key={met.key} color={met.badgeColor} text={`Best ${met.label}`} />
+                        ))}
+                        {mIdx===winners["cost"] && visMetrics.find(x=>x.key==="cost") && <SmBadge color={T.mGreen} text="Cheapest" />}
+                        {mIdx===winners["lat"] && visMetrics.find(x=>x.key==="lat") && <SmBadge color={T.mTeal} text="Fastest" />}
                       </div>
                       <div style={{ fontSize:13,color:T.mid,lineHeight:1.6,marginBottom:10,display:"-webkit-box",WebkitLineClamp:5,WebkitBoxOrient:"vertical",overflow:"hidden" }}>{v.text}</div>
                       <div style={{ display:"flex",flexDirection:"column",gap:5 }}>
                         {visMetrics.map(met => {
-                          const isW = met.key==="rouge"?isRW:met.key==="cost"?isCW:isLW;
-                          const val = met.key==="rouge"?v.rougeL:met.key==="cost"?v.cost:v.lat;
-                          const pct = met.key==="rouge"?rPct:met.key==="cost"?cPct:lPct;
+                          const isW = mIdx===winners[met.key];
+                          const val = getMetricVal(v, met.key);
+                          const pct = maxVals[met.key]>0 ? val/maxVals[met.key]*100 : 0;
                           return (
                             <div key={met.key} style={{ display:"flex",alignItems:"center",gap:6 }}>
                               <span style={{ fontFamily:MONO,fontSize:9,color:T.lo,textTransform:"uppercase",letterSpacing:"0.06em",width:44,flexShrink:0 }}>{met.label}</span>
-                              <MiniBar pct={pct} color={m.color} dim={!isW&&met.key==="rouge"} />
+                              <MiniBar pct={pct} color={m.color} dim={!isW&&met.higher} />
                               <span style={{ fontFamily:MONO,fontSize:11,color:isW?T.hi:T.mid,minWidth:50,fontWeight:isW?500:400 }}>{fmtMetric(val,met.key)}</span>
                             </div>
                           );
@@ -1531,7 +1567,7 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
               return (
                 <td key={m.id} style={{ padding:"10px 12px",verticalAlign:"top",borderLeft:`1px solid ${T.border}` }}>
                   {visMetrics.map(met => {
-                    const cfg = LEADER_CFGS.find(c=>c.label.toLowerCase()===({rouge:"accuracy",cost:"cost",lat:"speed"}[met.key]));
+                    const cfg = LEADER_CFGS.find(c=>c.metKey===met.key);
                     if (!cfg) return null;
                     const avg = EVAL_DATA.reduce((s,r)=>s+cfg.getVal(r,mIdx),0)/EVAL_DATA.length;
                     const isW = gW(cfg)===mIdx;
@@ -1556,8 +1592,10 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
   const LayoutB = () => (
     <div style={{ display:"flex",flexDirection:"column",gap:6 }}>
       {rows.map(row => {
-        const rW = getWinner(row,"rouge"), cW = getWinner(row,"cost"), lW = getWinner(row,"lat");
-        const maxR = Math.max(...modelOrder.map((_,i)=>getRow(row,i).rougeL));
+        const winners = {};
+        visMetrics.forEach(met => { winners[met.key] = getWinner(row, met.key); });
+        const firstQualityMet = visMetrics.find(m => m.higher);
+        const firstQualityMax = firstQualityMet ? Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(row,i), firstQualityMet.key))) : 0;
         const exp = expandedRows.has(row.id);
         const toggleRow = () => setExpandedRows(p => { const n=new Set(p); n.has(row.id)?n.delete(row.id):n.add(row.id); return n; });
         return (
@@ -1583,28 +1621,28 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
                   {visModels.map(m => {
                     const mi = modelOrder.findIndex(x=>x.id===m.id);
                     const v = getRow(row,mi);
-                    const isRW=mi===rW, isCW=mi===cW, isLW=mi===lW;
+                    const isFirstQW = firstQualityMet && mi===winners[firstQualityMet.key];
                     return (
-                      <div key={m.id} style={{ padding:"14px 16px", borderRight:`1px solid ${T.borderS}`, background:isRW&&maxR>0?"rgba(91,142,240,0.04)":"transparent", display:"flex", flexDirection:"column", minWidth:220, flex:"0 0 220px" }}>
+                      <div key={m.id} style={{ padding:"14px 16px", borderRight:`1px solid ${T.borderS}`, background:isFirstQW&&firstQualityMax>0?"rgba(91,142,240,0.04)":"transparent", display:"flex", flexDirection:"column", minWidth:220, flex:"0 0 220px" }}>
                         <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8 }}>
                           <div style={{ display:"flex",alignItems:"center",gap:6 }}>
                             <div style={{ width:2,height:14,borderRadius:2,background:m.color,flexShrink:0 }} />
                             <span style={{ fontSize:12,color:m.color,fontFamily:UI,fontWeight:500 }}>{m.name}</span>
                           </div>
                           <div style={{ display:"flex",gap:3 }}>
-                            {isRW&&maxR>0 && <SmBadge color={T.mBlue} text="Best match" />}
+                            {isFirstQW&&firstQualityMax>0 && <SmBadge color={T.mBlue} text="Best match" />}
                           </div>
                         </div>
                         <div style={{ fontSize:13,color:T.mid,lineHeight:1.6,marginBottom:10,flex:1 }}>{v.text}</div>
                         <div style={{ borderTop:`1px solid ${T.border}`,paddingTop:10,display:"flex",flexDirection:"column",gap:6 }}>
                           {visMetrics.map(met => {
-                            const isW = met.key==="rouge"?isRW:met.key==="cost"?isCW:isLW;
-                            const val = met.key==="rouge"?v.rougeL:met.key==="cost"?v.cost:v.lat;
-                            const maxV = met.key==="rouge"?maxR:met.key==="cost"?Math.max(...modelOrder.map((_,i2)=>getRow(row,i2).cost)):Math.max(...modelOrder.map((_,i2)=>getRow(row,i2).lat));
+                            const isW = mi===winners[met.key];
+                            const val = getMetricVal(v, met.key);
+                            const maxV = Math.max(...modelOrder.map((_,i2)=>getMetricVal(getRow(row,i2), met.key)));
                             const pct = maxV>0 ? val/maxV*100 : 0;
                             return (
                               <div key={met.key} style={{ display:"grid", gridTemplateColumns:"56px 1fr 44px", alignItems:"center", gap:4 }}>
-                                <span style={{ fontFamily:MONO,fontSize:10,fontWeight:700,color:T.mid,textTransform:"uppercase",letterSpacing:"0.04em",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" }}>{{rouge:"ROUGE-L",cost:"Cost",lat:"Speed"}[met.key]||met.label}</span>
+                                <span style={{ fontFamily:MONO,fontSize:10,fontWeight:700,color:T.mid,textTransform:"uppercase",letterSpacing:"0.04em",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" }}>{met.label}</span>
                                 <MiniBar pct={pct} color={m.color} dim={!isW} />
                                 <span style={{ fontFamily:MONO,fontSize:11,color:isW?T.hi:T.lo,textAlign:"right",fontWeight:isW?700:400 }}>{fmtMetric(val,met.key)}</span>
                               </div>
@@ -1650,10 +1688,10 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
         </thead>
         <tbody>
           {rows.map(row => {
-            const rW=getWinner(row,"rouge"),cW=getWinner(row,"cost"),lW=getWinner(row,"lat");
-            const maxR=Math.max(...modelOrder.map((_,i)=>getRow(row,i).rougeL));
-            const maxC=Math.max(...modelOrder.map((_,i)=>getRow(row,i).cost));
-            const maxL=Math.max(...modelOrder.map((_,i)=>getRow(row,i).lat));
+            const winners = {};
+            visMetrics.forEach(met => { winners[met.key] = getWinner(row, met.key); });
+            const maxVals = {};
+            visMetrics.forEach(met => { maxVals[met.key] = Math.max(...modelOrder.map((_,i)=>getMetricVal(getRow(row,i), met.key))); });
             return (
               <tr key={row.id} style={{ borderBottom:`1px solid ${T.borderS}` }}>
                 <td style={{ padding:"14px 12px",verticalAlign:"top" }}>
@@ -1663,21 +1701,21 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
                   <div style={{ fontSize:14,color:T.hi,lineHeight:1.5 }}>{row.input}</div>
                   <GoldenBlock text={row.golden} />
                 </td>
-                {/* Stacked outputs */}
                 <td style={{ padding:"0",verticalAlign:"top" }}>
                   {visModels.map(m => {
                     const mi=modelOrder.findIndex(x=>x.id===m.id);
                     const v=getRow(row,mi);
-                    const isRW=mi===rW, isCW=mi===cW, isLW=mi===lW;
                     return (
                       <div key={m.id} style={{ display:"flex",gap:10,padding:"12px 12px",borderBottom:`1px solid ${T.borderS}` }}>
                         <div style={{ width:2,borderRadius:2,flexShrink:0,alignSelf:"stretch",minHeight:14,background:m.color }} />
                         <div style={{ flex:1,minWidth:0 }}>
                           <div style={{ display:"flex",alignItems:"center",gap:6,marginBottom:7,flexWrap:"wrap" }}>
                             <span style={{ fontFamily:MONO,fontSize:10,color:m.color,textTransform:"uppercase",letterSpacing:"0.06em" }}>{m.name}</span>
-                            {isRW&&maxR>0 && <SmBadge color={T.mBlue} text="Best ROUGE-L" />}
-                            {isCW&&visMetrics.find(x=>x.key==="cost") && <SmBadge color={T.mGreen} text="Cheapest" />}
-                            {isLW&&visMetrics.find(x=>x.key==="lat") && <SmBadge color={T.mTeal} text="Fastest" />}
+                            {visMetrics.filter(met=>met.higher && mi===winners[met.key] && maxVals[met.key]>0).slice(0,1).map(met=>(
+                              <SmBadge key={met.key} color={met.badgeColor} text={`Best ${met.label}`} />
+                            ))}
+                            {mi===winners["cost"] && visMetrics.find(x=>x.key==="cost") && <SmBadge color={T.mGreen} text="Cheapest" />}
+                            {mi===winners["lat"] && visMetrics.find(x=>x.key==="lat") && <SmBadge color={T.mTeal} text="Fastest" />}
                           </div>
                           <div style={{ fontSize:13,color:T.mid,lineHeight:1.6 }}>{v.text}</div>
                         </div>
@@ -1685,20 +1723,19 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
                     );
                   })}
                 </td>
-                {/* Stacked metric values per metric column */}
                 {visMetrics.map(met => {
-                  const maxVal = met.key==="rouge"?maxR:met.key==="cost"?maxC:maxL;
-                  const isWIdx = met.key==="rouge"?rW:met.key==="cost"?cW:lW;
+                  const maxVal = maxVals[met.key];
+                  const isWIdx = winners[met.key];
                   return (
                     <td key={met.key} style={{ padding:"0",verticalAlign:"top" }}>
                       {visModels.map(m => {
                         const mi=modelOrder.findIndex(x=>x.id===m.id);
                         const v=getRow(row,mi);
-                        const val=met.key==="rouge"?v.rougeL:met.key==="cost"?v.cost:v.lat;
+                        const val=getMetricVal(v, met.key);
                         const pct=maxVal>0?val/maxVal*100:0;
                         const isW=mi===isWIdx;
-                        const winBadge = isW&&(met.key==="rouge"?maxR>0:true)
-                          ? <SmBadge color={met.key==="rouge"?T.mBlue:met.key==="cost"?T.mGreen:T.mTeal} text="best" />
+                        const winBadge = isW && (met.higher ? maxVal>0 : true)
+                          ? <SmBadge color={met.badgeColor} text="best" />
                           : null;
                         return (
                           <div key={m.id} style={{ padding:"12px 12px",borderBottom:`1px solid ${T.borderS}`,display:"flex",flexDirection:"column",gap:3 }}>
@@ -1708,7 +1745,7 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
                               {winBadge}
                             </div>
                             <div style={{ height:4,background:T.borderS,borderRadius:2,overflow:"hidden" }}>
-                              <div style={{ height:"100%",borderRadius:2,background:m.color,opacity:isW||(met.key!=="rouge")?1:0.25,width:`${Math.max(pct,met.key==="rouge"?0:4)}%`,transition:"width .4s" }} />
+                              <div style={{ height:"100%",borderRadius:2,background:m.color,opacity:isW||!met.higher?1:0.25,width:`${Math.max(pct,met.higher?0:4)}%`,transition:"width .4s" }} />
                             </div>
                           </div>
                         );
@@ -1727,7 +1764,7 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
             </td>
             <td style={{ padding:"10px 12px" }} />
             {visMetrics.map(met => {
-              const cfg = LEADER_CFGS.find(c=>c.label.toLowerCase()===({rouge:"accuracy",cost:"cost",lat:"speed"}[met.key]));
+              const cfg = LEADER_CFGS.find(c=>c.metKey===met.key);
               return (
                 <td key={met.key} style={{ padding:"10px 12px" }}>
                   {visModels.map(m => {
@@ -1785,7 +1822,7 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
               <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between" }}>
                 <div style={{ display:"flex",alignItems:"center",gap:5 }}>
                   <span style={{ fontSize:12,fontFamily:MONO,fontWeight:700,color:T.mid,textTransform:"uppercase",letterSpacing:"0.07em" }}>{cfg.label}</span>
-                  <MetricTip metKey={cfg.label==="Accuracy"?"rouge":cfg.label==="Cost"?"cost":"lat"} />
+                  <MetricTip metKey={cfg.metKey||"rouge"} />
                 </div>
                 <Badge label={cfg.badgeTx} color={cfg.badgeColor} />
               </div>
@@ -1821,20 +1858,24 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
 
   // ── Insight bar ─────────────────────────────────────────
   const InsightBar = () => {
-    const rougeAvgs = modelOrder.map((m,i) => ({ m, avg: EVAL_DATA.reduce((s,r)=>s+getRow(r,i).rougeL,0)/EVAL_DATA.length })).sort((a,b)=>b.avg-a.avg);
-    const costAvgs  = modelOrder.map((m,i) => ({ m, avg: EVAL_DATA.reduce((s,r)=>s+getRow(r,i).cost,0)/EVAL_DATA.length })).sort((a,b)=>a.avg-b.avg);
-    const top = rougeAvgs[0], cheap = costAvgs[0];
-    const topCostAvg = EVAL_DATA.reduce((s,r)=>s+getRow(r,modelOrder.findIndex(x=>x.id===top.m.id)).cost,0)/EVAL_DATA.length;
-    const cheapCostAvg = EVAL_DATA.reduce((s,r)=>s+getRow(r,modelOrder.findIndex(x=>x.id===cheap.m.id)).cost,0)/EVAL_DATA.length;
+    const firstQuality = metricOrder.find(m => m.higher);
+    const qKey = firstQuality?.key || "rouge";
+    const qualityAvgs = modelOrder.map((m,i) => ({ m, avg: EVAL_DATA.reduce((s,r)=>s+getMetricVal(getRow(r,i),qKey),0)/EVAL_DATA.length })).sort((a,b)=>b.avg-a.avg);
+    const costAvgs  = modelOrder.map((m,i) => ({ m, avg: EVAL_DATA.reduce((s,r)=>s+getMetricVal(getRow(r,i),"cost"),0)/EVAL_DATA.length })).sort((a,b)=>a.avg-b.avg);
+    const top = qualityAvgs[0], cheap = costAvgs[0];
+    const topCostAvg = EVAL_DATA.reduce((s,r)=>s+getMetricVal(getRow(r,modelOrder.findIndex(x=>x.id===top.m.id)),"cost"),0)/EVAL_DATA.length;
+    const cheapCostAvg = EVAL_DATA.reduce((s,r)=>s+getMetricVal(getRow(r,modelOrder.findIndex(x=>x.id===cheap.m.id)),"cost"),0)/EVAL_DATA.length;
     const ratio = topCostAvg > 0 && cheapCostAvg > 0 ? topCostAvg/cheapCostAvg : 1;
     const isSame = cheap.m.id === top.m.id;
+    const qLabel = firstQuality?.label || "ROUGE-L";
+    const qFmt = firstQuality ? fmtMetric(top.avg, qKey) : top.avg.toFixed(1);
     return (
       <div style={{ borderBottom:`1px solid ${T.border}`, background:"rgba(91,142,240,0.08)", borderTop:`1px solid rgba(91,142,240,0.2)`, padding:"12px 24px" }}>
         <p style={{ margin:0, fontSize:13, fontFamily:UI, lineHeight:1.65, color:T.mid }}>
           <span style={{ color:top.m.color, fontWeight:700 }}>{top.m.name}</span>
           {" scores highest at "}
-          <span style={{ color:T.hi, fontFamily:MONO, fontWeight:600 }}>{top.avg.toFixed(1)}</span>
-          {" avg ROUGE-L"}
+          <span style={{ color:T.hi, fontFamily:MONO, fontWeight:600 }}>{qFmt}</span>
+          {` avg ${qLabel}`}
           {!isSame && <>
             {" — "}
             <span style={{ color:cheap.m.color, fontWeight:700 }}>{cheap.m.name}</span>
@@ -1915,7 +1956,7 @@ function EvalResults({ models, taskType, onNewEval, embedded }) {
           <span style={{ fontSize:10,textTransform:"uppercase",letterSpacing:"0.08em",color:T.lo,fontFamily:MONO,whiteSpace:"nowrap" }}>Metrics</span>
           <div style={{ display:"flex",alignItems:"center",gap:4,flexWrap:"wrap" }}>
             {metricOrder.map(m=>(
-              <CtrlChip key={m.key} label={m.label} color={{rouge:T.mBlue.tx,cost:T.mGreen.tx,lat:T.mTeal.tx}[m.key]} visible={m.visible} dragKey={m.key} dragType="metric" onToggle={()=>toggleMetricVis(m.key)} />
+              <CtrlChip key={m.key} label={m.label} color={{rouge:T.mBlue.tx,f1:T.mBlue.tx,bleu:T.mBlue.tx,cost:T.mGreen.tx,lat:T.mTeal.tx}[m.key]||T.mBlue.tx} visible={m.visible} dragKey={m.key} dragType="metric" onToggle={()=>toggleMetricVis(m.key)} />
             ))}
           </div>
         </div>
@@ -2242,7 +2283,7 @@ function RunStep({ selModels, challenger, metrics, taskType, taskContext, onBack
             </div>
           </div>
           <div style={{ marginTop:16 }}>
-            <EvalResults models={testModels} taskType={selectedTaskType||taskType} onNewEval={()=>setRan(false)} embedded />
+            <EvalResults models={testModels} taskType={selectedTaskType||taskType} onNewEval={()=>setRan(false)} embedded enabledMetrics={enabledMetrics} />
           </div>
         </div>
       )}
