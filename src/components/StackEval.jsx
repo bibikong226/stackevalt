@@ -376,15 +376,16 @@ function DefineTaskStep({ taskType, setTaskType, taskContext, setTaskContext, ai
         <p style={{ fontSize:14,color:T.mid,margin:0,fontFamily:UI }}>Select a task type and write an evaluation system prompt.</p>
       </div>
 
-      <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:12, marginBottom:24 }}>
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:12, marginBottom:24, alignItems:"stretch" }}>
         {TASK_OPTIONS.map(t => {
           const sel = taskType===t.id;
           const aiHit = sel && aiSuggested?.has("taskType");
           return (
             <button key={t.id} onClick={()=>setTaskType(t.id)} style={{
               background:sel?T.blueSub:T.surface, border:`1px solid ${sel?T.blue:T.border}`,
-              outline:sel?`1px solid ${T.blue}`:"none", borderRadius:8, padding:16,
+              outline:sel?`1px solid ${T.blue}`:"none", borderRadius:8, padding:"16px 16px",
               textAlign:"left", cursor:"pointer", transition:"all .15s", position:"relative",
+              display:"flex", flexDirection:"column",
             }}
               onMouseEnter={e=>{ if(!sel){e.currentTarget.style.borderColor=T.blue;e.currentTarget.style.background=T.elev;} }}
               onMouseLeave={e=>{ if(!sel){e.currentTarget.style.borderColor=T.border;e.currentTarget.style.background=T.surface;} }}
@@ -399,11 +400,9 @@ function DefineTaskStep({ taskType, setTaskType, taskContext, setTaskContext, ai
                   <button onClick={e=>{e.stopPropagation();dismissAi("taskType");}} style={{ background:"rgba(255,255,255,0.2)",border:"none",cursor:"pointer",color:"#fff",fontSize:10,padding:"1px 3px",lineHeight:1,borderRadius:2 }}>×</button>
                 </div>
               )}
-              <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:8, minHeight:16 }}>
-                <div style={{ width:8,height:8,borderRadius:"50%",background:t.dot,flexShrink:0 }} />
-                <div style={{ fontSize:14,fontWeight:600,color:T.hi,fontFamily:UI,lineHeight:"16px" }}>
-                  {t.name}
-                </div>
+              <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:10, height:16 }}>
+                <div style={{ width:7,height:7,borderRadius:"50%",background:t.dot,flexShrink:0 }} />
+                <span style={{ fontSize:14,fontWeight:600,color:T.hi,fontFamily:UI,lineHeight:1 }}>{t.name}</span>
               </div>
               <div style={{ fontSize:12,color:T.mid,lineHeight:1.5,fontFamily:UI }}>{t.desc}</div>
             </button>
