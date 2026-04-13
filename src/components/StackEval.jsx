@@ -1451,17 +1451,16 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
   };
 
   // ── Leaders ────────────────────────────────────────────────
-  const LEADER_CFGS = [
-    { label:"Accuracy", badgeTx:"Most Accurate", badgeColor:T.rBlue,
-      getVal:(r,i)=>getRow(r,i).rougeL, fmt:v=>v.toFixed(1)+" avg", higher:true,
-      note:(wN,wV,rN,rV)=>`Runner-up ${rN} scores ${rV.replace(" avg","")} — ${wV.replace(" avg","")} pts behind` },
-    { label:"Cost", badgeTx:"Cheapest", badgeColor:T.rGreen,
-      getVal:(r,i)=>getRow(r,i).cost, fmt:v=>"$"+v.toFixed(4)+" avg", higher:false,
-      note:(wN,wV,rN,rV)=>`Runner-up ${rN} at ${rV.replace(" avg","")} — compare impact at scale` },
-    { label:"Speed", badgeTx:"Fastest", badgeColor:T.rTeal,
-      getVal:(r,i)=>getRow(r,i).lat, fmt:v=>v.toFixed(2)+"s avg", higher:false,
-      note:(wN,wV,rN,rV)=>`Runner-up ${rN} at ${rV.replace(" avg","")}` },
-  ];
+  const LEADER_CFGS = metricOrder.map(met => ({
+    label: met.label,
+    badgeTx: met.badgeTx,
+    badgeColor: met.badgeColor,
+    getVal: (r,i) => getMetricVal(getRow(r,i), met.key),
+    fmt: v => (met.fmtShort || met.fmt)(v),
+    higher: met.higher,
+    note: met.note,
+    metKey: met.key,
+  }));
 
   // ── Win detection ─────────────────────────────────────────
   const globalWinner = (cfg) => {
