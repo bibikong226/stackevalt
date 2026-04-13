@@ -2282,7 +2282,7 @@ function RunStep({ selModels, challenger, metrics, taskType, taskContext, onBack
             </div>
           </div>
           <div style={{ marginTop:16 }}>
-            <EvalResults models={testModels} taskType={selectedTaskType||taskType} onNewEval={()=>setRan(false)} embedded />
+            <EvalResults models={testModels} taskType={selectedTaskType||taskType} onNewEval={()=>setRan(false)} embedded enabledMetrics={enabledMetrics} />
           </div>
         </div>
       )}
