@@ -1547,7 +1547,7 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
                           return (
                             <div key={met.key} style={{ display:"flex",alignItems:"center",gap:6 }}>
                               <span style={{ fontFamily:MONO,fontSize:9,color:T.lo,textTransform:"uppercase",letterSpacing:"0.06em",width:44,flexShrink:0 }}>{met.label}</span>
-                              <MiniBar pct={pct} color={m.color} dim={!isW&&met.higher} label={met.label} value={fmtMetric(val,met.key)} />
+                              <MiniBar pct={pct} color={m.color} dim={!isW&&met.higher} metKey={met.key} value={fmtMetric(val,met.key)} />
                               <span style={{ fontFamily:MONO,fontSize:11,color:isW?T.hi:T.mid,minWidth:50,fontWeight:isW?500:400 }}>{fmtMetric(val,met.key)}</span>
                             </div>
                           );
@@ -1649,7 +1649,7 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
                             return (
                               <div key={met.key} style={{ display:"grid", gridTemplateColumns:"56px 1fr 44px", alignItems:"center", gap:4 }}>
                                 <span style={{ fontFamily:MONO,fontSize:10,fontWeight:700,color:T.mid,textTransform:"uppercase",letterSpacing:"0.04em",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" }}>{met.label}</span>
-                                <MiniBar pct={pct} color={m.color} dim={!isW} label={met.label} value={fmtMetric(val,met.key)} />
+                                <MiniBar pct={pct} color={m.color} dim={!isW} metKey={met.key} value={fmtMetric(val,met.key)} />
                                 <span style={{ fontFamily:MONO,fontSize:11,color:isW?T.hi:T.lo,textAlign:"right",fontWeight:isW?700:400 }}>{fmtMetric(val,met.key)}</span>
                               </div>
                             );
@@ -2498,7 +2498,7 @@ function CopilotPanel({ open, onToggle, step, taskType, taskContext, metrics, cr
       <button onClick={onToggle} style={{
         position:"fixed", right: open ? 320 : 0, top:"50%", transform:"translateY(-50%)",
         zIndex:60, cursor:"pointer", border:"none",
-        background:"#2B5ECC",
+        background:T.blueBtn,
         borderRadius:"8px 0 0 8px", padding:"16px 10px",
         display:"flex", flexDirection:"column", alignItems:"center", gap:6,
         transition:"right .25s cubic-bezier(.4,0,.2,1)",
