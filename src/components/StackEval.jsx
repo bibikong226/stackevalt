@@ -1858,20 +1858,24 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
 
   // ── Insight bar ─────────────────────────────────────────
   const InsightBar = () => {
-    const rougeAvgs = modelOrder.map((m,i) => ({ m, avg: EVAL_DATA.reduce((s,r)=>s+getRow(r,i).rougeL,0)/EVAL_DATA.length })).sort((a,b)=>b.avg-a.avg);
-    const costAvgs  = modelOrder.map((m,i) => ({ m, avg: EVAL_DATA.reduce((s,r)=>s+getRow(r,i).cost,0)/EVAL_DATA.length })).sort((a,b)=>a.avg-b.avg);
-    const top = rougeAvgs[0], cheap = costAvgs[0];
-    const topCostAvg = EVAL_DATA.reduce((s,r)=>s+getRow(r,modelOrder.findIndex(x=>x.id===top.m.id)).cost,0)/EVAL_DATA.length;
-    const cheapCostAvg = EVAL_DATA.reduce((s,r)=>s+getRow(r,modelOrder.findIndex(x=>x.id===cheap.m.id)).cost,0)/EVAL_DATA.length;
+    const firstQuality = metricOrder.find(m => m.higher);
+    const qKey = firstQuality?.key || "rouge";
+    const qualityAvgs = modelOrder.map((m,i) => ({ m, avg: EVAL_DATA.reduce((s,r)=>s+getMetricVal(getRow(r,i),qKey),0)/EVAL_DATA.length })).sort((a,b)=>b.avg-a.avg);
+    const costAvgs  = modelOrder.map((m,i) => ({ m, avg: EVAL_DATA.reduce((s,r)=>s+getMetricVal(getRow(r,i),"cost"),0)/EVAL_DATA.length })).sort((a,b)=>a.avg-b.avg);
+    const top = qualityAvgs[0], cheap = costAvgs[0];
+    const topCostAvg = EVAL_DATA.reduce((s,r)=>s+getMetricVal(getRow(r,modelOrder.findIndex(x=>x.id===top.m.id)),"cost"),0)/EVAL_DATA.length;
+    const cheapCostAvg = EVAL_DATA.reduce((s,r)=>s+getMetricVal(getRow(r,modelOrder.findIndex(x=>x.id===cheap.m.id)),"cost"),0)/EVAL_DATA.length;
     const ratio = topCostAvg > 0 && cheapCostAvg > 0 ? topCostAvg/cheapCostAvg : 1;
     const isSame = cheap.m.id === top.m.id;
+    const qLabel = firstQuality?.label || "ROUGE-L";
+    const qFmt = firstQuality ? fmtMetric(top.avg, qKey) : top.avg.toFixed(1);
     return (
       <div style={{ borderBottom:`1px solid ${T.border}`, background:"rgba(91,142,240,0.08)", borderTop:`1px solid rgba(91,142,240,0.2)`, padding:"12px 24px" }}>
         <p style={{ margin:0, fontSize:13, fontFamily:UI, lineHeight:1.65, color:T.mid }}>
           <span style={{ color:top.m.color, fontWeight:700 }}>{top.m.name}</span>
           {" scores highest at "}
-          <span style={{ color:T.hi, fontFamily:MONO, fontWeight:600 }}>{top.avg.toFixed(1)}</span>
-          {" avg ROUGE-L"}
+          <span style={{ color:T.hi, fontFamily:MONO, fontWeight:600 }}>{qFmt}</span>
+          {` avg ${qLabel}`}
           {!isSame && <>
             {" — "}
             <span style={{ color:cheap.m.color, fontWeight:700 }}>{cheap.m.name}</span>
