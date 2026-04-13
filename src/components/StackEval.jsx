@@ -338,12 +338,7 @@ function Sidebar({ step, nav, taskType, selModels, metrics, completedSteps }) {
               <span style={{ fontSize:13, fontFamily:UI, fontWeight:active?600:400, color:active?T.hi:T.mid }}>
                 {s.label}
               </span>
-              {active && !complete && (
-                <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style={{ flexShrink:0 }}>
-                  <path d="M2 6.5L5.5 10L11 3" stroke={T.blue} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              )}
-              {!active && complete && (
+              {complete && (
                 <div style={{ width:16,height:16,borderRadius:"50%",background:T.blue,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
                   <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
                     <path d="M1 4.5L3.5 7L8 2" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
@@ -404,16 +399,11 @@ function DefineTaskStep({ taskType, setTaskType, taskContext, setTaskContext, ai
                   <button onClick={e=>{e.stopPropagation();dismissAi("taskType");}} style={{ background:"rgba(255,255,255,0.2)",border:"none",cursor:"pointer",color:"#fff",fontSize:10,padding:"1px 3px",lineHeight:1,borderRadius:2 }}>×</button>
                 </div>
               )}
-              <div style={{ display:"grid", gridTemplateColumns:"auto 1fr auto", alignItems:"start", columnGap:8, marginBottom:8, minHeight:18 }}>
-                <div style={{ width:6,height:6,borderRadius:"50%",background:t.dot,marginTop:5,flexShrink:0 }} />
-                <div style={{ fontSize:14,fontWeight:600,color:T.hi,fontFamily:UI,lineHeight:"16px",paddingTop:0 }}>
+              <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:8, minHeight:16 }}>
+                <div style={{ width:8,height:8,borderRadius:"50%",background:t.dot,flexShrink:0 }} />
+                <div style={{ fontSize:14,fontWeight:600,color:T.hi,fontFamily:UI,lineHeight:"16px" }}>
                   {t.name}
                 </div>
-                {sel && (
-                  <div style={{ width:16,height:16,borderRadius:"50%",background:T.blue,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,alignSelf:"start" }}>
-                    <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 4.5L3.5 7L8 2" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                  </div>
-                )}
               </div>
               <div style={{ fontSize:12,color:T.mid,lineHeight:1.5,fontFamily:UI }}>{t.desc}</div>
             </button>
