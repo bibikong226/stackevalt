@@ -1617,13 +1617,15 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
                 <div style={{ padding:"10px 16px", borderBottom:`1px solid ${T.border}`, background:T.base }}>
                   <GoldenBlock text={row.golden} />
                 </div>
-                <div style={{ display:"flex",overflowX:"auto",alignItems:"stretch" }}>
+                <div style={{ overflowX:"auto", WebkitOverflowScrolling:"touch" }}>
+                  <div style={{ display:"flex",alignItems:"stretch", minWidth:"fit-content" }}>
                   {visModels.map(m => {
                     const mi = modelOrder.findIndex(x=>x.id===m.id);
                     const v = getRow(row,mi);
                     const isFirstQW = firstQualityMet && mi===winners[firstQualityMet.key];
+                    const cardWidth = visModels.length <= 2 ? "50%" : visModels.length === 3 ? "33.33%" : undefined;
                     return (
-                      <div key={m.id} style={{ padding:"14px 16px", borderRight:`1px solid ${T.borderS}`, background:isFirstQW&&firstQualityMax>0?"rgba(91,142,240,0.04)":"transparent", display:"flex", flexDirection:"column", minWidth:220, flex:"0 0 220px" }}>
+                      <div key={m.id} style={{ padding:"14px 16px", borderRight:`1px solid ${T.borderS}`, background:isFirstQW&&firstQualityMax>0?"rgba(91,142,240,0.04)":"transparent", display:"flex", flexDirection:"column", minWidth:240, flex: cardWidth ? `0 0 ${cardWidth}` : "0 0 240px", boxSizing:"border-box" }}>
                         <div style={{ display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8 }}>
                           <div style={{ display:"flex",alignItems:"center",gap:6 }}>
                             <div style={{ width:2,height:14,borderRadius:2,background:m.color,flexShrink:0 }} />
@@ -1652,8 +1654,8 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
                       </div>
                     );
                   })}
+                  </div>
                 </div>
-
               </div>
             )}
           </div>
