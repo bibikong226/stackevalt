@@ -1322,22 +1322,51 @@ function ExportMenu({ models }) {
   );
 }
 
-function EvalResults({ models, taskType, onNewEval, embedded }) {
+function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: passedMetrics }) {
   const [layout, setLayout]     = useState("b");
   const [search, setSearch]     = useState("");
   const [sortVal, setSortVal]   = useState("default");
   const [filterVal, setFilterVal] = useState("all");
   const [expandedRows, setExpandedRows] = useState(new Set());
 
+  // Map user-selected metric IDs to data keys and display info
+  const METRIC_MAP = {
+    rouge: { key:"rouge", dataKey:"rougeL", label:"ROUGE-L", higher:true, fmt:v=>v.toFixed(1), fmtShort:v=>v.toFixed(1)+" avg", badgeTx:"Most Accurate", badgeColor:T.rBlue, tipKey:"rouge",
+      note:(wN,wV,rN,rV)=>`Runner-up ${rN} scores ${rV.replace(" avg","")} — ${wV.replace(" avg","")} pts behind` },
+    f1:    { key:"f1", dataKey:"f1", label:"F1 Score", higher:true, fmt:v=>(v*100).toFixed(1)+"%", fmtShort:v=>(v*100).toFixed(1)+"% avg", badgeTx:"Highest F1", badgeColor:T.rBlue, tipKey:"f1",
+      note:(wN,wV,rN,rV)=>`Runner-up ${rN} at ${rV.replace(" avg","")}` },
+    bleu:  { key:"bleu", dataKey:"bleu", label:"BLEU", higher:true, fmt:v=>(v*100).toFixed(1)+"%", fmtShort:v=>(v*100).toFixed(1)+"% avg", badgeTx:"Highest BLEU", badgeColor:T.rPurple, tipKey:"bleu",
+      note:(wN,wV,rN,rV)=>`Runner-up ${rN} at ${rV.replace(" avg","")}` },
+    cost:  { key:"cost", dataKey:"cost", label:"Cost", higher:false, fmt:v=>"$"+v.toFixed(4), fmtShort:v=>"$"+v.toFixed(4)+" avg", badgeTx:"Cheapest", badgeColor:T.rGreen, tipKey:"cost",
+      note:(wN,wV,rN,rV)=>`Runner-up ${rN} at ${rV.replace(" avg","")} — compare impact at scale` },
+    lat:   { key:"lat", dataKey:"lat", label:"Latency", higher:false, fmt:v=>v.toFixed(2)+"s", fmtShort:v=>v.toFixed(2)+"s avg", badgeTx:"Fastest", badgeColor:T.rTeal, tipKey:"lat",
+      note:(wN,wV,rN,rV)=>`Runner-up ${rN} at ${rV.replace(" avg","")}` },
+  };
+
+  // Build metric list from user-selected metrics, always add cost + latency
+  const buildMetricOrder = () => {
+    const order = [];
+    const seen = new Set();
+    if (passedMetrics && passedMetrics.length > 0) {
+      passedMetrics.forEach(m => {
+        if (METRIC_MAP[m.id] && !seen.has(m.id)) { order.push({ ...METRIC_MAP[m.id], visible:true }); seen.add(m.id); }
+      });
+    }
+    // Always include cost and latency if not already
+    if (!seen.has("cost")) order.push({ ...METRIC_MAP.cost, visible:true });
+    if (!seen.has("lat")) order.push({ ...METRIC_MAP.lat, visible:true });
+    // Fallback if no quality metrics
+    if (order.every(m => m.key === "cost" || m.key === "lat")) {
+      order.unshift({ ...METRIC_MAP.rouge, visible:true });
+    }
+    return order;
+  };
+
   // Model/metric order with visibility (draggable)
   const [modelOrder, setModelOrder] = useState(
     models.slice(0,4).map((m, i) => ({ id:m.id, name:m.name, provider:m.provider, color:MODEL_COLORS[i], visible:true }))
   );
-  const [metricOrder, setMetricOrder] = useState([
-    { key:"rouge", label:"ROUGE-L", visible:true  },
-    { key:"cost",  label:"Cost",    visible:true  },
-    { key:"lat",   label:"Latency", visible:true  },
-  ]);
+  const [metricOrder, setMetricOrder] = useState(buildMetricOrder);
 
   // Drag state
   const dragRef = useRef({ type:null, key:null });
