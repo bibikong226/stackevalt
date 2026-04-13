@@ -404,15 +404,17 @@ function DefineTaskStep({ taskType, setTaskType, taskContext, setTaskContext, ai
                   <button onClick={e=>{e.stopPropagation();dismissAi("taskType");}} style={{ background:"rgba(255,255,255,0.2)",border:"none",cursor:"pointer",color:"#fff",fontSize:10,padding:"1px 3px",lineHeight:1,borderRadius:2 }}>×</button>
                 </div>
               )}
-              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12 }}>
-                <div style={{ width:6,height:6,borderRadius:"50%",background:t.dot }} />
+              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", gap:12, marginBottom:8 }}>
+                <div style={{ display:"flex", alignItems:"center", gap:8, minWidth:0 }}>
+                  <div style={{ width:6,height:6,borderRadius:"50%",background:t.dot,flexShrink:0 }} />
+                  <div style={{ fontSize:14,fontWeight:600,color:T.hi,fontFamily:UI,lineHeight:1.2 }}>{t.name}</div>
+                </div>
                 {sel && (
-                  <div style={{ width:16,height:16,borderRadius:"50%",background:T.blue,display:"flex",alignItems:"center",justifyContent:"center" }}>
+                  <div style={{ width:16,height:16,borderRadius:"50%",background:T.blue,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
                     <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1 4.5L3.5 7L8 2" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                   </div>
                 )}
               </div>
-              <div style={{ fontSize:14,fontWeight:600,color:T.hi,marginBottom:5,fontFamily:UI }}>{t.name}</div>
               <div style={{ fontSize:12,color:T.mid,lineHeight:1.5,fontFamily:UI }}>{t.desc}</div>
             </button>
           );
