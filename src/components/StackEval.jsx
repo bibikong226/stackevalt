@@ -1,4 +1,5 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
+import ReactDOM from "react-dom";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, RadarChart, Radar, PolarGrid, PolarAngleAxis } from "recharts";
 
 /* ─────────────────────────────────────────────────────────────
@@ -156,19 +157,31 @@ const Select = ({ value, onChange, options, style={} }) => (
 
 const MetricTip = ({ metKey }) => {
   const [open, setOpen] = useState(false);
+  const [pos, setPos] = useState({ top: 0, left: 0 });
+  const btnRef = React.useRef(null);
   const def = METRIC_DEFS[metKey];
   if (!def) return null;
+  const show = () => {
+    if (btnRef.current) {
+      const r = btnRef.current.getBoundingClientRect();
+      setPos({ top: r.top - 8, left: r.left });
+    }
+    setOpen(true);
+  };
+  const hide = () => setOpen(false);
   return (
     <span style={{ position:"relative", display:"inline-flex", alignItems:"center", marginLeft:4 }}>
       <button
-        onMouseEnter={()=>setOpen(true)} onMouseLeave={()=>setOpen(false)}
-        style={{ background:"rgba(59,130,246,0.15)", border:`1px solid rgba(91,142,240,0.4)`, borderRadius:"50%", width:15, height:15, cursor:"default", display:"flex", alignItems:"center", justifyContent:"center", color:T.blueTxt, fontSize:9, padding:0, flexShrink:0, fontWeight:700 }}
+        ref={btnRef}
+        onMouseEnter={show} onMouseLeave={hide} onFocus={show} onBlur={hide}
+        style={{ background:"rgba(59,130,246,0.15)", border:`1px solid rgba(91,142,240,0.4)`, borderRadius:"50%", width:15, height:15, cursor:"help", display:"flex", alignItems:"center", justifyContent:"center", color:T.blueTxt, fontSize:9, padding:0, flexShrink:0, fontWeight:700 }}
       >?</button>
-      {open && (
-        <div style={{ position:"absolute", bottom:"calc(100% + 8px)", left:0, width:220, background:T.elev, border:`1px solid ${T.border}`, borderRadius:8, padding:"10px 12px", fontSize:12, color:T.hi, lineHeight:1.6, zIndex:200, boxShadow:"0 8px 24px rgba(0,0,0,0.7)", pointerEvents:"none" }}>
+      {open && typeof document !== "undefined" && ReactDOM.createPortal(
+        <div style={{ position:"fixed", top:pos.top, left:pos.left, transform:"translateY(-100%)", width:220, background:T.elev, border:`1px solid ${T.border}`, borderRadius:8, padding:"10px 12px", fontSize:12, color:T.hi, lineHeight:1.6, zIndex:9999, boxShadow:"0 8px 24px rgba(0,0,0,0.7)", pointerEvents:"none" }}>
           <div style={{ fontSize:10,fontWeight:700,color:T.blueTxt,letterSpacing:"0.06em",textTransform:"uppercase",marginBottom:4,fontFamily:UI }}>{metKey}</div>
           {def}
-        </div>
+        </div>,
+        document.body
       )}
     </span>
   );
