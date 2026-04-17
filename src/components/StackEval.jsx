@@ -365,8 +365,16 @@ function DefineTaskStep({ taskType, setTaskType, taskContext, setTaskContext, ai
 
   const draftTc = () => {
     setTcPrev(taskContext);
-    setTaskContext(TASK_CONTEXT_DRAFTS[taskType] || "Evaluating model output quality and accuracy against a reference answer.");
+    setTaskContext(getTaskContextDraft(taskType));
     setTcPending(true);
+  };
+
+  const handleTaskSelect = (nextTaskType) => {
+    setTaskType(nextTaskType);
+    if (!taskContext.trim() || taskContext === LEGACY_TASK_CONTEXT_FALLBACK) {
+      setTaskContext(getTaskContextDraft(nextTaskType));
+      setTcPending(true);
+    }
   };
 
   return (
@@ -381,7 +389,7 @@ function DefineTaskStep({ taskType, setTaskType, taskContext, setTaskContext, ai
           const sel = taskType===t.id;
           const aiHit = sel && aiSuggested?.has("taskType");
           return (
-            <button key={t.id} onClick={()=>setTaskType(t.id)} style={{
+            <button key={t.id} onClick={()=>handleTaskSelect(t.id)} style={{
               background:sel?T.blueSub:T.surface, border:`1px solid ${sel?T.blue:T.border}`,
               outline:sel?`1px solid ${T.blue}`:"none", borderRadius:8, padding:"16px 16px",
               textAlign:"left", cursor:"pointer", transition:"all .15s", position:"relative",
@@ -410,7 +418,6 @@ function DefineTaskStep({ taskType, setTaskType, taskContext, setTaskContext, ai
         })}
       </div>
 
-      {/* Evaluation System Prompt */}
       <div style={{ marginBottom:24 }}>
         <div style={{ display:"flex",alignItems:"baseline",gap:8,marginBottom:8 }}>
           <SubLabel style={{ margin:0 }}>Evaluation System Prompt</SubLabel>
@@ -427,7 +434,7 @@ function DefineTaskStep({ taskType, setTaskType, taskContext, setTaskContext, ai
         <div style={{ position:"relative" }}>
           <textarea value={taskContext}
             onChange={e=>{ setTaskContext(e.target.value); if(tcPending) setTcPending(false); }}
-            placeholder={"You are evaluating a customer support AI assistant.\n\nScore the output on:\n- Factual accuracy vs the reference\n- Tone: professional and helpful\n- Completeness\n\nReturn a score 0–1 with a one-sentence reason.\n\nInput: {{input}}\nOutput: {{output}}\nReference: {{golden_output}}"}
+            placeholder={getTaskContextDraft(taskType)}
             rows={10}
             style={{ width:"100%", padding:"12px 14px", paddingBottom:36, background:tcPending?"rgba(91,142,240,0.08)":"rgba(255,255,255,0.06)", border:`2px solid ${tcPending?"rgba(91,142,240,0.5)":taskContext?T.blue+"66":T.border}`, borderRadius:8, resize:"vertical", fontSize:13, color:T.hi, outline:"none", boxSizing:"border-box", fontFamily:MONO, lineHeight:1.6, transition:"all .15s" }}
             onFocus={e=>{ if(!tcPending) e.target.style.borderColor=T.blue; }}
@@ -2302,6 +2309,8 @@ function RunStep({ selModels, challenger, metrics, taskType, taskContext, onBack
    Used in: task context textarea + evaluator prompt textarea
 ───────────────────────────────────────────────────────────── */
 
+const LEGACY_TASK_CONTEXT_FALLBACK = "Evaluating model output quality and accuracy against a reference answer.";
+
 const TASK_CONTEXT_DRAFTS = {
   "qa": `You are a helpful, knowledgeable assistant. Answer the user's question directly and concisely using accurate, factual information.
 
@@ -2356,6 +2365,10 @@ Context and question:
 
 Answer:`,
 };
+
+function getTaskContextDraft(taskType) {
+  return TASK_CONTEXT_DRAFTS[taskType] || TASK_CONTEXT_DRAFTS.qa;
+}
 
 function draftEvaluatorPrompt(name) {
   const n = (name || "").toLowerCase();
