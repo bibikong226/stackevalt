@@ -2303,10 +2303,58 @@ function RunStep({ selModels, challenger, metrics, taskType, taskContext, onBack
 ───────────────────────────────────────────────────────────── */
 
 const TASK_CONTEXT_DRAFTS = {
-  "qa":            "Evaluating whether model responses correctly and concisely answer factual questions against a reference answer.",
-  "summarization": "Evaluating whether model summaries capture the key points of the source text without hallucinating or omitting critical information.",
-  "rag-qa":        "Evaluating whether model responses accurately answer questions using only the context provided, without relying on outside knowledge.",
-  "locomo":        "Evaluating whether model responses correctly answer questions requiring chaining facts across a very long context window.",
+  "qa": `You are a helpful, knowledgeable assistant. Answer the user's question directly and concisely using accurate, factual information.
+
+Guidelines:
+- Be specific and precise — avoid vague or generic answers.
+- If you are uncertain, say so rather than guessing.
+- Keep responses to 1–3 sentences unless more detail is requested.
+- Do not invent facts, numbers, or sources.
+
+User question: {{input}}
+
+Respond with the answer only — no preamble.`,
+
+  "summarization": `You are an expert summarizer. Produce a faithful, concise summary of the source text below.
+
+Guidelines:
+- Capture the key points, main argument, and any critical figures or names.
+- Do not introduce information that is not in the source.
+- Preserve the original meaning and tone.
+- Keep the summary to roughly 20% of the original length (3–5 sentences for typical input).
+
+Source text:
+{{input}}
+
+Summary:`,
+
+  "rag-qa": `You are a retrieval-augmented assistant. Answer the user's question using ONLY the provided context. Do not use outside knowledge.
+
+Guidelines:
+- If the context does not contain the answer, reply: "The provided context does not contain this information."
+- Quote or cite specific phrases from the context where relevant.
+- Be concise and directly address what was asked.
+- Never speculate beyond what the context supports.
+
+Context:
+{{input}}
+
+Question: (embedded in context above)
+
+Answer:`,
+
+  "locomo": `You are a long-context reasoning assistant. The input contains a long document or conversation history followed by a question. Answer the question by carefully chaining facts across the full context.
+
+Guidelines:
+- Read the entire context before answering — relevant facts may be far apart.
+- Show the chain of reasoning briefly (1–2 sentences) before stating the final answer.
+- Cite the specific passages or turns you relied on.
+- If the answer requires combining multiple facts, make each step explicit.
+
+Context and question:
+{{input}}
+
+Answer:`,
 };
 
 function draftEvaluatorPrompt(name) {
