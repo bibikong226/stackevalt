@@ -2435,6 +2435,13 @@ const STEP_STARTERS = {
   4: "Why did a model score low? What should I pick?",
 };
 
+const COPILOT_QUICK_TOPICS = {
+  1: ["customer support", "safety", "translation", "prompt help"],
+  2: ["json validity", "code evaluation", "dataset guidance", "A/B comparison"],
+  3: ["budget models", "fast models", "latency", "recommend a model"],
+  4: ["why score low", "summarize results", "compare models", "what should I pick"],
+};
+
 const MOCK_COPILOT = [
   { match:/customer.?serv|chatbot|support.?bot|airline|support/i,
     text:"Sounds like a **customer support** evaluation. Here's my setup suggestion:\n\n• Task type → **Standard QA**\n• Add a **Tone & Empathy** evaluator — statistical metrics miss this entirely\n\nHere's what I drafted:\n\n`\"Score the output 0–1 on tone and empathy. 1 = warm, resolves the issue, acknowledges the customer. 0 = cold or unhelpful. Input: {{input}} Output: {{output}} Reference: {{golden_output}}. Return score + one-sentence reason.\"`\n\nDoes this match what you had in mind?",
@@ -2455,10 +2462,10 @@ const MOCK_COPILOT = [
       { label:"Add Length evaluator", type:"add_custom_metric", payload:{ name:"Response Length", method:"code", description:"Checks response falls in 20–150 word range", config:{ code:"def evaluate(input, output, golden_output):\n    words = len(output.split())\n    if 20 <= words <= 150: return 1.0\n    if 10 <= words <= 200: return 0.5\n    return 0.0" } } }
     ]
   },
-  { match:/cheap|cost|budget|production|affordable|price|money/i,
-    text:"For cost-sensitive production, I'd narrow to:\n\n• **GPT-3.5 Turbo** — $2/1M, very fast\n• **Claude 3 Haiku** — $1.5/1M, best cost/quality in class\n• **Llama 3 8B** — $0.5/1M, open source\n\nThese are 5–15× cheaper than flagship models with acceptable quality for most support tasks. Want me to filter to these?",
+  { match:/cheap|cost|budget|production|affordable|price|money|budget models/i,
+    text:"For cost-sensitive production, I'd narrow to:\n\n• **GPT-4o Mini** — very cheap and fast\n• **Gemini 2.5 Flash** — strong price/performance\n• **Claude 4 Haiku** — fast, low-cost, good UX\n\nThese are the actual low-cost models available in this project. Want me to filter to these?",
     actions:[
-      { label:"Filter to budget models", type:"filter_models", payload:{ models:["gpt-3.5-turbo","claude-3-haiku","llama-3-8b"] } }
+      { label:"Filter to budget models", type:"filter_models", payload:{ models:["gpt-4o-mini","gemini-2.5-flash","claude-4-haiku"] } }
     ]
   },
   { match:/why.*(worse|bad|low|fail|score)|what.*(wrong|went|issue)/i,
@@ -2489,13 +2496,13 @@ const MOCK_COPILOT = [
       { label:"Add JSON Validity", type:"add_custom_metric", payload:{ name:"JSON Validity", method:"code", description:"Checks output is valid JSON", config:{ code:"import json\ndef evaluate(input, output, golden_output):\n    try:\n        json.loads(output)\n        return 1.0\n    except Exception:\n        return 0.0" } } }
     ]
   },
-  { match:/latency|speed|fast|slow|response.?time/i,
-    text:"Latency matters most when the chatbot is user-facing. Quick guidance:\n\n• **<1s** feels instant — flagship streaming\n• **1–3s** is acceptable for chat\n• **>3s** users start dropping off\n\nFor latency-critical apps, prefer **Haiku**, **GPT-3.5 Turbo**, or **Llama 3 8B**. Want me to filter to fast models?",
+  { match:/latency|speed|fast|slow|response.?time|fast models/i,
+    text:"Latency matters most when the chatbot is user-facing. Quick guidance:\n\n• **<1s** feels instant\n• **1–3s** is acceptable for chat\n• **>3s** users start dropping off\n\nFor latency-critical apps, I'd filter to the fastest models available here: **GPT-4o Mini**, **Gemini 2.5 Flash**, and **Claude 4 Haiku**.",
     actions:[
-      { label:"Filter to fast models", type:"filter_models", payload:{ models:["gpt-3.5-turbo","claude-3-haiku","llama-3-8b"] } }
+      { label:"Filter to fast models", type:"filter_models", payload:{ models:["gpt-4o-mini","gemini-2.5-flash","claude-4-haiku"] } }
     ]
   },
-  { match:/code|coding|programming|developer/i,
+  { match:/code|coding|programming|developer|code evaluation/i,
     text:"For **code generation** evaluation, the strongest signals are:\n\n• **Compilability / execution** — code runs without error (code metric)\n• **Test pass rate** — passes provided unit tests (code metric)\n• **Style & idiomaticity** — LLM judge\n\nWant me to add an Execution Pass evaluator?",
     actions:[
       { label:"Add Execution Pass", type:"add_custom_metric", payload:{ name:"Execution Pass", method:"code", description:"Runs the output as code and checks it executes without error", config:{ code:"def evaluate(input, output, golden_output):\n    try:\n        exec(output, {})\n        return 1.0\n    except Exception:\n        return 0.0" } } }
@@ -2511,11 +2518,11 @@ const MOCK_COPILOT = [
     text:"A strong **evaluation system prompt** does three things:\n\n1. **Sets the role** — \"You are a helpful customer support assistant…\"\n2. **States constraints** — tone, length, what to avoid\n3. **Includes the input variables** — `{{input}}`, `{{output}}`, `{{golden_output}}`\n\nClick **✦ Generate Draft** on the prompt textarea and I'll write a full system prompt tailored to your task type.",
     actions:[]
   },
-  { match:/dataset|test.?data|csv|upload|examples|rows/i,
+  { match:/dataset|test.?data|csv|upload|examples|rows|dataset guidance/i,
     text:"For a meaningful eval you typically want **50–200 rows** covering:\n\n• Common cases (60%)\n• Edge cases & adversarial inputs (25%)\n• Known-hard examples where production has failed (15%)\n\nUpload a CSV with `input`, `golden_output` columns on the Run step. Want tips on building a golden dataset?",
     actions:[]
   },
-  { match:/compare|baseline|ab.?test|versus|vs\b/i,
+  { match:/compare|baseline|ab.?test|versus|vs\b|a\/b comparison/i,
     text:"For **A/B comparison** between models or prompt versions, run the same dataset across both and compare per-row deltas — not just averages. Averages hide regressions on important slices.\n\nThe results page shows per-row scores side-by-side so you can spot where one model wins and the other loses.",
     actions:[]
   },
@@ -2549,16 +2556,15 @@ function CopilotPanel({ open, onToggle, step, taskType, taskContext, metrics, cr
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [applied, setApplied] = useState(new Set());
-  const [undoStore, setUndoStore] = useState({});  // key → prev state snapshot
+  const [undoStore, setUndoStore] = useState({});
   const scrollRef = useRef(null);
   const inputRef = useRef(null);
 
-  // Step-aware PLACEHOLDER — we don't prefill the value; user types fresh
   useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight; }, [messages, loading]);
   useEffect(() => { if (open && inputRef.current) inputRef.current.focus(); }, [open]);
 
-  const send = () => {
-    const txt = input.trim();
+  const send = (forcedText) => {
+    const txt = (forcedText ?? input).trim();
     if (!txt || loading) return;
     setMessages(p => [...p, { id:Date.now(), role:"user", text:txt, actions:[] }]);
     setInput("");
@@ -2567,7 +2573,7 @@ function CopilotPanel({ open, onToggle, step, taskType, taskContext, metrics, cr
       const resp = getMockCopilotResponse(txt);
       setMessages(p => [...p, { id:Date.now()+1, role:"assistant", text:resp.text, actions:resp.actions||[] }]);
       setLoading(false);
-    }, 700 + Math.random()*500);
+    }, 350);
   };
 
   const applyAction = (msgId, action, prevSnapshot) => {
@@ -2585,10 +2591,10 @@ function CopilotPanel({ open, onToggle, step, taskType, taskContext, metrics, cr
 
   const stepNames = ["Define Task","Define Metrics","Model Selection","Run"];
   const stepName = stepNames[step-1] || "";
+  const quickTopics = COPILOT_QUICK_TOPICS[step] || [];
 
   return (
     <>
-      {/* Floating toggle pill — right edge */}
       <button onClick={onToggle} style={{
         position:"fixed", right: open ? 320 : 0, top:"50%", transform:"translateY(-50%)",
         zIndex:60, cursor:"pointer", border:"none",
@@ -2609,7 +2615,6 @@ function CopilotPanel({ open, onToggle, step, taskType, taskContext, metrics, cr
         }
       </button>
 
-      {/* Panel */}
       <div style={{
         position:"fixed", right: open ? 0 : -325, top:0, bottom:0, width:320,
         background:T.surface, borderLeft:`1px solid ${T.border}`,
@@ -2617,7 +2622,6 @@ function CopilotPanel({ open, onToggle, step, taskType, taskContext, metrics, cr
         transition:"right .25s cubic-bezier(.4,0,.2,1)",
         boxShadow:open?"-4px 0 28px rgba(0,0,0,0.55)":"none",
       }}>
-        {/* Header */}
         <div style={{ padding:"11px 14px", borderBottom:`1px solid ${T.border}`, display:"flex", alignItems:"center", gap:9, flexShrink:0, background:T.elev }}>
           <div style={{ width:26,height:26,background:T.blueBtn,borderRadius:6,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
             <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
@@ -2639,8 +2643,20 @@ function CopilotPanel({ open, onToggle, step, taskType, taskContext, metrics, cr
            </div>
         </div>
 
-        {/* Messages */}
         <div ref={scrollRef} style={{ flex:1, overflow:"auto", padding:"12px 12px 6px" }}>
+          {quickTopics.length > 0 && messages.length <= 1 && (
+            <div style={{ marginBottom:12 }}>
+              <div style={{ fontSize:10,color:T.lo,fontFamily:UI,textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:7 }}>Try these</div>
+              <div style={{ display:"flex",flexWrap:"wrap",gap:6 }}>
+                {quickTopics.map(topic => (
+                  <button key={topic} onClick={()=>send(topic)} style={{
+                    padding:"5px 9px", borderRadius:999, border:`1px solid ${T.border}`, background:T.elev,
+                    color:T.blueTxt, fontSize:11, fontFamily:UI, cursor:"pointer"
+                  }}>{topic}</button>
+                ))}
+              </div>
+            </div>
+          )}
           {messages.map(msg => (
             <div key={msg.id} style={{ marginBottom:10, display:"flex", flexDirection:"column", alignItems:msg.role==="user"?"flex-end":"flex-start" }}>
               {msg.role==="user"
@@ -2693,7 +2709,6 @@ function CopilotPanel({ open, onToggle, step, taskType, taskContext, metrics, cr
           )}
         </div>
 
-        {/* Input */}
         <div style={{ padding:"10px 12px", borderTop:`1px solid ${T.border}`, flexShrink:0 }}>
           <div style={{ display:"flex", gap:7, alignItems:"flex-end" }}>
             <textarea ref={inputRef} value={input} onChange={e=>setInput(e.target.value)}
@@ -2701,7 +2716,7 @@ function CopilotPanel({ open, onToggle, step, taskType, taskContext, metrics, cr
               placeholder={STEP_STARTERS[step] || "Ask anything or describe your use case…"}
               rows={2}
               style={{ flex:1, padding:"8px 10px", background:T.elev, border:`1px solid ${T.border}`, borderRadius:7, fontSize:12, color:T.hi, outline:"none", resize:"none", fontFamily:UI, lineHeight:1.5 }} />
-            <button onClick={send} disabled={!input.trim()||loading} style={{
+            <button onClick={()=>send()} disabled={!input.trim()||loading} style={{
               width:32, height:32, borderRadius:7, border:"none", flexShrink:0,
               background:input.trim()&&!loading?T.blue:T.elev, cursor:input.trim()&&!loading?"pointer":"default",
               display:"flex", alignItems:"center", justifyContent:"center", transition:"background .15s",
