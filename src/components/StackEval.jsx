@@ -434,7 +434,7 @@ function DefineTaskStep({ taskType, setTaskType, taskContext, setTaskContext, ai
         <div style={{ position:"relative" }}>
           <textarea value={taskContext}
             onChange={e=>{ setTaskContext(e.target.value); if(tcPending) setTcPending(false); }}
-            placeholder={getTaskContextDraft(taskType)}
+            placeholder={"Write the system prompt your chatbot will use…\n\ne.g. \"You are a helpful customer support assistant. Answer using only the provided context. Keep replies under 3 sentences.\"\n\nClick ✦ Generate Draft to auto-fill one for the selected task."}
             rows={10}
             style={{ width:"100%", padding:"12px 14px", paddingBottom:36, background:tcPending?"rgba(91,142,240,0.08)":"rgba(255,255,255,0.06)", border:`2px solid ${tcPending?"rgba(91,142,240,0.5)":taskContext?T.blue+"66":T.border}`, borderRadius:8, resize:"vertical", fontSize:13, color:T.hi, outline:"none", boxSizing:"border-box", fontFamily:MONO, lineHeight:1.6, transition:"all .15s" }}
             onFocus={e=>{ if(!tcPending) e.target.style.borderColor=T.blue; }}
