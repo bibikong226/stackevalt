@@ -2309,6 +2309,8 @@ function RunStep({ selModels, challenger, metrics, taskType, taskContext, onBack
    Used in: task context textarea + evaluator prompt textarea
 ───────────────────────────────────────────────────────────── */
 
+const LEGACY_TASK_CONTEXT_FALLBACK = "Evaluating model output quality and accuracy against a reference answer.";
+
 const TASK_CONTEXT_DRAFTS = {
   "qa": `You are a helpful, knowledgeable assistant. Answer the user's question directly and concisely using accurate, factual information.
 
@@ -2363,6 +2365,10 @@ Context and question:
 
 Answer:`,
 };
+
+function getTaskContextDraft(taskType) {
+  return TASK_CONTEXT_DRAFTS[taskType] || TASK_CONTEXT_DRAFTS.qa;
+}
 
 function draftEvaluatorPrompt(name) {
   const n = (name || "").toLowerCase();
