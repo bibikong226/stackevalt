@@ -1375,7 +1375,7 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
 
   // Model/metric order with visibility (draggable)
   const [modelOrder, setModelOrder] = useState(
-    models.slice(0,4).map((m, i) => ({ id:m.id, name:m.name, provider:m.provider, color:MODEL_COLORS[i], visible:true }))
+    models.slice(0,4).map((m, i) => ({ id:m.id, name:m.name, provider:m.provider, color: m.isChallenger ? "#F59E0B" : MODEL_COLORS[i], visible:true, isChallenger: !!m.isChallenger }))
   );
   const [metricOrder, setMetricOrder] = useState(buildMetricOrder);
 
