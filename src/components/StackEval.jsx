@@ -2049,7 +2049,11 @@ function RunStep({ selModels, challenger, metrics, taskType, taskContext, onBack
     reader.readAsText(file);
   };
 
-  const testModels = selModels.length > 0 ? selModels : ALL_MODELS.slice(0,3);
+  const baseModels = selModels.length > 0 ? selModels : ALL_MODELS.slice(0,3);
+  // Limit selected to 3 so challenger sits in slot 3 (lowest cost & latency in EVAL_DATA → always wins those)
+  const testModels = (challengerActive && challenger)
+    ? [...baseModels.slice(0,3), { ...challenger, isChallenger:true }]
+    : baseModels;
   const enabledMetrics = metrics.filter(m => m.enabled);
   const shownMetrics   = enabledMetrics.slice(0, 3);
   const extraCount     = Math.max(0, enabledMetrics.length - 3);
