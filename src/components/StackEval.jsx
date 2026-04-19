@@ -1375,7 +1375,7 @@ function EvalResults({ models, taskType, onNewEval, embedded, enabledMetrics: pa
 
   // Model/metric order with visibility (draggable)
   const [modelOrder, setModelOrder] = useState(
-    models.slice(0,4).map((m, i) => ({ id:m.id, name:m.name, provider:m.provider, color:MODEL_COLORS[i], visible:true }))
+    models.slice(0,4).map((m, i) => ({ id:m.id, name:m.name, provider:m.provider, color: m.isChallenger ? "#F59E0B" : MODEL_COLORS[i], visible:true, isChallenger: !!m.isChallenger }))
   );
   const [metricOrder, setMetricOrder] = useState(buildMetricOrder);
 
@@ -2049,7 +2049,11 @@ function RunStep({ selModels, challenger, metrics, taskType, taskContext, onBack
     reader.readAsText(file);
   };
 
-  const testModels = selModels.length > 0 ? selModels : ALL_MODELS.slice(0,3);
+  const baseModels = selModels.length > 0 ? selModels : ALL_MODELS.slice(0,3);
+  // Limit selected to 3 so challenger sits in slot 3 (lowest cost & latency in EVAL_DATA → always wins those)
+  const testModels = (challengerActive && challenger)
+    ? [...baseModels.slice(0,3), { ...challenger, isChallenger:true }]
+    : baseModels;
   const enabledMetrics = metrics.filter(m => m.enabled);
   const shownMetrics   = enabledMetrics.slice(0, 3);
   const extraCount     = Math.max(0, enabledMetrics.length - 3);
@@ -2234,15 +2238,18 @@ function RunStep({ selModels, challenger, metrics, taskType, taskContext, onBack
               </div>
             </div>
 
-            {/* CSV Preview — only shown after upload */}
-            {fileName && (() => {
-              const cols = csvColumns.length ? csvColumns : MOCK_CSV_COLUMNS;
-              const rows = csvRows.length ? csvRows : MOCK_CSV_ROWS;
+            {/* CSV Preview — sample shown by default, real data after upload */}
+            {(() => {
+              const hasUpload = !!fileName;
+              const cols = (hasUpload && csvColumns.length) ? csvColumns : MOCK_CSV_COLUMNS;
+              const rows = (hasUpload && csvRows.length) ? csvRows : MOCK_CSV_ROWS;
               return (
                 <div style={{ marginTop:4 }}>
                   <div style={{ display:"flex",alignItems:"center",gap:8,marginBottom:8 }}>
                     <SubLabel style={{ margin:0 }}>Preview</SubLabel>
-                    <span style={{ fontSize:11,color:T.lo,fontFamily:UI }}>Showing {rows.length} of your rows</span>
+                    <span style={{ fontSize:11,color:T.lo,fontFamily:UI }}>
+                      {hasUpload ? `Showing ${rows.length} of your rows` : `Sample preview · upload a CSV to replace`}
+                    </span>
                   </div>
                   <div style={{ border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden" }}>
                     {/* Header */}
