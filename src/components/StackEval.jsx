@@ -2234,15 +2234,18 @@ function RunStep({ selModels, challenger, metrics, taskType, taskContext, onBack
               </div>
             </div>
 
-            {/* CSV Preview — only shown after upload */}
-            {fileName && (() => {
-              const cols = csvColumns.length ? csvColumns : MOCK_CSV_COLUMNS;
-              const rows = csvRows.length ? csvRows : MOCK_CSV_ROWS;
+            {/* CSV Preview — sample shown by default, real data after upload */}
+            {(() => {
+              const hasUpload = !!fileName;
+              const cols = (hasUpload && csvColumns.length) ? csvColumns : MOCK_CSV_COLUMNS;
+              const rows = (hasUpload && csvRows.length) ? csvRows : MOCK_CSV_ROWS;
               return (
                 <div style={{ marginTop:4 }}>
                   <div style={{ display:"flex",alignItems:"center",gap:8,marginBottom:8 }}>
                     <SubLabel style={{ margin:0 }}>Preview</SubLabel>
-                    <span style={{ fontSize:11,color:T.lo,fontFamily:UI }}>Showing {rows.length} of your rows</span>
+                    <span style={{ fontSize:11,color:T.lo,fontFamily:UI }}>
+                      {hasUpload ? `Showing ${rows.length} of your rows` : `Sample preview · upload a CSV to replace`}
+                    </span>
                   </div>
                   <div style={{ border:`1px solid ${T.border}`,borderRadius:8,overflow:"hidden" }}>
                     {/* Header */}
